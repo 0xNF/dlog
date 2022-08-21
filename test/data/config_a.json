@@ -1,0 +1,26 @@
+{
+    "targets": [
+        {
+            "name": "logfile",
+            "type": "File",
+            "fileName": "file.txt"
+        },
+        {
+            "name": "logconsole",
+            "type": "Console"
+        }
+    ],
+    "rules": [
+        {
+            "name": "*",
+            "minlevel": "Info",
+            "writeTo": "logconsole"
+        },
+        {
+            "name": "*",
+            "minlevel": "Debug",
+            "writeTo": "logfile"
+        }
+    ],
+    "variables": []
+}
