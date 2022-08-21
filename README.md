@@ -10,6 +10,47 @@
 - [ ] implement programatic construction of loggers and log configurations
 - [ ] implement runtime reload => trickle down to each logger and layout to reparse its settings
 
+# Targets
+Implemented
+--
+* n/a
+
+Not Yet Implemented
+--
+* n/a
+
+Will Not Implememt
+--
+* 
+
+# Layouts
+
+Implemented
+--
+* n/a
+
+Not Yet Implememted
+--
+* [JSON](https://github.com/NLog/NLog/wiki/JsonLayout)
+* [Simple](https://github.com/NLog/NLog/wiki/SimpleLayout)
+* [CSV](https://github.com/NLog/NLog/wiki/CSVLayout)
+
+Will Not Implement
+--
+* [Gelf](https://github.com/farzadpanahi/NLog.GelfLayout)
+* [Xml](https://github.com/NLog/NLog/wiki/XmlLayout)
+* [MicrosoftConsoleJsonLayout](https://github.com/NLog/NLog/wiki/MicrosoftConsoleJsonLayout)
+* [MicrosoftConsoleLayout](https://github.com/NLog/NLog/wiki/MicrosoftConsoleLayout)
+
+Undecided
+--
+* [Compound](https://github.com/NLog/NLog/wiki/CompoundLayout)
+* [W3CExtendedLogLayout](https://github.com/NLog/NLog/wiki/W3CExtendedLogLayout)
+* [Log4JXML](https://github.com/NLog/NLog/wiki/Log4JXmlEventLayout)
+* [JsonArray](https://github.com/NLog/NLog/wiki/JsonArrayLayout)
+
+
+# Layout Renderers
 
 Implemented
 --
@@ -20,6 +61,14 @@ Implemented
 * [${guid}](https://github.com/NLog/NLog/wiki/guid-layout-renderer)
 * [${sequenceid}](https://github.com/NLog/NLog/wiki/sequenceid-layout-renderer)
 * [${dir-separator}](https://github.com/NLog/NLog/wiki/dir-separator-layout-renderer)
+* [${longdate}](https://github.com/NLog/NLog/wiki/longdate-layout-renderer)
+* [${shortdate}](https://github.com/NLog/NLog/wiki/shortdate-layout-renderer)
+* [${time}](https://github.com/NLog/NLog/wiki/time-layout-renderer)
+* [${hostname}](https://github.com/NLog/NLog/wiki/hostname-layout-renderer)
+* [${all-event-properties}](https://github.com/NLog/NLog/wiki/all-event-properties-layout-renderer)
+* [${event-property}](https://github.com/NLog/NLog/wiki/event-property-layout-renderer)
+
+
 
 
 Not Yet Implemented
@@ -31,19 +80,12 @@ Not Yet Implemented
 * [${callsite-linenumber}](https://github.com/NLog/NLog/wiki/callsite-linenumber-layout-renderer)
 * [${stacktrace}](https://github.com/NLog/NLog/wiki/stacktrace-layout-renderer)
 * [${exception}](https://github.com/NLog/NLog/wiki/exception-layout-renderer)
-* [${event-property}](https://github.com/NLog/NLog/wiki/event-property-layout-renderer)
-* [${all-event-properties}](https://github.com/NLog/NLog/wiki/all-event-properties-layout-renderer)
 * [${counter}](https://github.com/NLog/NLog/wiki/counter-layout-renderer)
 * [${date}](https://github.com/NLog/NLog/wiki/date-layout-renderer)
-* [${longdate}](https://github.com/NLog/NLog/wiki/longdate-layout-renderer)
-* [${shortdate}](https://github.com/NLog/NLog/wiki/shortdate-layout-renderer)
-* [${time}](https://github.com/NLog/NLog/wiki/time-layout-renderer)
 * [${environment}](https://github.com/NLog/NLog/wiki/environment-layout-renderer)
 * [${environment-user}](https://github.com/NLog/NLog/wiki/environment-user-layout-renderer)
 * [${assebly-version}](https://github.com/NLog/NLog/wiki/assebly-version-layout-renderer)
-* [${hostname}](https://github.com/NLog/NLog/wiki/hostname-layout-renderer)
 * [${local-ip}](https://github.com/NLog/NLog/wiki/local-ip-layout-renderer)
-* [${hostname}](https://github.com/NLog/NLog/wiki/hostname-layout-renderer)
 
 
 Undecided
@@ -106,7 +148,7 @@ WIll Not Implement
 * [${tempdir}](https://github.com/NLog/NLog/wiki/tempdir-layout-renderer)
 * [${identity}](https://github.com/NLog/NLog/wiki/identity-layout-renderer)
 * [${windows-identity}](https://github.com/NLog/NLog/wiki/windows-identity-layout-renderer)
-* [${gelf}](https://github.com/NLog/NLog/wiki/gelf-layout-renderer)
+* [${gelf}](https://github.com/farzadpanahi/NLog.GelfLayout)
 * [${appdomain}](https://github.com/NLog/NLog/wiki/appdomain-layout-renderer)
 * [${gc}](https://github.com/NLog/NLog/wiki/gc-layout-renderer)
 * [${machinename}](https://github.com/NLog/NLog/wiki/machinename-layout-renderer)
@@ -115,7 +157,32 @@ WIll Not Implement
 * [${threadname}](https://github.com/NLog/NLog/wiki/threadname-layout-renderer)
 * [${aspnet-*}](https://github.com/NLog/NLog/wiki/aspnet-*-layout-renderer)
 
-Non-standard to-be-implemented
+Non-standard to be implemented
 --
 * ${unixtime}
 
+
+
+## Architecture
+
+This project is based entirely off NLog, and takes major inspiriation from its architecture.  Although simplified, much of the underlying systems are laid out in the same manner.
+
+```mermaid
+flowchart TD
+	z{Rule\nwhat and where} --> t
+	t{Target\ntype,name} --> Layout
+	Layout --> x{{List LayoutRenderer}}
+	Layout --> y{{List Rule}}
+```
+
+
+## Differences from NLog
+### layouts
+* Strings must be surrounded by single-quotes  
+	- e.g., `${literal:text=hello}` -> `${literal:text='hello'}`
+* ASP.NET integrations will not be considered
+* Config file is json based, not xml based. Xml parsing will not be consideed at this time
+* Some layout renderers that are not in NLog are included here. See also: [${unixtime}](#non-standard-to-be-implemented)
+* `${event-property}` layout renderer uses `JSONPath` syntax for nested objects in the `objectpath` property
+* requred properties must be in `key=value` form.
+	- e.g., `${event-property:item1}` is not permitted. Use `${event-property:item=item1}` instead

@@ -1,11 +1,17 @@
+import 'package:flog3/src/layout/layout_renderers/all_event_properties_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/directory_separator_layout_renderer.dart';
+import 'package:flog3/src/layout/layout_renderers/event_property_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/guid_layout_renderer.dart';
+import 'package:flog3/src/layout/layout_renderers/hostname_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/level_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/literal_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/logger_name_layout_renderer.dart';
+import 'package:flog3/src/layout/layout_renderers/longdate_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/new_line_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/sequence_id_layout_renderer.dart';
+import 'package:flog3/src/layout/layout_renderers/shortdate_layout_renderer.dart';
+import 'package:flog3/src/layout/layout_renderers/time_layout_renderer.dart';
 import 'package:flog3/src/layout/parser/layout_token.dart';
 import 'package:flog3/src/layout/parser/tokenizer/layout_tokenizer.dart';
 import 'package:flog3/src/layout/parser/tokenizer/layout_tokens.dart';
@@ -50,6 +56,18 @@ LayoutRenderer _reifyLayoutParsers(LayoutVariable vars) {
         return GuidLayoutRenderer.fromToken(vars);
       case LevelLayoutRenderer.name:
         return LevelLayoutRenderer.fromToken(vars);
+      case TimeLayoutRenderer.name:
+        return TimeLayoutRenderer.fromToken(vars);
+      case ShortDateLayoutRenderer.name:
+        return ShortDateLayoutRenderer.fromToken(vars);
+      case LongDateLayoutRenderer.name:
+        return LongDateLayoutRenderer.fromToken(vars);
+      case HostnameLayoutRenderer.name:
+        return HostnameLayoutRenderer.fromToken(vars);
+      case AllEventPropertiesLayoutRenderer.name:
+        return AllEventPropertiesLayoutRenderer.fromToken(vars);
+      case EventPropertyLayoutRenderer.name:
+        return EventPropertyLayoutRenderer.fromToken(vars);
       case LiteralLayoutRenderer.name:
       default:
         return LiteralLayoutRenderer.fromToken(vars);
@@ -161,6 +179,12 @@ class LayoutParser {
       LoggerNameLayoutRenderer.name,
       NewLineLayoutRenderer.name,
       SequenceIdRenderer.name,
+      TimeLayoutRenderer.name,
+      ShortDateLayoutRenderer.name,
+      LongDateLayoutRenderer.name,
+      HostnameLayoutRenderer.name,
+      AllEventPropertiesLayoutRenderer.name,
+      EventPropertyLayoutRenderer.name,
     ].map((e) => e.toLowerCase()).contains(val.toLowerCase());
   }
 

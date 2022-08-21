@@ -1,10 +1,16 @@
+import 'package:flog3/src/layout/layout_renderers/all_event_properties_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/directory_separator_layout_renderer.dart';
+import 'package:flog3/src/layout/layout_renderers/event_property_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/guid_layout_renderer.dart';
+import 'package:flog3/src/layout/layout_renderers/hostname_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/level_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/literal_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/logger_name_layout_renderer.dart';
+import 'package:flog3/src/layout/layout_renderers/longdate_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/new_line_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/sequence_id_layout_renderer.dart';
+import 'package:flog3/src/layout/layout_renderers/shortdate_layout_renderer.dart';
+import 'package:flog3/src/layout/layout_renderers/time_layout_renderer.dart';
 import 'package:flog3/src/layout/parser/layout_parser.dart';
 import 'package:test/test.dart';
 
@@ -162,6 +168,141 @@ void main() {
       final rl = r as LevelLayoutRenderer;
       assert(rl.format == LevelFormat.ordinal);
       assert(rl.uppercase);
+    });
+  });
+
+  group('Time renderer tests', () {
+    test("get a Time renderer", () {
+      final parser = LayoutParser(source: r"${time}");
+      final r = parser.parse();
+      assert(r is TimeLayoutRenderer);
+      final rl = r as TimeLayoutRenderer;
+      assert(!rl.universalTime);
+    });
+
+    test("get a Time renderer with universal", () {
+      final parser = LayoutParser(source: r"${time:universaltime=true}");
+      final r = parser.parse();
+      assert(r is TimeLayoutRenderer);
+      final rl = r as TimeLayoutRenderer;
+      assert(rl.universalTime);
+    });
+  });
+
+  group('ShortDate renderer tests', () {
+    test("get a ShortDate renderer", () {
+      final parser = LayoutParser(source: r"${shortdate}");
+      final r = parser.parse();
+      assert(r is ShortDateLayoutRenderer);
+      final rl = r as ShortDateLayoutRenderer;
+      assert(!rl.universalTime);
+    });
+
+    test("get a ShortDate renderer with universal", () {
+      final parser = LayoutParser(source: r"${shortdate:universaltime=true}");
+      final r = parser.parse();
+      assert(r is ShortDateLayoutRenderer);
+      final rl = r as ShortDateLayoutRenderer;
+      assert(rl.universalTime);
+    });
+  });
+
+  group('LongDate renderer tests', () {
+    test("get a LongDate renderer", () {
+      final parser = LayoutParser(source: r"${longdate}");
+      final r = parser.parse();
+      assert(r is LongDateLayoutRenderer);
+      final rl = r as LongDateLayoutRenderer;
+      assert(!rl.universalTime);
+    });
+
+    test("get a LongDate renderer with universal", () {
+      final parser = LayoutParser(source: r"${longdate:universaltime=true}");
+      final r = parser.parse();
+      assert(r is LongDateLayoutRenderer);
+      final rl = r as LongDateLayoutRenderer;
+      assert(rl.universalTime);
+    });
+  });
+
+  group('Hostname renderer tests', () {
+    test("get a Hostname renderer", () {
+      final parser = LayoutParser(source: r"${hostname}");
+      final r = parser.parse();
+      assert(r is HostnameLayoutRenderer);
+    });
+  });
+
+  group('AllEventProperties renderer tests', () {
+    test("get a AllEventProperties renderer", () {
+      final parser = LayoutParser(source: r"${all-event-properties}");
+      final r = parser.parse();
+      assert(r is AllEventPropertiesLayoutRenderer);
+      final lrc = r as AllEventPropertiesLayoutRenderer;
+      assert(!lrc.includeEmptyValues);
+      assert(lrc.exclude.isEmpty);
+      assert(lrc.format == "[key]=[value]");
+      assert(lrc.separator == ",");
+    });
+
+    test("get a AllEventProperties renderer with include empty", () {
+      final parser = LayoutParser(source: r"${all-event-properties:includeemptyvalues=true}");
+      final r = parser.parse();
+      assert(r is AllEventPropertiesLayoutRenderer);
+      final lrc = r as AllEventPropertiesLayoutRenderer;
+      assert(lrc.includeEmptyValues);
+    });
+
+    test("get a AllEventProperties renderer with include empty", () {
+      final parser = LayoutParser(source: r"${all-event-properties:separator='x'}");
+      final r = parser.parse();
+      assert(r is AllEventPropertiesLayoutRenderer);
+      final lrc = r as AllEventPropertiesLayoutRenderer;
+      assert(lrc.separator == 'x');
+    });
+
+    test("get a AllEventProperties renderer with exclude list", () {
+      final parser = LayoutParser(source: r"${all-event-properties:exclude='x,y,z'}");
+      final r = parser.parse();
+      assert(r is AllEventPropertiesLayoutRenderer);
+      final lrc = r as AllEventPropertiesLayoutRenderer;
+      assert(lrc.exclude.length == 3);
+    });
+
+    test("get a AllEventProperties renderer with format", () {
+      final parser = LayoutParser(source: r"${all-event-properties:format='[value]=[key]'}");
+      final r = parser.parse();
+      assert(r is AllEventPropertiesLayoutRenderer);
+      final lrc = r as AllEventPropertiesLayoutRenderer;
+      assert(lrc.format == "[value]=[key]");
+    });
+  });
+
+  group('EventProperty renderer tests', () {
+    test("get an EventProperty renderer", () {
+      final parser = LayoutParser(source: r"${event-property:item=item1}");
+      final r = parser.parse();
+      assert(r is EventPropertyLayoutRenderer);
+      final lrc = r as EventPropertyLayoutRenderer;
+      assert(lrc.item == "item1");
+      assert(lrc.ignoreCase);
+      assert(lrc.objectPath == null);
+    });
+
+    test("get a AllEventProperties renderer with ignore case false", () {
+      final parser = LayoutParser(source: r"${event-property:item=item5:ignorecase=false}");
+      final r = parser.parse();
+      assert(r is EventPropertyLayoutRenderer);
+      final lrc = r as EventPropertyLayoutRenderer;
+      assert(!lrc.ignoreCase);
+    });
+
+    test("get a AllEventProperties renderer with object path", () {
+      final parser = LayoutParser(source: r"${event-property:item=item5:objectpath='$[0].name'}");
+      final r = parser.parse();
+      assert(r is EventPropertyLayoutRenderer);
+      final lrc = r as EventPropertyLayoutRenderer;
+      assert(lrc.objectPath == r'$[0].name');
     });
   });
 }
