@@ -79,7 +79,7 @@ class AllEventPropertiesLayoutRenderer extends LayoutRenderer {
     String format = "[key]=[value]";
     final lst = (variable.value as List).map((e) => e as LayoutVariable);
     for (final lv in lst) {
-      switch (lv.variableName) {
+      switch (lv.variableName.toLowerCase()) {
         case "separator":
           separator = lv.getValue<String>();
           break;

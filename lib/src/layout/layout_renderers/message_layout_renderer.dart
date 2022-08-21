@@ -1,5 +1,7 @@
 import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/layout/layout_renderers/layout_renderer.dart';
+import 'package:flog3/src/layout/parser/layout_parser.dart';
+import 'package:flog3/src/layout/parser/tokenizer/parse_exception.dart';
 
 class MessageLayoutRenderer extends LayoutRenderer {
   static const String name = "message";
@@ -13,13 +15,53 @@ class MessageLayoutRenderer extends LayoutRenderer {
   ///  Render the unformatted input message without using input parameters
   final bool raw;
 
-  MessageLayoutRenderer({required this.exceptionSeparator, required this.withException, required this.raw});
-
   @override
   void append(StringBuffer builder, LogEventInfo logEvent) {
-    bool exceptionOnly = logEvent.exception != null && withException && logEvent.message == "{0}";
-    if (raw) {
-      builder.write(logEvent.message);
-    } else if (!exceptionOnly) {}
+    builder.write(_getValue(logEvent));
+  }
+
+  String _getValue(LogEventInfo logEvent) {
+    StringBuffer sb = StringBuffer(logEvent.message);
+    if (withException && logEvent.exception != null) {
+      sb.write(exceptionSeparator);
+      sb.write(logEvent.exception);
+    }
+
+    // TODO(nf): raw is currently ignored
+    return sb.toString();
+  }
+
+  const MessageLayoutRenderer._({
+    this.exceptionSeparator = "|",
+    this.withException = true,
+    this.raw = false,
+  });
+
+  factory MessageLayoutRenderer.fromToken(LayoutVariable variable) {
+    String exceptionSeparator = "|";
+    bool withException = true;
+    bool raw = false;
+    final lst = (variable.value as List).map((e) => e as LayoutVariable);
+    for (final lv in lst) {
+      switch (lv.variableName.toLowerCase()) {
+        case "exceptionseparator":
+          exceptionSeparator = lv.getValue<String>();
+          break;
+        case 'withexception':
+          withException = lv.getValue<bool>();
+          break;
+        case 'raw':
+          raw = lv.getValue<bool>();
+          break;
+        default:
+          throw LayoutParserException("Unknown field: ${lv.variableName}", null);
+      }
+    }
+
+    return MessageLayoutRenderer._(
+      exceptionSeparator: exceptionSeparator,
+      withException: withException,
+      raw: raw,
+    );
   }
 }

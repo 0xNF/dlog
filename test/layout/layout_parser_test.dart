@@ -7,6 +7,7 @@ import 'package:flog3/src/layout/layout_renderers/level_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/literal_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/logger_name_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/longdate_layout_renderer.dart';
+import 'package:flog3/src/layout/layout_renderers/message_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/new_line_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/sequence_id_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/shortdate_layout_renderer.dart';
@@ -303,6 +304,42 @@ void main() {
       assert(r is EventPropertyLayoutRenderer);
       final lrc = r as EventPropertyLayoutRenderer;
       assert(lrc.objectPath == r'$[0].name');
+    });
+  });
+
+  group('Message renderer tests', () {
+    test("get a Message renderer", () {
+      final parser = LayoutParser(source: r"${message}");
+      final r = parser.parse();
+      assert(r is MessageLayoutRenderer);
+      final lrc = r as MessageLayoutRenderer;
+      assert(lrc.exceptionSeparator == "|");
+      assert(lrc.withException);
+      assert(!lrc.raw);
+    });
+
+    test("get a Message renderer with new Exception Separator", () {
+      final parser = LayoutParser(source: r"${message:exceptionSeparator='%'}");
+      final r = parser.parse();
+      assert(r is MessageLayoutRenderer);
+      final lrc = r as MessageLayoutRenderer;
+      assert(lrc.exceptionSeparator == "%");
+    });
+
+    test("get a Message renderer with new Exception Separator", () {
+      final parser = LayoutParser(source: r"${message:withException=false}");
+      final r = parser.parse();
+      assert(r is MessageLayoutRenderer);
+      final lrc = r as MessageLayoutRenderer;
+      assert(!lrc.withException);
+    });
+
+    test("get a Message renderer with raw", () {
+      final parser = LayoutParser(source: r"${message:raw=true}");
+      final r = parser.parse();
+      assert(r is MessageLayoutRenderer);
+      final lrc = r as MessageLayoutRenderer;
+      assert(lrc.withException);
     });
   });
 }

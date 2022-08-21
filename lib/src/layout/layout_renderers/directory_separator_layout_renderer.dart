@@ -17,7 +17,7 @@ class DirectorySeparatorLayoutRenderer extends LayoutRenderer {
   factory DirectorySeparatorLayoutRenderer.fromToken(LayoutVariable variable) {
     final lst = (variable.value as List).map((e) => e as LayoutVariable);
     for (final lv in lst) {
-      switch (lv.variableName) {
+      switch (lv.variableName.toLowerCase()) {
         default:
           throw LayoutParserException("Unknown field: ${lv.variableName}", null);
       }

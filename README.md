@@ -67,6 +67,7 @@ Implemented
 * [${hostname}](https://github.com/NLog/NLog/wiki/hostname-layout-renderer)
 * [${all-event-properties}](https://github.com/NLog/NLog/wiki/all-event-properties-layout-renderer)
 * [${event-property}](https://github.com/NLog/NLog/wiki/event-property-layout-renderer)
+* [${message}](https://github.com/NLog/NLog/wiki/message-layout-renderer)
 
 
 
@@ -74,7 +75,6 @@ Implemented
 Not Yet Implemented
 --
 * [${var}](https://github.com/NLog/NLog/wiki/var-layout-renderer)
-* [${message}](https://github.com/NLog/NLog/wiki/message-layout-renderer)
 * [${callsite}](https://github.com/NLog/NLog/wiki/callsite-layout-renderer)
 * [${callsite-filename}](https://github.com/NLog/NLog/wiki/callsite-filename-layout-renderer)
 * [${callsite-linenumber}](https://github.com/NLog/NLog/wiki/callsite-linenumber-layout-renderer)

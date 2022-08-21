@@ -25,7 +25,7 @@ class LoggerNameLayoutRenderer extends LayoutRenderer {
     bool shortName = false;
     final lst = (variable.value as List).map((e) => e as LayoutVariable);
     for (final lv in lst) {
-      switch (lv.variableName) {
+      switch (lv.variableName.toLowerCase()) {
         case "shortname":
           shortName = lv.getValue<bool>();
           break;

@@ -8,6 +8,7 @@ import 'package:flog3/src/layout/layout_renderers/level_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/literal_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/logger_name_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/longdate_layout_renderer.dart';
+import 'package:flog3/src/layout/layout_renderers/message_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/new_line_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/sequence_id_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/shortdate_layout_renderer.dart';
@@ -68,6 +69,8 @@ LayoutRenderer _reifyLayoutParsers(LayoutVariable vars) {
         return AllEventPropertiesLayoutRenderer.fromToken(vars);
       case EventPropertyLayoutRenderer.name:
         return EventPropertyLayoutRenderer.fromToken(vars);
+      case MessageLayoutRenderer.name:
+        return MessageLayoutRenderer.fromToken(vars);
       case LiteralLayoutRenderer.name:
       default:
         return LiteralLayoutRenderer.fromToken(vars);
@@ -185,6 +188,7 @@ class LayoutParser {
       HostnameLayoutRenderer.name,
       AllEventPropertiesLayoutRenderer.name,
       EventPropertyLayoutRenderer.name,
+      MessageLayoutRenderer.name,
     ].map((e) => e.toLowerCase()).contains(val.toLowerCase());
   }
 
