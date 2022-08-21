@@ -17,6 +17,7 @@ class TimeLayoutRenderer extends LayoutRenderer {
 
   @override
   void append(StringBuffer builder, LogEventInfo logEvent) {
+    
     builder.write(getValue(logEvent));
   }
 

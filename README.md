@@ -68,7 +68,7 @@ Implemented
 * [${all-event-properties}](https://github.com/NLog/NLog/wiki/all-event-properties-layout-renderer)
 * [${event-property}](https://github.com/NLog/NLog/wiki/event-property-layout-renderer)
 * [${message}](https://github.com/NLog/NLog/wiki/message-layout-renderer)
-
+* [${local-ip}](https://github.com/NLog/NLog/wiki/local-ip-layout-renderer)
 
 
 
@@ -85,7 +85,6 @@ Not Yet Implemented
 * [${environment}](https://github.com/NLog/NLog/wiki/environment-layout-renderer)
 * [${environment-user}](https://github.com/NLog/NLog/wiki/environment-user-layout-renderer)
 * [${assebly-version}](https://github.com/NLog/NLog/wiki/assebly-version-layout-renderer)
-* [${local-ip}](https://github.com/NLog/NLog/wiki/local-ip-layout-renderer)
 
 
 Undecided

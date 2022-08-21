@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flog3/src/layout/layout_renderers/all_event_properties_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/directory_separator_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/event_property_layout_renderer.dart';
@@ -5,6 +7,7 @@ import 'package:flog3/src/layout/layout_renderers/guid_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/hostname_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/level_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/literal_layout_renderer.dart';
+import 'package:flog3/src/layout/layout_renderers/local_ip_layout_renderers.dart';
 import 'package:flog3/src/layout/layout_renderers/logger_name_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/longdate_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/message_layout_renderer.dart';
@@ -340,6 +343,23 @@ void main() {
       assert(r is MessageLayoutRenderer);
       final lrc = r as MessageLayoutRenderer;
       assert(lrc.withException);
+    });
+  });
+
+  group('Local IP renderer tests', () {
+    test("get a Local Ip renderer", () {
+      final parser = LayoutParser(source: r"${local-ip}");
+      final r = parser.parse();
+      assert(r is LocalIPLayoutRenderer);
+      final lrc = r as LocalIPLayoutRenderer;
+      assert(lrc.addressFamily == InternetAddressType.any);
+    });
+    test("get a Local Ip renderer with different Addr family", () {
+      final parser = LayoutParser(source: r"${local-ip:addressFamily=ipv6}");
+      final r = parser.parse();
+      assert(r is LocalIPLayoutRenderer);
+      final lrc = r as LocalIPLayoutRenderer;
+      assert(lrc.addressFamily == InternetAddressType.IPv6);
     });
   });
 }
