@@ -26,7 +26,7 @@ class Layout {
 
   factory Layout.parseLayout(String source, LogConfiguration configuration) {
     final parser = LayoutParser(source: source);
-    final layoutRenderer = parser.parse();
+    final layoutRenderer = parser.parse().first;
     // final renderers = <LayoutRenderer>[];
     // for (final token in tokens) {
     //   final lr = fromToken(token);

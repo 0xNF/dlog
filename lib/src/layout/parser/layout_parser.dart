@@ -43,45 +43,45 @@ enum LayoutType {
   enumeration,
 }
 
-LayoutRenderer _reifyLayoutParsers(LayoutVariable vars) {
-  if (vars.layoutType == LayoutType.layout) {
-    switch (vars.variableName.toLowerCase()) {
+LayoutRenderer _reifyLayoutParser(LayoutVariable lv) {
+  if (lv.layoutType == LayoutType.layout) {
+    switch (lv.variableName.toLowerCase()) {
       case NewLineLayoutRenderer.name:
-        return NewLineLayoutRenderer.fromToken(vars);
+        return NewLineLayoutRenderer.fromToken(lv);
       case DirectorySeparatorLayoutRenderer.name:
-        return DirectorySeparatorLayoutRenderer.fromToken(vars);
+        return DirectorySeparatorLayoutRenderer.fromToken(lv);
       case SequenceIdRenderer.name:
-        return SequenceIdRenderer.fromToken(vars);
+        return SequenceIdRenderer.fromToken(lv);
       case LoggerNameLayoutRenderer.name:
-        return LoggerNameLayoutRenderer.fromToken(vars);
+        return LoggerNameLayoutRenderer.fromToken(lv);
       case GuidLayoutRenderer.name:
-        return GuidLayoutRenderer.fromToken(vars);
+        return GuidLayoutRenderer.fromToken(lv);
       case LevelLayoutRenderer.name:
-        return LevelLayoutRenderer.fromToken(vars);
+        return LevelLayoutRenderer.fromToken(lv);
       case TimeLayoutRenderer.name:
-        return TimeLayoutRenderer.fromToken(vars);
+        return TimeLayoutRenderer.fromToken(lv);
       case ShortDateLayoutRenderer.name:
-        return ShortDateLayoutRenderer.fromToken(vars);
+        return ShortDateLayoutRenderer.fromToken(lv);
       case LongDateLayoutRenderer.name:
-        return LongDateLayoutRenderer.fromToken(vars);
+        return LongDateLayoutRenderer.fromToken(lv);
       case HostnameLayoutRenderer.name:
-        return HostnameLayoutRenderer.fromToken(vars);
+        return HostnameLayoutRenderer.fromToken(lv);
       case AllEventPropertiesLayoutRenderer.name:
-        return AllEventPropertiesLayoutRenderer.fromToken(vars);
+        return AllEventPropertiesLayoutRenderer.fromToken(lv);
       case EventPropertyLayoutRenderer.name:
-        return EventPropertyLayoutRenderer.fromToken(vars);
+        return EventPropertyLayoutRenderer.fromToken(lv);
       case MessageLayoutRenderer.name:
-        return MessageLayoutRenderer.fromToken(vars);
+        return MessageLayoutRenderer.fromToken(lv);
       case LocalIPLayoutRenderer.name:
-        return LocalIPLayoutRenderer.fromToken(vars);
+        return LocalIPLayoutRenderer.fromToken(lv);
       case LiteralLayoutRenderer.name:
       default:
-        return LiteralLayoutRenderer.fromToken(vars);
+        return LiteralLayoutRenderer.fromToken(lv);
     }
     /* match the renderer types */
   } else {
     /* everything else gets a literal */
-    return LiteralLayoutRenderer.fromToken(vars);
+    return LiteralLayoutRenderer.fromToken(lv);
   }
   throw Exception("??");
 }
@@ -95,14 +95,25 @@ class LayoutParser {
 
   LayoutParser({required this.source});
 
-  LayoutRenderer parse() {
+  List<LayoutRenderer> parse() {
     final tokenizer = LayoutTokenizer(reader: StringReader(str: source));
     _tokens.clear();
     _tokens.addAll(tokenizer.tokenize());
 
-    final v = _getNextToken();
+    final vars = <LayoutVariable>[];
 
-    return _reifyLayoutParsers(v);
+    while (!_isEOF()) {
+      final v = _getNextToken();
+      vars.add(v);
+    }
+
+    final renderers = vars.map((e) => _reifyLayoutParser(e)).toList();
+
+    return renderers;
+  }
+
+  bool _isEOF() {
+    return (_position + 1) >= _tokens.length;
   }
 
   LayoutVariable _getNextToken() {
