@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/configuration/configuration_spec.dart';
 import 'package:flog3/src/layout/parser/layout_token.dart';
 import 'package:flog3/src/layout/parser/tokenizer/layout_tokenizer.dart';
@@ -13,8 +12,6 @@ ConfigurationSpec loadConfigSpec(String specName) {
   final cc = ConfigurationSpec.fromJson(c);
   return cc;
 }
-
-
 
 List<Token> getTokens(String og) {
   final sb = StringReader(str: og);

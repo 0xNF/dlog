@@ -129,4 +129,5 @@ List<LogLevel>? fromLogLevelList(dynamic json) {
       }
     }
   }
+  return lst;
 }

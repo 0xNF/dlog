@@ -83,7 +83,6 @@ LayoutRenderer _reifyLayoutParser(LayoutVariable lv) {
     /* everything else gets a literal */
     return LiteralLayoutRenderer.fromToken(lv);
   }
-  throw Exception("??");
 }
 
 class LayoutParser {
@@ -146,8 +145,6 @@ class LayoutParser {
     _eatToken();
 
     return LayoutVariable(layoutKind, LayoutType.layout, vars);
-
-    // TODO generate layout
   }
 
   void _expect(LayoutTokenType tokenType) {

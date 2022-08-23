@@ -1,6 +1,5 @@
 import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/target/specs/target_spec.dart';
-import 'package:flog3/src/target/specs/target_type.dart';
 import 'package:flog3/src/target/target.dart';
 
 class NullTarget extends Target {

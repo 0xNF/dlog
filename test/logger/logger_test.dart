@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:dart_ilogger/dart_ilogger.dart';
 import 'package:flog3/src/layout/layout_renderers/all_event_properties_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/level_layout_renderer.dart';
@@ -11,7 +9,6 @@ import 'package:flog3/src/logger/log_factory.dart';
 import 'package:flog3/src/logger/logger.dart';
 import 'package:flog3/src/target/debug_target.dart';
 import 'package:flog3/src/target/specs/target_type.dart';
-import 'package:flog3/src/target/target.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -35,7 +32,7 @@ void main() {
     });
 
     test("Check matching targets", () {
-      expect(basic.targets.length, 2);
+      expect(basic.targets.length, 3);
       final targetLogFiile = basic.targets.firstWhere((e) => e.spec.name == "logfile");
       final targetConsole = basic.targets.firstWhere((e) => e.spec.name == "logconsole");
       expect(targetLogFiile.spec.type, TargetType.file);
@@ -64,6 +61,10 @@ void main() {
       expect(basic.isErrorEnabled, true);
       expect(basic.isFatalEnabled, true);
     });
+  });
+
+  group('Basic Output Tests', () {
+    setUp(() {});
 
     test("Check basic output", () {
       final t = basic.targets.firstWhere((element) => element.spec.type == TargetType.debug) as DebugTarget;

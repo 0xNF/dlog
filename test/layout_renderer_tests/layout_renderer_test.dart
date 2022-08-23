@@ -20,8 +20,6 @@ import 'package:flog3/src/layout/layout_renderers/shortdate_layout_renderer.dart
 import 'package:flog3/src/layout/layout_renderers/time_layout_renderer.dart';
 import 'package:flog3/src/logger/log_factory.dart';
 import 'package:flog3/src/logger/logger.dart';
-import 'package:flog3/src/target/specs/target_type.dart';
-import 'package:flog3/src/target/target.dart';
 import 'package:test/test.dart';
 import 'package:uuid/uuid.dart';
 
@@ -29,7 +27,6 @@ void main() {
   // Additional setup goes here.
   LogFactory.initializeWithFile("test/data/config_a.json");
   final basic = LogFactory.getLogger('SomeLogger') as FLogger;
-  final Target dt = basic.targets.firstWhere((t) => t.spec.type == TargetType.debug);
 
   final LogEventInfo logEventInfo = LogEventInfo(
     level: LogLevel.info,
