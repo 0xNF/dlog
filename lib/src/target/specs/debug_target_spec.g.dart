@@ -1,38 +1,30 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'console_target_spec.dart';
+part of 'debug_target_spec.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ConsoleTargetSpec _$ConsoleTargetSpecFromJson(Map<String, dynamic> json) {
+DebugTargetSpec _$DebugTargetSpecFromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
     requiredKeys: const ['name', 'type'],
   );
-  return ConsoleTargetSpec(
+  return DebugTargetSpec(
     name: json['name'] as String,
     layout: json['layout'] as String? ??
         r"${longdate}|${level:uppercase=true}|${loggerName}|${message:withexception=true}|${all-event-properties}",
     type: $enumDecodeNullable(_$TargetTypeEnumMap, json['type']) ??
-        TargetType.console,
-    encoding: json['encoding'] == null
-        ? const Utf8Codec()
-        : encodingFromJson(json['encoding'] as String),
-    useStdErr: json['stdErr'] as bool? ?? false,
-    detectConsoleAvailable: json['detectConsoleAvailable'] as bool? ?? false,
+        TargetType.debug,
   );
 }
 
-Map<String, dynamic> _$ConsoleTargetSpecToJson(ConsoleTargetSpec instance) =>
+Map<String, dynamic> _$DebugTargetSpecToJson(DebugTargetSpec instance) =>
     <String, dynamic>{
       'name': instance.name,
       'type': _$TargetTypeEnumMap[instance.type]!,
       'layout': instance.layout,
-      'encoding': encodingToJson(instance.encoding),
-      'stdErr': instance.useStdErr,
-      'detectConsoleAvailable': instance.detectConsoleAvailable,
     };
 
 const _$TargetTypeEnumMap = {

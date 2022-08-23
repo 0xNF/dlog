@@ -5,14 +5,17 @@ import 'package:flog3/src/layout/parser/tokenizer/parse_exception.dart';
 import 'package:path/path.dart' as path;
 
 class DirectorySeparatorLayoutRenderer extends LayoutRenderer {
-  static const name = "dir-separator";
+  static const id = "dir-separator";
+
+  @override
+  String get name => id;
 
   @override
   void append(StringBuffer builder, LogEventInfo logEvent) {
     builder.write(path.separator);
   }
 
-  const DirectorySeparatorLayoutRenderer._();
+  const DirectorySeparatorLayoutRenderer();
 
   factory DirectorySeparatorLayoutRenderer.fromToken(LayoutVariable variable) {
     final lst = (variable.value as List).map((e) => e as LayoutVariable);
@@ -22,6 +25,6 @@ class DirectorySeparatorLayoutRenderer extends LayoutRenderer {
           throw LayoutParserException("Unknown field: ${lv.variableName}", null);
       }
     }
-    return const DirectorySeparatorLayoutRenderer._();
+    return const DirectorySeparatorLayoutRenderer();
   }
 }

@@ -20,13 +20,19 @@ import 'package:test/test.dart';
 
 void main() {
   group('Sequential Renderer Tests', () {
-    test("get a separator and a literal renderer", () {
+    test("get (2) separator and a literal renderer", () {
       final parser = LayoutParser(source: r"${dir-separator}some-text");
       final rs = parser.parse();
-      final lr1 = rs[0];
       assert(rs[0] is DirectorySeparatorLayoutRenderer);
       assert(rs[1] is LiteralLayoutRenderer);
       assert((rs[1] as LiteralLayoutRenderer).text == "some-text");
+    });
+    test("get (3) separator and a literal renderer and a newline renderer", () {
+      final parser = LayoutParser(source: r"${dir-separator}some-text${newline}");
+      final rs = parser.parse();
+      assert(rs[0] is DirectorySeparatorLayoutRenderer);
+      assert(rs[1] is LiteralLayoutRenderer);
+      assert(rs[2] is NewLineLayoutRenderer);
     });
   });
   group('Directory Separator renderer tests', () {

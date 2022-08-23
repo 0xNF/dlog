@@ -46,35 +46,35 @@ enum LayoutType {
 LayoutRenderer _reifyLayoutParser(LayoutVariable lv) {
   if (lv.layoutType == LayoutType.layout) {
     switch (lv.variableName.toLowerCase()) {
-      case NewLineLayoutRenderer.name:
+      case NewLineLayoutRenderer.id:
         return NewLineLayoutRenderer.fromToken(lv);
-      case DirectorySeparatorLayoutRenderer.name:
+      case DirectorySeparatorLayoutRenderer.id:
         return DirectorySeparatorLayoutRenderer.fromToken(lv);
-      case SequenceIdRenderer.name:
+      case SequenceIdRenderer.id:
         return SequenceIdRenderer.fromToken(lv);
-      case LoggerNameLayoutRenderer.name:
+      case LoggerNameLayoutRenderer.id:
         return LoggerNameLayoutRenderer.fromToken(lv);
-      case GuidLayoutRenderer.name:
+      case GuidLayoutRenderer.id:
         return GuidLayoutRenderer.fromToken(lv);
-      case LevelLayoutRenderer.name:
+      case LevelLayoutRenderer.id:
         return LevelLayoutRenderer.fromToken(lv);
-      case TimeLayoutRenderer.name:
+      case TimeLayoutRenderer.id:
         return TimeLayoutRenderer.fromToken(lv);
-      case ShortDateLayoutRenderer.name:
+      case ShortDateLayoutRenderer.id:
         return ShortDateLayoutRenderer.fromToken(lv);
-      case LongDateLayoutRenderer.name:
+      case LongDateLayoutRenderer.id:
         return LongDateLayoutRenderer.fromToken(lv);
-      case HostnameLayoutRenderer.name:
+      case HostnameLayoutRenderer.id:
         return HostnameLayoutRenderer.fromToken(lv);
-      case AllEventPropertiesLayoutRenderer.name:
+      case AllEventPropertiesLayoutRenderer.id:
         return AllEventPropertiesLayoutRenderer.fromToken(lv);
-      case EventPropertyLayoutRenderer.name:
+      case EventPropertyLayoutRenderer.id:
         return EventPropertyLayoutRenderer.fromToken(lv);
-      case MessageLayoutRenderer.name:
+      case MessageLayoutRenderer.id:
         return MessageLayoutRenderer.fromToken(lv);
-      case LocalIPLayoutRenderer.name:
+      case LocalIPLayoutRenderer.id:
         return LocalIPLayoutRenderer.fromToken(lv);
-      case LiteralLayoutRenderer.name:
+      case LiteralLayoutRenderer.id:
       default:
         return LiteralLayoutRenderer.fromToken(lv);
     }
@@ -127,8 +127,6 @@ class LayoutParser {
     // TODO(nf) comma separated lists
     return _parseValue();
   }
-
-  // List<_LayoutVariable> _parseLayoutList() {}
 
   LayoutVariable _parseLayoutRenderer() {
     final vars = <LayoutVariable>[];
@@ -188,23 +186,24 @@ class LayoutParser {
 
   /// TODO(nf): load dynamic layout renderers into here
   bool _isKnownLayout(String val) {
+    final vlower = val.toLowerCase();
     return const [
-      DirectorySeparatorLayoutRenderer.name,
-      GuidLayoutRenderer.name,
-      LevelLayoutRenderer.name,
-      LiteralLayoutRenderer.name,
-      LoggerNameLayoutRenderer.name,
-      NewLineLayoutRenderer.name,
-      SequenceIdRenderer.name,
-      TimeLayoutRenderer.name,
-      ShortDateLayoutRenderer.name,
-      LongDateLayoutRenderer.name,
-      HostnameLayoutRenderer.name,
-      AllEventPropertiesLayoutRenderer.name,
-      EventPropertyLayoutRenderer.name,
-      MessageLayoutRenderer.name,
-      LocalIPLayoutRenderer.name,
-    ].map((e) => e.toLowerCase()).contains(val.toLowerCase());
+      DirectorySeparatorLayoutRenderer.id,
+      GuidLayoutRenderer.id,
+      LevelLayoutRenderer.id,
+      LiteralLayoutRenderer.id,
+      LoggerNameLayoutRenderer.id,
+      NewLineLayoutRenderer.id,
+      SequenceIdRenderer.id,
+      TimeLayoutRenderer.id,
+      ShortDateLayoutRenderer.id,
+      LongDateLayoutRenderer.id,
+      HostnameLayoutRenderer.id,
+      AllEventPropertiesLayoutRenderer.id,
+      EventPropertyLayoutRenderer.id,
+      MessageLayoutRenderer.id,
+      LocalIPLayoutRenderer.id,
+    ].map((e) => e.toLowerCase()).contains(vlower);
   }
 
   LayoutVariable _parseValue() {

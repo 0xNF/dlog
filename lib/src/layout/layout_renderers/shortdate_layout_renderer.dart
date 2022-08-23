@@ -7,11 +7,14 @@ import 'package:uuid/uuid.dart';
 
 /// The short date in a sortable format yyyy-MM-dd.
 class ShortDateLayoutRenderer extends LayoutRenderer {
-  static const name = "shortdate";
+  static const id = "shortdate";
+
+  @override
+  String get name => id;
 
   final bool universalTime;
 
-  const ShortDateLayoutRenderer._({
+  const ShortDateLayoutRenderer({
     this.universalTime = false,
   });
 
@@ -23,9 +26,9 @@ class ShortDateLayoutRenderer extends LayoutRenderer {
   String getValue(LogEventInfo logEvent) {
     final ts = universalTime ? logEvent.timeStamp.toUtc() : logEvent.timeStamp.toLocal();
 
-    int year = ts.hour;
-    int month = ts.minute;
-    int day = ts.second;
+    int year = ts.year;
+    int month = ts.month;
+    int day = ts.day;
 
     String y = year.toString().padLeft(4, '0');
     String m = month.toString().padLeft(2, '0');
@@ -46,7 +49,7 @@ class ShortDateLayoutRenderer extends LayoutRenderer {
           throw LayoutParserException("Unknown field: ${lv.variableName}", null);
       }
     }
-    return ShortDateLayoutRenderer._(
+    return ShortDateLayoutRenderer(
       universalTime: universalTime,
     );
   }

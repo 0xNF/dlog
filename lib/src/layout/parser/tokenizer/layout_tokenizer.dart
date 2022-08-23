@@ -82,6 +82,15 @@ class LayoutTokenizer {
     return _tokenType == tokenType;
   }
 
+  bool _isDoubleEscape(String ch) {
+    if (ch == r"$") {
+      if (String.fromCharCode(_peek2Char()) == "{") {
+        return true;
+      }
+    }
+    return false;
+  }
+
   /// Gets the next token and sets [TokenType] and [TokenValue] properties.
   void _getNextToken() {
     if (_tokenType == LayoutTokenType.endOfInput) {
@@ -107,7 +116,7 @@ class LayoutTokenizer {
       return;
     }
 
-    if (ch == "_" || _isLetter(ch)) {
+    if (!_isDoubleEscape(ch) && (_isSymbol(ch) || _isLetter(ch))) {
       _parseKeyword(ch);
       return;
     }
@@ -286,7 +295,13 @@ class LayoutTokenizer {
 
     while ((i = _peekChar()) != -1) {
       String s = String.fromCharCode(i);
-      if (s == "_" || s == "-" || _isAlphaNumeric(s)) {
+      if (s == r"$") {
+        int peek2 = _peek2Char();
+        if (peek2 != -1 && String.fromCharCode(peek2) == "{") {
+          break;
+        }
+      }
+      if (s == "_" || s == "-" || _isAlphaNumeric(s) || _isSymbol(s)) {
         final s2 = String.fromCharCode(_readChar());
         sb.write(s2);
       } else {
@@ -338,6 +353,10 @@ class LayoutTokenizer {
     return _stringReader.peek();
   }
 
+  int _peek2Char() {
+    return _stringReader.peek2();
+  }
+
   int _readChar() {
     return _stringReader.read();
   }
@@ -365,6 +384,34 @@ class LayoutTokenizer {
   static bool _isAlphaNumeric(String ch) {
     return _isLetter(ch) || _isDigit(ch);
   }
+
+  static bool _isSymbol(String ch) {
+    return _symbols.contains(ch);
+  }
+
+  static const _symbols = <String>[
+    "_",
+    "!",
+    "@",
+    "#",
+    "%",
+    "^",
+    "&",
+    "*",
+    "~",
+    "|",
+    "[",
+    "]",
+    "<",
+    ">",
+    "/",
+    r"\",
+    "+",
+    r"$",
+    // "=",
+    // "{",
+    // "}",
+  ];
 
   static List<LayoutTokenType> _buildCharIndexToTokenType() {
     const charTokenTypes = <_CharTokenType>[
@@ -404,6 +451,14 @@ class StringReader {
 
   int peek() {
     int np = _pointer + 1;
+    if (np >= str.length) {
+      return -1;
+    }
+    return str.codeUnitAt(np);
+  }
+
+  int peek2() {
+    int np = _pointer + 2;
     if (np >= str.length) {
       return -1;
     }

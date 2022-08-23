@@ -6,7 +6,10 @@ import 'package:flog3/src/layout/parser/layout_parser.dart';
 import 'package:flog3/src/layout/parser/tokenizer/parse_exception.dart';
 
 class NewLineLayoutRenderer extends LayoutRenderer {
-  static const name = "newline";
+  static const id = "newline";
+
+  @override
+  String get name => id;
 
   @override
   void append(StringBuffer builder, LogEventInfo logEvent) {
@@ -17,7 +20,7 @@ class NewLineLayoutRenderer extends LayoutRenderer {
     return Platform.isWindows ? '\r\n' : '\n';
   }
 
-  const NewLineLayoutRenderer._();
+  const NewLineLayoutRenderer();
 
   factory NewLineLayoutRenderer.fromToken(LayoutVariable variable) {
     final lst = (variable.value as List).map((e) => e as LayoutVariable);
@@ -27,6 +30,6 @@ class NewLineLayoutRenderer extends LayoutRenderer {
           throw LayoutParserException("Unknown field: ${lv.variableName}", null);
       }
     }
-    return NewLineLayoutRenderer._();
+    return NewLineLayoutRenderer();
   }
 }

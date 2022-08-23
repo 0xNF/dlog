@@ -14,7 +14,7 @@ FileTargetSpec _$FileTargetSpecFromJson(Map<String, dynamic> json) {
   return FileTargetSpec(
     name: json['name'] as String,
     layout: json['layout'] as String? ??
-        r"${longdate}|${level:uppercase=true}|${loggerName}|${message:withexception=true}|${eventProperties}",
+        r"${longdate}|${level:uppercase=true}|${loggerName}|${message:withexception=true}|${all-event-properties}",
     type: $enumDecodeNullable(_$TargetTypeEnumMap, json['type']) ??
         TargetType.file,
     encoding: json['encoding'] == null
@@ -76,6 +76,7 @@ const _$TargetTypeEnumMap = {
   TargetType.console: 'Console',
   TargetType.file: 'File',
   TargetType.network: 'Network',
+  TargetType.debug: 'Debug',
   TargetType.nil: 'Null',
 };
 

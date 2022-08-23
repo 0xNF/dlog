@@ -6,14 +6,16 @@ import 'package:flog3/src/layout/parser/layout_parser.dart';
 abstract class LayoutRenderer {
   const LayoutRenderer();
 
+  String get name;
+
   String render(LogEventInfo logEvent) {
     final builder = StringBuffer();
     // TODO(nf): initial and max sizes
-    renderAppenBuilder(logEvent, builder);
+    renderAppendBuilder(logEvent, builder);
     return builder.toString();
   }
 
-  void renderAppenBuilder(LogEventInfo logEvent, StringBuffer builder) {
+  void renderAppendBuilder(LogEventInfo logEvent, StringBuffer builder) {
     try {
       append(builder, logEvent);
     } on Exception catch (e) {

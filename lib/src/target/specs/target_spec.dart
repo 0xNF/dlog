@@ -14,6 +14,6 @@ abstract class TargetSpec {
   const TargetSpec({
     required this.name,
     required this.type,
-    this.layout = r"${longdate}|${level:uppercase=true}|${loggerName}|${message:withexception=true}|${eventProperties}",
+    this.layout = r"${longdate}|${level:uppercase=true}|${loggerName}|${message:withexception=true}|${all-event-properties}",
   });
 }

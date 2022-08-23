@@ -1,6 +1,7 @@
 import 'package:flog3/src/configuration/config_settings.dart';
 import 'package:flog3/src/rule/rule.dart';
 import 'package:flog3/src/target/specs/console_target_spec.dart';
+import 'package:flog3/src/target/specs/debug_target_spec.dart';
 import 'package:flog3/src/target/specs/file_target_spec.dart';
 import 'package:flog3/src/target/specs/target_spec.dart';
 import 'package:flog3/src/target/specs/target_type.dart';
@@ -23,12 +24,12 @@ class ConfigurationSpec {
   @JsonKey(name: "settings")
   final ConfigSettings settings;
 
-  const ConfigurationSpec({
+  ConfigurationSpec({
     required this.targets,
     required this.rules,
-    required this.settings,
+    ConfigSettings? settings,
     this.variables = const [],
-  });
+  }) : settings = settings ?? ConfigSettings();
 
   static String targetsToString(List<TargetSpec> targets) {
     List<String> lst = [];
@@ -51,6 +52,9 @@ class ConfigurationSpec {
             break;
           case ConsoleTargetSpec.kind:
             lst.add(ConsoleTargetSpec.fromJson(d));
+            break;
+          case DebugTargetSpec.kind:
+            lst.add(DebugTargetSpec.fromJson(d));
             break;
           default:
             break;

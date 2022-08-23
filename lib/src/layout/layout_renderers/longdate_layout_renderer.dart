@@ -7,11 +7,14 @@ import 'package:uuid/uuid.dart';
 
 ///The date and time in a long, sortable format yyyy-MM-dd HH:mm:ss.ffff.
 class LongDateLayoutRenderer extends LayoutRenderer {
-  static const name = "longdate";
+  static const id = "longdate";
+
+  @override
+  String get name => id;
 
   final bool universalTime;
 
-  const LongDateLayoutRenderer._({
+  const LongDateLayoutRenderer({
     this.universalTime = false,
   });
 
@@ -22,9 +25,9 @@ class LongDateLayoutRenderer extends LayoutRenderer {
 
   String getValue(LogEventInfo logEvent) {
     final ts = universalTime ? logEvent.timeStamp.toUtc() : logEvent.timeStamp.toLocal();
-    int year = ts.hour;
-    int month = ts.minute;
-    int day = ts.second;
+    int year = ts.year;
+    int month = ts.month;
+    int day = ts.day;
 
     int hour = ts.hour;
     int minute = ts.minute;
@@ -40,7 +43,7 @@ class LongDateLayoutRenderer extends LayoutRenderer {
     String s = second.toString().padLeft(2, '0');
     String ms = milisecond.toString().padRight(4, '0');
 
-    return "$y-$m-$d $h$mi$s.$ms";
+    return "$y-$m-$d $h:$mi:$s.$ms";
   }
 
   factory LongDateLayoutRenderer.fromToken(LayoutVariable variable) {
@@ -55,7 +58,7 @@ class LongDateLayoutRenderer extends LayoutRenderer {
           throw LayoutParserException("Unknown field: ${lv.variableName}", null);
       }
     }
-    return LongDateLayoutRenderer._(
+    return LongDateLayoutRenderer(
       universalTime: universalTime,
     );
   }

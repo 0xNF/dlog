@@ -7,7 +7,9 @@ import 'package:collection/collection.dart';
 import 'package:flog3/src/target/target.dart';
 
 class FLogger implements ILogger {
+  List<Rule> get rules => List.unmodifiable(_rules);
   late final List<Rule> _rules;
+  List<Target> get targets => List.unmodifiable(_targets);
   late final List<Target> _targets;
   FLogger(String name, List<Rule> rules, List<Target> targets) {
     _name = name;
@@ -234,8 +236,8 @@ class FLogger implements ILogger {
       }
     }
 
-    _rules = rules;
-    _targets = targets;
+    _rules = rules.toList();
+    _targets = targets.toList();
   }
 
   @override

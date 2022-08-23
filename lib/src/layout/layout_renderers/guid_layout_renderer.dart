@@ -6,7 +6,10 @@ import 'package:collection/collection.dart';
 import 'package:uuid/uuid.dart';
 
 class GuidLayoutRenderer extends LayoutRenderer {
-  static const name = "guid";
+  static const id = "guid";
+
+  @override
+  String get name => id;
 
   /// v1, v4 or v5 uuid formats
   final GuidFormat format;
@@ -17,7 +20,7 @@ class GuidLayoutRenderer extends LayoutRenderer {
   /// whether to use the same guid for the same log event across all outputs
   final bool generateFromLogEvent;
 
-  const GuidLayoutRenderer._({
+  const GuidLayoutRenderer({
     this.format = GuidFormat.v4,
     this.generateFromLogEvent = false,
     this.namespace,
@@ -30,8 +33,33 @@ class GuidLayoutRenderer extends LayoutRenderer {
   }
 
   String getValue(LogEventInfo logEvent) {
+    // TODO(nf): fix generate from Log Event
     if (generateFromLogEvent) {
-      throw UnimplementedError();
+      int hashCode = logEvent.hashCode;
+      int b = ((hashCode >> 16) & 0XFFFF) % 256;
+      int c = (hashCode & 0XFFFF) % 256;
+      int zeroDateTicks = LogEventInfo.zeroDate.microsecondsSinceEpoch;
+      int d = ((zeroDateTicks >> 56) & 0xFF) % 256;
+      int e = ((zeroDateTicks >> 48) & 0xFF) % 256;
+      int f = ((zeroDateTicks >> 40) & 0xFF) % 256;
+      int g = ((zeroDateTicks >> 32) & 0xFF) % 256;
+      int h = ((zeroDateTicks >> 24) & 0xFF) % 256;
+      int i = ((zeroDateTicks >> 16) & 0xFF) % 256;
+      int j = ((zeroDateTicks >> 8) & 0xFF) % 256;
+      int k = (zeroDateTicks & 0XFF) % 256;
+      int l = ((hashCode >> 8) & 0XFFFF) % 256;
+      int m = ((hashCode >> 24) & 0XFFFF) % 256;
+      // TODO(nf): last 3 bytes are 0 because unlike .NET, they are  32 bit numbers not 64 bit.
+      int n = hashCode.isOdd ? 100 : 250;
+
+      /// ((hashCode >> 32) & 0XFFFF) % 256;
+      int o = 253;
+      // ((hashCode >> 40) & 0XFFFF) % 256;
+      int p = 128;
+      // ((hashCode >> 48) & 0XFFFF) % 256;
+
+      final guid = Uuid.unparse([logEvent.sequenceId, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p]);
+      return guid;
     }
     switch (format) {
       case GuidFormat.v1:
@@ -72,7 +100,7 @@ class GuidLayoutRenderer extends LayoutRenderer {
           throw LayoutParserException("Unknown field: ${lv.variableName}", null);
       }
     }
-    return GuidLayoutRenderer._(
+    return GuidLayoutRenderer(
       format: format,
       generateFromLogEvent: generateFromLogEvent,
       guidname: guidname,

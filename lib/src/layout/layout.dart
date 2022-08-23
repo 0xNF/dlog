@@ -19,21 +19,14 @@ class Layout {
   String render(LogEventInfo logEvent) {
     StringBuffer sb = StringBuffer();
     for (final lr in renderers) {
-      lr.renderAppenBuilder(logEvent, sb);
+      lr.renderAppendBuilder(logEvent, sb);
     }
     return sb.toString();
   }
 
   factory Layout.parseLayout(String source, LogConfiguration configuration) {
     final parser = LayoutParser(source: source);
-    final layoutRenderer = parser.parse().first;
-    // final renderers = <LayoutRenderer>[];
-    // for (final token in tokens) {
-    //   final lr = fromToken(token);
-    //   renderers.add(lr);
-    // }
-    return Layout(source: source, configuration: configuration, renderers: [
-      layoutRenderer,
-    ]);
+    final renderers = parser.parse();
+    return Layout(source: source, configuration: configuration, renderers: renderers);
   }
 }

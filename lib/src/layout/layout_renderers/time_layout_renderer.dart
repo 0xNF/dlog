@@ -7,17 +7,19 @@ import 'package:uuid/uuid.dart';
 
 /// The time in a 24-hour, sortable format HH:mm:ss.mmmm.
 class TimeLayoutRenderer extends LayoutRenderer {
-  static const name = "time";
+  static const id = "time";
+
+  @override
+  String get name => id;
 
   final bool universalTime;
 
-  const TimeLayoutRenderer._({
+  const TimeLayoutRenderer({
     this.universalTime = false,
   });
 
   @override
   void append(StringBuffer builder, LogEventInfo logEvent) {
-    
     builder.write(getValue(logEvent));
   }
 
@@ -33,7 +35,7 @@ class TimeLayoutRenderer extends LayoutRenderer {
     String s = second.toString().padLeft(2, '0');
     String ms = milisecond.toString().padRight(4, '0');
 
-    return "$h$m$s.$ms";
+    return "$h:$m:$s.$ms";
   }
 
   factory TimeLayoutRenderer.fromToken(LayoutVariable variable) {
@@ -48,7 +50,7 @@ class TimeLayoutRenderer extends LayoutRenderer {
           throw LayoutParserException("Unknown field: ${lv.variableName}", null);
       }
     }
-    return TimeLayoutRenderer._(
+    return TimeLayoutRenderer(
       universalTime: universalTime,
     );
   }

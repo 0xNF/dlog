@@ -7,6 +7,24 @@ import '../utils.dart';
 
 void main() {
   group("Complex Tokenizer Tests", () {
+    test("tokenize symbol string", () {
+      final tokens = getTokens(r"$shouldBeKeyword");
+      assert(tokens.length == 1);
+      assert(tokens[0].tokenType == LayoutTokenType.keyword);
+      assert(tokens[0].value == r"$shouldBeKeyword");
+    });
+
+    test("tokenize compound", () {
+      final tokens = getTokens(r"k${longdate}");
+      assert(tokens.length == 5);
+      assert(tokens[0].tokenType == LayoutTokenType.keyword);
+      assert(tokens[0].value == r"k");
+      assert(tokens[1].tokenType == LayoutTokenType.dollarsign);
+      assert(tokens[2].tokenType == LayoutTokenType.openCurleyBrace);
+      assert(tokens[3].tokenType == LayoutTokenType.keyword);
+      assert(tokens[4].tokenType == LayoutTokenType.closingCurlyBrace);
+    });
+
     test("tokenize full keyword", () {
       final tokens = getTokens(r"${longdate}");
       assert(tokens.length == 4);

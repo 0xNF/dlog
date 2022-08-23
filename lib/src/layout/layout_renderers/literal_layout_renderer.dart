@@ -4,11 +4,14 @@ import 'package:flog3/src/layout/parser/layout_parser.dart';
 import 'package:flog3/src/layout/parser/tokenizer/parse_exception.dart';
 
 class LiteralLayoutRenderer extends LayoutRenderer {
-  static const name = "literal";
+  static const id = "literal";
+
+  @override
+  String get name => id;
 
   final String text;
 
-  const LiteralLayoutRenderer._({required this.text}) : super();
+  const LiteralLayoutRenderer({required this.text}) : super();
 
   @override
   void append(StringBuffer builder, LogEventInfo logEvent) {
@@ -31,6 +34,6 @@ class LiteralLayoutRenderer extends LayoutRenderer {
         }
       }
     }
-    return LiteralLayoutRenderer._(text: text);
+    return LiteralLayoutRenderer(text: text);
   }
 }

@@ -4,7 +4,10 @@ import 'package:flog3/src/layout/parser/layout_parser.dart';
 import 'package:flog3/src/layout/parser/tokenizer/parse_exception.dart';
 
 class MessageLayoutRenderer extends LayoutRenderer {
-  static const String name = "message";
+  static const String id = "message";
+
+  @override
+  String get name => id;
 
   /// String that separates message from the exception.
   final String exceptionSeparator;
@@ -31,7 +34,7 @@ class MessageLayoutRenderer extends LayoutRenderer {
     return sb.toString();
   }
 
-  const MessageLayoutRenderer._({
+  const MessageLayoutRenderer({
     this.exceptionSeparator = "|",
     this.withException = true,
     this.raw = false,
@@ -58,7 +61,7 @@ class MessageLayoutRenderer extends LayoutRenderer {
       }
     }
 
-    return MessageLayoutRenderer._(
+    return MessageLayoutRenderer(
       exceptionSeparator: exceptionSeparator,
       withException: withException,
       raw: raw,

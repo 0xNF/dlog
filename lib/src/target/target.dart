@@ -1,9 +1,11 @@
 import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/layout/layout.dart';
 import 'package:flog3/src/target/console_target.dart';
+import 'package:flog3/src/target/debug_target.dart';
 import 'package:flog3/src/target/file_target.dart';
 import 'package:flog3/src/target/null_target.dart';
 import 'package:flog3/src/target/specs/console_target_spec.dart';
+import 'package:flog3/src/target/specs/debug_target_spec.dart';
 import 'package:flog3/src/target/specs/file_target_spec.dart';
 import 'package:flog3/src/target/specs/null_target_spec.dart';
 import 'package:flog3/src/target/specs/target_spec.dart';
@@ -21,9 +23,11 @@ abstract class Target {
         return ConsoleTarget.fromSpec(spec, config);
       case FileTargetSpec.kind:
         return FileTarget.fromSpec(spec, config);
+      case DebugTargetSpec.kind:
+        return DebugTarget.fromSpec(spec, config);
       case NullTargetSpec.kind:
       default:
-        return NullTarget(spec: spec, config: config);
+        return NullTarget.fromSpec(spec, config);
     }
   }
 }

@@ -1,12 +1,13 @@
 import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/target/specs/target_spec.dart';
+import 'package:flog3/src/target/specs/target_type.dart';
 import 'package:flog3/src/target/target.dart';
 
 class NullTarget extends Target {
-  NullTarget({required super.spec, required super.config});
+  NullTarget._({required super.spec, required super.config});
 
   factory NullTarget.fromSpec(TargetSpec spec, LogConfiguration config) {
-    return NullTarget(spec: spec, config: config);
+    return NullTarget._(spec: spec, config: config);
   }
 
   @override

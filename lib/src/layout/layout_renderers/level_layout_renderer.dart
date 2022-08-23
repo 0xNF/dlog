@@ -6,12 +6,15 @@ import 'package:collection/collection.dart';
 import 'package:flog3/src/layout/parser/tokenizer/parse_exception.dart';
 
 class LevelLayoutRenderer extends LayoutRenderer {
-  static const name = "level";
+  static const id = "level";
+
+  @override
+  String get name => id;
 
   final LevelFormat format;
   final bool uppercase;
 
-  const LevelLayoutRenderer._({
+  const LevelLayoutRenderer({
     this.format = LevelFormat.name,
     this.uppercase = false,
   });
@@ -31,9 +34,9 @@ class LevelLayoutRenderer extends LayoutRenderer {
         break;
       case LevelFormat.fullName:
         if (level == LogLevel.info) {
-          builder.write(uppercase ? "INFORMATION" : "information");
+          builder.write(uppercase ? "INFORMATION" : "Information");
         } else if (level == LogLevel.warn) {
-          builder.write(uppercase ? "WARNING" : "warning");
+          builder.write(uppercase ? "WARNING" : "Warning");
         } else {
           builder.write(uppercase ? level.name.toUpperCase() : level.name);
         }
@@ -67,7 +70,7 @@ class LevelLayoutRenderer extends LayoutRenderer {
       }
     }
 
-    return LevelLayoutRenderer._(format: format, uppercase: uppercase);
+    return LevelLayoutRenderer(format: format, uppercase: uppercase);
   }
 }
 

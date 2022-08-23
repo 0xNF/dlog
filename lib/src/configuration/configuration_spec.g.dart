@@ -16,7 +16,9 @@ ConfigurationSpec _$ConfigurationSpecFromJson(Map<String, dynamic> json) {
     rules: (json['rules'] as List<dynamic>)
         .map((e) => Rule.fromJson(e as Map<String, dynamic>))
         .toList(),
-    settings: ConfigSettings.fromJson(json['settings'] as Map<String, dynamic>),
+    settings: json['settings'] == null
+        ? null
+        : ConfigSettings.fromJson(json['settings'] as Map<String, dynamic>),
     variables: (json['variables'] as List<dynamic>?)
             ?.map((e) => VariableSpec.fromJson(e as Map<String, dynamic>))
             .toList() ??

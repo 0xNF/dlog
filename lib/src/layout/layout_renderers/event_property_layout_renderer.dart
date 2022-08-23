@@ -7,7 +7,10 @@ import 'package:flog3/src/layout/parser/tokenizer/parse_exception.dart';
 import 'package:collection/collection.dart';
 
 class EventPropertyLayoutRenderer extends LayoutRenderer {
-  static const name = "event-property";
+  static const id = "event-property";
+
+  @override
+  String get name => id;
 
   /// Name of the item. Required.
   final String item;
@@ -42,6 +45,9 @@ class EventPropertyLayoutRenderer extends LayoutRenderer {
     dynamic val = logEvent.eventProperties[key];
 
     if (objectPath == null || objectPath == r"$") {
+      if (val is String) {
+        return val;
+      }
       return const JsonEncoder().convert(val);
     }
 
@@ -55,7 +61,7 @@ class EventPropertyLayoutRenderer extends LayoutRenderer {
     return value?.toString();
   }
 
-  const EventPropertyLayoutRenderer._({
+  const EventPropertyLayoutRenderer({
     required this.item,
     this.ignoreCase = true,
     this.objectPath,
@@ -84,7 +90,7 @@ class EventPropertyLayoutRenderer extends LayoutRenderer {
     if (item == null) {
       throw LayoutParserException('Required field `item` missing from layout', null);
     }
-    return EventPropertyLayoutRenderer._(
+    return EventPropertyLayoutRenderer(
       item: item,
       ignoreCase: ignoreCase,
       objectPath: objectPath,

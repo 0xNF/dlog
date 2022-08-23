@@ -8,12 +8,15 @@ import 'package:collection/collection.dart';
 
 ///The local IP address whether IPv4 or IPv6 from NetworkInterface.List
 class LocalIPLayoutRenderer extends LayoutRenderer {
-  static const name = "local-ip";
+  static const id = "local-ip";
+
+  @override
+  String get name => id;
 
   /// Explicitly prioritize IP addresses from a certain AddressFamily (Ex. IPv4 / IPv6)
   final InternetAddressType addressFamily;
 
-  const LocalIPLayoutRenderer._({
+  const LocalIPLayoutRenderer({
     this.addressFamily = InternetAddressType.any,
   });
 
@@ -42,7 +45,7 @@ class LocalIPLayoutRenderer extends LayoutRenderer {
           throw LayoutParserException("Unknown field: ${lv.variableName}", null);
       }
     }
-    return LocalIPLayoutRenderer._(
+    return LocalIPLayoutRenderer(
       addressFamily: addressFamily,
     );
   }

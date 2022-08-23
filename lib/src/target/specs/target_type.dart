@@ -7,6 +7,8 @@ enum TargetType {
   file,
   @JsonValue("Network")
   network,
+  @JsonValue("Debug")
+  debug,
   @JsonValue("Null")
   nil,
 }

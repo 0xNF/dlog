@@ -61,6 +61,8 @@ abstract class MessageFormatter {
 class LogEventInfo {
   static int _globalSequenceId = 0;
 
+  static final DateTime zeroDate = DateTime.now();
+
   int _sequenceId = 0;
   int get sequenceId {
     if (_sequenceId == 0) {

@@ -6,7 +6,10 @@ import 'package:flog3/src/layout/parser/layout_parser.dart';
 import 'package:flog3/src/layout/parser/tokenizer/parse_exception.dart';
 
 class AllEventPropertiesLayoutRenderer extends LayoutRenderer {
-  static const name = "all-event-properties";
+  static const id = "all-event-properties";
+
+  @override
+  String get name => id;
 
   /// How key/value pairs will be formatted.
   /// The placeholder used to define placement of the key is, `[key]`, and the placeholder for value is, `[value]`.
@@ -53,19 +56,21 @@ class AllEventPropertiesLayoutRenderer extends LayoutRenderer {
           continue;
         } else if (val is Iterable && val.isEmpty) {
           continue;
+        } else if (val is Map && val.isEmpty) {
+          continue;
         }
       }
 
       /* format */
       final v = const JsonEncoder().convert(val);
-      format.replaceAll('[key]', key).replaceAll('[value]', v);
+      final fmtd = format.replaceAll('[key]', key).replaceAll('[value]', v);
 
-      props.add(v);
+      props.add(fmtd);
     }
     return props.join(separator);
   }
 
-  const AllEventPropertiesLayoutRenderer._({
+  const AllEventPropertiesLayoutRenderer({
     this.format = "[key]=[value]",
     this.separator = ",",
     this.exclude = const [],
@@ -96,7 +101,7 @@ class AllEventPropertiesLayoutRenderer extends LayoutRenderer {
           throw LayoutParserException("Unknown field: ${lv.variableName}", null);
       }
     }
-    return AllEventPropertiesLayoutRenderer._(
+    return AllEventPropertiesLayoutRenderer(
       separator: separator,
       includeEmptyValues: includeEmptyValues,
       exclude: exclude,

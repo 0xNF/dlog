@@ -4,11 +4,14 @@ import 'package:flog3/src/layout/parser/layout_parser.dart';
 import 'package:flog3/src/layout/parser/tokenizer/parse_exception.dart';
 
 class LoggerNameLayoutRenderer extends LayoutRenderer {
-  static const name = "loggername";
+  static const id = "loggername";
+
+  @override
+  String get name => id;
 
   final bool shortName;
 
-  const LoggerNameLayoutRenderer._({
+  const LoggerNameLayoutRenderer({
     this.shortName = false,
   });
 
@@ -33,6 +36,6 @@ class LoggerNameLayoutRenderer extends LayoutRenderer {
           throw LayoutParserException("Unknown field: ${lv.variableName}", null);
       }
     }
-    return LoggerNameLayoutRenderer._(shortName: shortName);
+    return LoggerNameLayoutRenderer(shortName: shortName);
   }
 }

@@ -1,6 +1,10 @@
 {
     "targets": [
         {
+            "name": "logdebug",
+            "type": "Debug"
+        },
+        {
             "name": "logfile",
             "type": "File",
             "fileName": "file.txt"
@@ -20,6 +24,11 @@
             "name": "*",
             "minlevel": "Debug",
             "writeTo": "logfile"
+        },
+        {
+            "name": "*",
+            "minlevel": "Debug",
+            "writeTo": "logdebug"
         }
     ],
     "variables": []
