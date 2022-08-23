@@ -11,9 +11,17 @@ abstract class TargetSpec {
   @JsonKey(name: "layout")
   final String layout;
 
+  @JsonKey(name: "footer")
+  final String footer;
+
+  @JsonKey(name: "header")
+  final String header;
+
   const TargetSpec({
     required this.name,
     required this.type,
+    this.footer = "",
+    this.header = "",
     this.layout = r"${longdate}|${level:uppercase=true}|${loggerName}|${message:withexception=true}|${all-event-properties}",
   });
 }

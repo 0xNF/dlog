@@ -7,7 +7,7 @@ import 'package:flog3/src/target/specs/console_target_spec.dart';
 import 'package:flog3/src/target/specs/target_spec.dart';
 import 'package:flog3/src/target/target.dart';
 
-class ConsoleTarget extends Target {
+class ConsoleTarget extends TargetWithLayoutHeaderAndFooter {
   final Encoding encoding;
   final bool useStdErr;
   final bool detectConsoleAvailable;
@@ -46,11 +46,13 @@ class ConsoleTarget extends Target {
       _sink = useStdErr ? stderr : stdout;
       _sink.encoding = encoding;
     }
+    _writeToOutput(header.render(LogEventInfo.createNullEvent()));
     super.initializeTarget();
   }
 
   @override
   void closeTarget() {
+    _writeToOutput(footer.render(LogEventInfo.createNullEvent()));
     super.closeTarget();
   }
 
@@ -60,6 +62,13 @@ class ConsoleTarget extends Target {
       return;
     }
     String s = super.layout.render(logEvent);
+    _writeToOutput(s);
+  }
+
+  void _writeToOutput(String s) {
+    if (_pauseLogging) {
+      return;
+    }
     _sink.writeln(s);
   }
 }

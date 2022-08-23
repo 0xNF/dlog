@@ -115,7 +115,7 @@ class LogEventInfo {
       exception: null,
       level: LogLevel.off,
       stackTrace: null,
-      timeStamp: DateTime.now(),
+      timeStamp: DateTime.utc(1970, 01, 01),
       messageFormatter: null,
       message: "",
     );

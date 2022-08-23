@@ -14,10 +14,9 @@ import 'package:meta/meta.dart';
 
 abstract class Target {
   final TargetSpec spec;
-  final Layout layout;
   bool get isInitialized => _isInitialized;
   bool _isInitialized = false;
-  Target({required this.spec, required LogConfiguration config}) : layout = Layout.parseLayout(spec.layout, config);
+  Target({required this.spec, required LogConfiguration config});
 
   void write(LogEventInfo logEvent);
 
@@ -45,4 +44,19 @@ abstract class Target {
         return NullTarget.fromSpec(spec, config);
     }
   }
+}
+
+abstract class TargetWithLayout extends Target {
+  final Layout layout;
+
+  TargetWithLayout({required super.spec, required super.config}) : layout = Layout.parseLayout(spec.layout, config);
+}
+
+abstract class TargetWithLayoutHeaderAndFooter extends TargetWithLayout {
+  final Layout header;
+  final Layout footer;
+
+  TargetWithLayoutHeaderAndFooter({required super.spec, required super.config})
+      : header = Layout.parseLayout(spec.header, config),
+        footer = Layout.parseLayout(spec.footer, config);
 }

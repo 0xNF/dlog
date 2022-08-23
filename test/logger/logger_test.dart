@@ -9,6 +9,7 @@ import 'package:flog3/src/logger/log_factory.dart';
 import 'package:flog3/src/logger/logger.dart';
 import 'package:flog3/src/target/debug_target.dart';
 import 'package:flog3/src/target/specs/target_type.dart';
+import 'package:flog3/src/target/target.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -40,7 +41,7 @@ void main() {
     });
 
     test("Check target renderers", () {
-      final t = basic.targets.first;
+      final t = basic.targets.first as TargetWithLayoutHeaderAndFooter;
       expect(t.layout.renderers.length, 9);
       expect(t.layout.renderers[0].name, LongDateLayoutRenderer.id);
       expect(t.layout.renderers[1].name, LiteralLayoutRenderer.id);

@@ -162,7 +162,7 @@ void main() {
 
     test('tokenize dollarsign', () {
       final tokens = getTokens(r"$");
-      assert(tokens.first.tokenType == LayoutTokenType.dollarsign);
+      expect(tokens.first.tokenType, LayoutTokenType.keyword, reason: "Dollar signs by themselves are just regular tokens, not the marker to a layout");
     });
   });
 }

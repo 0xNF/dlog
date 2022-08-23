@@ -84,7 +84,8 @@ class LayoutTokenizer {
 
   bool _isDoubleEscape(String ch) {
     if (ch == r"$") {
-      if (String.fromCharCode(_peek2Char()) == "{") {
+      final i = _peek2Char();
+      if (!i.isNegative && String.fromCharCode(_peek2Char()) == "{") {
         return true;
       }
     }
