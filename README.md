@@ -1,10 +1,14 @@
 # TODO
 ## Mandatory goals
-- [ ] Implement the Layout Parser (dont forget variables, recursive layouts)
-- [ ] implement `Write` for each layoutRenderer
-	- [ ] implement `Render` for each LayoutToken=>LayoutRenderer
 - [ ] implement FileTarget's archival and rotation semantics
 - [ ] implement JsonTarget
+- [ ]more layout renderers
+- [ ]prove implementation of ILogger
+- [ ]setup TargetWithLayoutHeaderFooter
+- [ ]setup TargetWithLayout
+- [ ]change current targets to implement LHF
+- [ ]set LFH.closeTarget() to write footer
+- [ ]set LFH.initialize() to write header
 
 ## Stretch goals
 - [ ] implement programatic construction of loggers and log configurations
@@ -13,14 +17,13 @@
 # Targets
 Implemented
 --
-* n/a
+* [Debug](https://github.com/NLog/NLog/wiki/Debug-target)
 
 Not Yet Implemented
 --
 * [Console](https://github.com/NLog/NLog/wiki/Console-target)
 * [File](https://github.com/NLog/NLog/wiki/File-target)
 * [Null](https://github.com/NLog/NLog/wiki/Null-target)
-
 
 Will Not Implememt
 --

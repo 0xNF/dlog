@@ -1,6 +1,7 @@
 import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/layout/layout_renderers/layout_renderer.dart';
 import 'package:flog3/src/layout/parser/layout_parser.dart';
+import 'package:meta/meta.dart';
 
 class Layout {
   /// Original string used to create this layout
@@ -16,6 +17,7 @@ class Layout {
     required this.renderers,
   });
 
+  @nonVirtual
   String render(LogEventInfo logEvent) {
     StringBuffer sb = StringBuffer();
     for (final lr in renderers) {

@@ -241,8 +241,23 @@ class FLogger implements ILogger {
   }
 
   @override
+  void trace(message, {Exception? exception, Map<String, dynamic>? eventProperties}) {
+    log(LogLevel.trace, message, exception: exception, eventProperties: eventProperties);
+  }
+
+  @override
   void debug(message, {Exception? exception, Map<String, dynamic>? eventProperties}) {
     log(LogLevel.debug, message, exception: exception, eventProperties: eventProperties);
+  }
+
+  @override
+  void info(message, {Exception? exception, Map<String, dynamic>? eventProperties}) {
+    log(LogLevel.info, message, exception: exception, eventProperties: eventProperties);
+  }
+
+  @override
+  void warn(message, {Exception? exception, Map<String, dynamic>? eventProperties}) {
+    log(LogLevel.warn, message, exception: exception, eventProperties: eventProperties);
   }
 
   @override
@@ -256,12 +271,6 @@ class FLogger implements ILogger {
   }
 
   @override
-  void info(message, {Exception? exception, Map<String, dynamic>? eventProperties}) {
-    log(LogLevel.info, message, exception: exception, eventProperties: eventProperties);
-  }
-
-  @override
-  // TODO: implement isDebugEnabled
   bool get isDebugEnabled {
     _isDebugEnabled ??= _rules.any((element) => element.canWrite(LogLevel.debug));
     return _isDebugEnabled!;
@@ -329,6 +338,40 @@ class FLogger implements ILogger {
   }
 
   @override
+  String get name => _name;
+  late String _name;
+
+  @override
+  Stream<LoggerReconfigured> onLoggerReconfigured() {
+    // TODO: implement onLoggerReconfigured
+    throw UnimplementedError();
+  }
+
+  @override
+  void swallow(Function() action) {
+    // TODO: implement swallow
+  }
+
+  @override
+  Future<void> swallowAsync(Function() action) {
+    // TODO: implement swallowAsync
+    throw UnimplementedError();
+  }
+
+  @override
+  T? swallowResult<T>(T? Function() action, T? fallbackValue) {
+    // TODO: implement swallowResult
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<T?> swallowResultAsync<T>(Future<T?> Function() action, T? fallbackValue) {
+    // TODO: implement swallowResultAsync
+    throw UnimplementedError();
+  }
+
+  
+  @override
   void log(LogLevel level, message, {Exception? exception, Map<String, dynamic>? eventProperties}) {
     if (isEnabled(level)) {
       final LogEventInfo info = LogEventInfo(
@@ -368,46 +411,4 @@ class FLogger implements ILogger {
     }
   }
 
-  @override
-  String get name => _name;
-  late String _name;
-
-  @override
-  Stream<LoggerReconfigured> onLoggerReconfigured() {
-    // TODO: implement onLoggerReconfigured
-    throw UnimplementedError();
-  }
-
-  @override
-  void swallow(Function() action) {
-    // TODO: implement swallow
-  }
-
-  @override
-  Future<void> swallowAsync(Function() action) {
-    // TODO: implement swallowAsync
-    throw UnimplementedError();
-  }
-
-  @override
-  T? swallowResult<T>(T? Function() action, T? fallbackValue) {
-    // TODO: implement swallowResult
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<T?> swallowResultAsync<T>(Future<T?> Function() action, T? fallbackValue) {
-    // TODO: implement swallowResultAsync
-    throw UnimplementedError();
-  }
-
-  @override
-  void trace(message, {Exception? exception, Map<String, dynamic>? eventProperties}) {
-    log(LogLevel.trace, message, exception: exception, eventProperties: eventProperties);
-  }
-
-  @override
-  void warn(message, {Exception? exception, Map<String, dynamic>? eventProperties}) {
-    log(LogLevel.warn, message, exception: exception, eventProperties: eventProperties);
-  }
 }

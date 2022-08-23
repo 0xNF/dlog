@@ -10,6 +10,23 @@ class FileTarget extends Target {
   }
 
   @override
+  void initializeTarget() {
+    // if (detectConsoleAvailable) {
+    //   if ((useStdErr && !stderr.hasTerminal) || (!useStdErr && !stdout.hasTerminal)) {
+    //     internalLogger.info("${this}: Console has been detected as turned off. Disable DetectConsoleAvailable to skip detection. Reason: {1}");
+    //   }
+    // } else {
+    //   _sink = useStdErr ? stderr : stdout;
+    // }
+    super.initializeTarget();
+  }
+
+  @override
+  void closeTarget() {
+    super.closeTarget();
+  }
+
+  @override
   void write(LogEventInfo logEvent) {
     final s = super.layout.render(logEvent);
     print(s);

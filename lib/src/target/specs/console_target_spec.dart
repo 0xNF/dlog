@@ -9,13 +9,15 @@ part 'console_target_spec.g.dart';
 class ConsoleTargetSpec extends TargetSpec {
   static const kind = TargetType.console;
 
-  ///  File encoding name like "utf-8", "ascii" or "utf-16"
+  /// File encoding name like "utf-8", "ascii" or "utf-16"
   @JsonKey(name: "encoding", fromJson: encodingFromJson, toJson: encodingToJson)
   final Encoding encoding;
 
+  ///  Indicates whether the error stream (stderr) should be used instead of the output stream (stdout).
   @JsonKey(name: "stdErr")
   final bool useStdErr;
 
+  ///  Indicates whether the console target should disable itself when no console detected.
   @JsonKey(name: "detectConsoleAvailable")
   final bool detectConsoleAvailable;
 
