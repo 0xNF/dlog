@@ -78,7 +78,7 @@ class Rule {
       return levels!.contains(lvl);
     } else {
       final mnLevel = minLevel ?? LogLevel.minLevel;
-      final mxLevel = maxLevel ?? LogLevel.off;
+      final mxLevel = maxLevel ?? LogLevel.maxLevel;
       return lvl.ordinal >= mnLevel.ordinal && lvl.ordinal <= mxLevel.ordinal;
     }
   }

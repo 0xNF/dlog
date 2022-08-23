@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:dart_ilogger/dart_ilogger.dart';
 import 'package:flog3/src/layout/layout_renderers/all_event_properties_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/level_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/literal_layout_renderer.dart';
@@ -6,6 +9,7 @@ import 'package:flog3/src/layout/layout_renderers/longdate_layout_renderer.dart'
 import 'package:flog3/src/layout/layout_renderers/message_layout_renderer.dart';
 import 'package:flog3/src/logger/log_factory.dart';
 import 'package:flog3/src/logger/logger.dart';
+import 'package:flog3/src/target/debug_target.dart';
 import 'package:flog3/src/target/specs/target_type.dart';
 import 'package:flog3/src/target/target.dart';
 import 'package:test/test.dart';
@@ -15,6 +19,7 @@ void main() {
   LogFactory.initializeWithFile("test/data/config_a.json");
   final basic = LogFactory.getLogger('SomeLogger') as FLogger;
 
+  final RegExp basicMatcher = RegExp(r"(?<Timestamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{4})\|(?<Level>[A-Za-z0-9]+)\|(?<LoggerName>[A-Za-z0-9]*)\|(?<Message>.*)(\|(?<EProps>.*))");
   group('Basic Logger Tests', () {
     setUp(() {});
 
@@ -59,6 +64,52 @@ void main() {
       expect(basic.isErrorEnabled, true);
       expect(basic.isFatalEnabled, true);
     });
-  });
 
+    test("Check basic output", () {
+      final t = basic.targets.firstWhere((element) => element.spec.type == TargetType.debug) as DebugTarget;
+      basic.info("A basic message");
+      final matches = basicMatcher.allMatches(t.logOutput.last).first;
+      expect(matches.groupCount, 6);
+      expect(DateTime.tryParse(matches.namedGroup('Timestamp')!) != null, true);
+      expect(LogLevel.fromString(matches.namedGroup('Level')!), LogLevel.info);
+      expect(matches.namedGroup('LoggerName'), basic.name);
+      expect(matches.namedGroup('Message'), "A basic message");
+      expect(matches.namedGroup('EProps'), "");
+    });
+
+    test("Check Debug Level output", () {
+      final t = basic.targets.firstWhere((element) => element.spec.type == TargetType.debug) as DebugTarget;
+      basic.debug("A basic message");
+      final matches = basicMatcher.allMatches(t.logOutput.last).first;
+      expect(LogLevel.fromString(matches.namedGroup('Level')!), LogLevel.debug);
+    });
+
+    test("Check Info Level output", () {
+      final t = basic.targets.firstWhere((element) => element.spec.type == TargetType.debug) as DebugTarget;
+      basic.info("A basic message");
+      final matches = basicMatcher.allMatches(t.logOutput.last).first;
+      expect(LogLevel.fromString(matches.namedGroup('Level')!), LogLevel.info);
+    });
+
+    test("Check Warn Level output", () {
+      final t = basic.targets.firstWhere((element) => element.spec.type == TargetType.debug) as DebugTarget;
+      basic.warn("A basic message");
+      final matches = basicMatcher.allMatches(t.logOutput.last).first;
+      expect(LogLevel.fromString(matches.namedGroup('Level')!), LogLevel.warn);
+    });
+
+    test("Check Error Level output", () {
+      final t = basic.targets.firstWhere((element) => element.spec.type == TargetType.debug) as DebugTarget;
+      basic.error("A basic message");
+      final matches = basicMatcher.allMatches(t.logOutput.last).first;
+      expect(LogLevel.fromString(matches.namedGroup('Level')!), LogLevel.error);
+    });
+
+    test("Check Fatal Level output", () {
+      final t = basic.targets.firstWhere((element) => element.spec.type == TargetType.debug) as DebugTarget;
+      basic.fatal("A basic message");
+      final matches = basicMatcher.allMatches(t.logOutput.last).first;
+      expect(LogLevel.fromString(matches.namedGroup('Level')!), LogLevel.fatal);
+    });
+  });
 }

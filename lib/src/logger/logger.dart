@@ -347,7 +347,7 @@ class FLogger implements ILogger {
           final t = _targets.firstWhereOrNull((element) => element.spec.name == r.writeTo);
           if (t == null) {
             internalLogger.error("Failed to write for target, not such target name existsed", eventProperties: {'writeTo': r.writeTo});
-            throw Exception("No such target");
+            throw FLogException(message: "No such target: ${r.writeTo}");
           }
           if (writtenTargets.contains(t.spec.name)) {
             internalLogger.trace('target already written to for this log event, skipping', eventProperties: {'writeTo': t.spec.name});
