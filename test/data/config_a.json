@@ -25,9 +25,23 @@
             "type": "Debug",
             "layout": {
                 "type": "CSV",
-                "layout": "${literal:text='literal'}${newline}${dir-separator}",
                 "options": {
-                    "withHeader": false
+                    "withHeader": false,
+                    "delimeter": "Tab",
+                    "columns": [
+                        {
+                            "name": "time",
+                            "layout": "${longdate}"
+                        },
+                        {
+                            "name": "level",
+                            "layout": "${level}"
+                        },
+                        {
+                            "name": "message",
+                            "layout": "${message}"
+                        }
+                    ]
                 }
             }
         }
@@ -52,6 +66,11 @@
             "name": "*",
             "minlevel": "Debug",
             "writeTo": "debugWithThingsThatWillAllTurnIntoFixedText"
+        },
+        {
+            "name": "CSVLogger",
+            "minlevel": "Debug",
+            "writeTo": "debugWithCSVLayout"
         }
     ],
     "variables": []
