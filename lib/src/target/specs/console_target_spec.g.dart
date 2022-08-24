@@ -16,6 +16,12 @@ ConsoleTargetSpec _$ConsoleTargetSpecFromJson(Map<String, dynamic> json) {
     layout: json['layout'] == null
         ? null
         : LayoutSpec.fromJson(json['layout'] as Map<String, dynamic>),
+    footer: json['footer'] == null
+        ? null
+        : LayoutSpec.fromJson(json['footer'] as Map<String, dynamic>),
+    header: json['header'] == null
+        ? null
+        : LayoutSpec.fromJson(json['header'] as Map<String, dynamic>),
     type: $enumDecodeNullable(_$TargetTypeEnumMap, json['type']) ??
         TargetType.console,
     encoding: json['encoding'] == null
@@ -31,6 +37,8 @@ Map<String, dynamic> _$ConsoleTargetSpecToJson(ConsoleTargetSpec instance) =>
       'name': instance.name,
       'type': _$TargetTypeEnumMap[instance.type]!,
       'layout': instance.layout,
+      'footer': instance.footer,
+      'header': instance.header,
       'encoding': encodingToJson(instance.encoding),
       'stdErr': instance.useStdErr,
       'detectConsoleAvailable': instance.detectConsoleAvailable,

@@ -83,6 +83,8 @@ class FileTargetSpec extends TargetSpec {
   FileTargetSpec({
     required super.name,
     super.layout,
+    super.footer,
+    super.header,
     super.type = TargetType.file,
     this.encoding = const Utf8Codec(),
     this.lineEnding = LineEnding.platform,

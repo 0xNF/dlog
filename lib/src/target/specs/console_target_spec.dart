@@ -25,6 +25,8 @@ class ConsoleTargetSpec extends TargetSpec {
   ConsoleTargetSpec({
     required super.name,
     super.layout,
+    super.footer,
+    super.header,
     super.type = TargetType.console,
     this.encoding = const Utf8Codec(),
     this.useStdErr = false,

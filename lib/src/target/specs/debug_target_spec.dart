@@ -12,6 +12,8 @@ class DebugTargetSpec extends TargetSpec {
   DebugTargetSpec({
     required super.name,
     super.layout,
+    super.footer,
+    super.header,
     super.type = TargetType.debug,
   });
 
