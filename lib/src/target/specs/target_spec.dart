@@ -1,3 +1,4 @@
+import 'package:flog3/src/layout/layout_spec.dart';
 import 'package:flog3/src/target/specs/target_type.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -9,19 +10,21 @@ abstract class TargetSpec {
   final TargetType type;
 
   @JsonKey(name: "layout")
-  final String layout;
+  final LayoutSpec layout;
 
   @JsonKey(name: "footer")
-  final String footer;
+  final LayoutSpec footer;
 
   @JsonKey(name: "header")
-  final String header;
+  final LayoutSpec header;
 
-  const TargetSpec({
+  TargetSpec({
     required this.name,
     required this.type,
-    this.footer = "",
-    this.header = "",
-    this.layout = r"${longdate}|${level:uppercase=true}|${loggerName}|${message:withexception=true}|${all-event-properties}",
-  });
+    LayoutSpec? footer,
+    LayoutSpec? header,
+    LayoutSpec? layout,
+  })  : footer = footer ?? LayoutSpec(layout: ''),
+        header = header ?? LayoutSpec(layout: ''),
+        layout = layout ?? LayoutSpec();
 }

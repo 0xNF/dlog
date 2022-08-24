@@ -12,6 +12,13 @@
         {
             "name": "logconsole",
             "type": "Console"
+        },
+        {
+            "name": "debugWithThingsThatWillAllTurnIntoFixedText",
+            "type": "Debug",
+            "layout": {
+                "layout": "${literal:text='literal'}${newline}${dir-separator}"
+            }
         }
     ],
     "rules": [
@@ -29,6 +36,11 @@
             "name": "*",
             "minlevel": "Debug",
             "writeTo": "logdebug"
+        },
+        {
+            "name": "*",
+            "minlevel": "Debug",
+            "writeTo": "debugWithThingsThatWillAllTurnIntoFixedText"
         }
     ],
     "variables": []

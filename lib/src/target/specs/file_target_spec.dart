@@ -1,3 +1,4 @@
+import 'package:flog3/src/layout/layout_spec.dart';
 import 'package:flog3/src/target/specs/console_target_spec.dart';
 import 'package:flog3/src/target/specs/target_spec.dart';
 import 'package:flog3/src/target/specs/target_type.dart';
@@ -79,7 +80,7 @@ class FileTargetSpec extends TargetSpec {
   /// Indicates whether to compress the archive files into the zip files.
   final bool enableArchiveFileCompression;
 
-  const FileTargetSpec({
+  FileTargetSpec({
     required super.name,
     super.layout,
     super.type = TargetType.file,

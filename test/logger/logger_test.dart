@@ -29,7 +29,7 @@ void main() {
     });
 
     test("Check matching rules", () {
-      expect(basic.rules.length, 3);
+      expect(basic.rules.length, 4);
       expect(basic.rules.first.writeTo, "logconsole");
       expect(basic.rules[1].writeTo, "logfile");
       expect(basic.rules[2].writeTo, "logdebug");

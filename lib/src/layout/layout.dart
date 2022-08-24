@@ -3,6 +3,7 @@ import 'package:flog3/src/layout/layout_renderers/directory_separator_layout_ren
 import 'package:flog3/src/layout/layout_renderers/layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/literal_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/new_line_layout_renderer.dart';
+import 'package:flog3/src/layout/layout_spec.dart';
 import 'package:flog3/src/layout/parser/layout_parser.dart';
 import 'package:flog3/src/log_event_info.dart';
 import 'package:meta/meta.dart';
@@ -17,6 +18,16 @@ abstract class Layout {
 
   factory Layout.fromText(String text, {LogConfiguration? configuration}) {
     return SimpleLayout.parseLayout(text, configuration ?? LogConfiguration.defaultt);
+  }
+
+  factory Layout.fromSpec(LayoutSpec spec, {LogConfiguration? configuration}) {
+    switch (spec.kind) {
+      case LayoutKind.csv:
+      case LayoutKind.json:
+      case LayoutKind.simple:
+      default:
+        return Layout.fromText(spec.layout, configuration: configuration);
+    }
   }
 
   @nonVirtual
@@ -84,6 +95,9 @@ class SimpleLayout extends Layout {
       }
     }
     String? fixed = _getFixedTextIfPossible(renderers);
+    if (fixed != null) {
+      renderers.clear();
+    }
     return SimpleLayout(source: source, configuration: configuration, renderers: renderers, fixedText: fixed);
   }
 

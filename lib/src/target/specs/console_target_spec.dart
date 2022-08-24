@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flog3/src/layout/layout_spec.dart';
 import 'package:flog3/src/target/specs/target_spec.dart';
 import 'package:flog3/src/target/specs/target_type.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -21,7 +22,7 @@ class ConsoleTargetSpec extends TargetSpec {
   @JsonKey(name: "detectConsoleAvailable")
   final bool detectConsoleAvailable;
 
-  const ConsoleTargetSpec({
+  ConsoleTargetSpec({
     required super.name,
     super.layout,
     super.type = TargetType.console,

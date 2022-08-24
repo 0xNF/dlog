@@ -1,3 +1,4 @@
+import 'package:flog3/src/layout/layout_spec.dart';
 import 'package:flog3/src/target/specs/target_spec.dart';
 import 'package:flog3/src/target/specs/target_type.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -8,7 +9,7 @@ part 'null_target_spec.g.dart';
 class NullTargetSpec extends TargetSpec {
   static const kind = TargetType.nil;
 
-  const NullTargetSpec({
+  NullTargetSpec({
     required super.name,
     super.layout,
     super.type = TargetType.nil,

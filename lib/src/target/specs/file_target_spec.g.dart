@@ -13,42 +13,29 @@ FileTargetSpec _$FileTargetSpecFromJson(Map<String, dynamic> json) {
   );
   return FileTargetSpec(
     name: json['name'] as String,
-    layout: json['layout'] as String? ??
-        r"${longdate}|${level:uppercase=true}|${loggerName}|${message:withexception=true}|${all-event-properties}",
-    type: $enumDecodeNullable(_$TargetTypeEnumMap, json['type']) ??
-        TargetType.file,
-    encoding: json['encoding'] == null
-        ? const Utf8Codec()
-        : encodingFromJson(json['encoding'] as String),
-    lineEnding: $enumDecodeNullable(_$LineEndingEnumMap, json['lineEnding']) ??
-        LineEnding.platform,
+    layout: json['layout'] == null ? null : LayoutSpec.fromJson(json['layout'] as Map<String, dynamic>),
+    type: $enumDecodeNullable(_$TargetTypeEnumMap, json['type']) ?? TargetType.file,
+    encoding: json['encoding'] == null ? const Utf8Codec() : encodingFromJson(json['encoding'] as String),
+    lineEnding: $enumDecodeNullable(_$LineEndingEnumMap, json['lineEnding']) ?? LineEnding.platform,
     writeBOM: json['writeBom'] as bool? ?? false,
     fileName: json['fileName'] as String,
     enableFileDelete: json['enableFileDelete'] as bool? ?? true,
     createDirs: json['createDirs'] as bool? ?? true,
-    replaceFileContentsOnEachWrite:
-        json['replaceFileContentsOnEachWrite'] as bool? ?? false,
+    replaceFileContentsOnEachWrite: json['replaceFileContentsOnEachWrite'] as bool? ?? false,
     archiveAboveSize: json['archiveAboveSize'] as int?,
     deleteOldFileOnStartup: json['deleteOldFileOnStartup'] as bool? ?? false,
     maxArchiveFiles: json['maxArchiveFiles'] as int? ?? 0,
     maxArchiveDays: json['maxArchiveDays'] as int? ?? 0,
     archiveFileName: json['archiveFileName'] as String?,
-    archiveNumbering: $enumDecodeNullable(
-            _$ArchiveNumberingEnumMap, json['archiveNumbering']) ??
-        ArchiveNumbering.sequence,
-    archiveEvery:
-        $enumDecodeNullable(_$ArchiveEveryEnumMap, json['archiveEvery']) ??
-            ArchiveEvery.none,
+    archiveNumbering: $enumDecodeNullable(_$ArchiveNumberingEnumMap, json['archiveNumbering']) ?? ArchiveNumbering.sequence,
+    archiveEvery: $enumDecodeNullable(_$ArchiveEveryEnumMap, json['archiveEvery']) ?? ArchiveEvery.none,
     archiveOldFileOnStartup: json['archiveOldFileOnStartup'] as bool? ?? false,
-    archiveOldFileOnStartupAboveSize:
-        json['archiveOldFileOnStartupAboveSize'] as int? ?? 0,
-    enableArchiveFileCompression:
-        json['enableArchiveFileCompression'] as bool? ?? false,
+    archiveOldFileOnStartupAboveSize: json['archiveOldFileOnStartupAboveSize'] as int? ?? 0,
+    enableArchiveFileCompression: json['enableArchiveFileCompression'] as bool? ?? false,
   );
 }
 
-Map<String, dynamic> _$FileTargetSpecToJson(FileTargetSpec instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$FileTargetSpecToJson(FileTargetSpec instance) => <String, dynamic>{
       'name': instance.name,
       'type': _$TargetTypeEnumMap[instance.type]!,
       'layout': instance.layout,
@@ -67,8 +54,7 @@ Map<String, dynamic> _$FileTargetSpecToJson(FileTargetSpec instance) =>
       'archiveNumbering': _$ArchiveNumberingEnumMap[instance.archiveNumbering]!,
       'archiveEvery': _$ArchiveEveryEnumMap[instance.archiveEvery]!,
       'archiveOldFileOnStartup': instance.archiveOldFileOnStartup,
-      'archiveOldFileOnStartupAboveSize':
-          instance.archiveOldFileOnStartupAboveSize,
+      'archiveOldFileOnStartupAboveSize': instance.archiveOldFileOnStartupAboveSize,
       'enableArchiveFileCompression': instance.enableArchiveFileCompression,
     };
 

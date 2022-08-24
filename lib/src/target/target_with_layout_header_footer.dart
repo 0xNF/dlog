@@ -6,6 +6,6 @@ abstract class TargetWithLayoutHeaderAndFooter extends TargetWithLayout {
   final Layout footer;
 
   TargetWithLayoutHeaderAndFooter({required super.spec, required super.config})
-      : header = Layout.fromText(spec.header, configuration: config),
-        footer = Layout.fromText(spec.footer, configuration: config);
+      : header = Layout.fromSpec(spec.header, configuration: config),
+        footer = Layout.fromSpec(spec.footer, configuration: config);
 }

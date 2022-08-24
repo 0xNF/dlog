@@ -18,16 +18,16 @@
 Implemented
 --
 * [Debug](https://github.com/NLog/NLog/wiki/Debug-target)
+* [Console](https://github.com/NLog/NLog/wiki/Console-target)
 
 Not Yet Implemented
 --
-* [Console](https://github.com/NLog/NLog/wiki/Console-target)
+* [ColoredConsole](https://github.com/NLog/NLog/wiki/ColoredConsole-target)
 * [File](https://github.com/NLog/NLog/wiki/File-target)
 * [Null](https://github.com/NLog/NLog/wiki/Null-target)
 
 Will Not Implememt
 --
-* [ColoredConsole](https://github.com/NLog/NLog/wiki/ColoredConsole-target)
 * [AspNetBufferingWrapper](https://github.com/NLog/NLog/wiki/AspNetBufferingWrapper-target)
 * [AsyncWrapper](https://github.com/NLog/NLog/wiki/AsyncWrapper-target)
 * [AutoFlushWrapper](https://github.com/NLog/NLog/wiki/AutoFlushWrapper-target)
@@ -137,12 +137,11 @@ Non-Standard May Implement
 
 Implemented
 --
-* n/a
+* [Simple](https://github.com/NLog/NLog/wiki/SimpleLayout)
 
 Not Yet Implememted
 --
 * [JSON](https://github.com/NLog/NLog/wiki/JsonLayout)
-* [Simple](https://github.com/NLog/NLog/wiki/SimpleLayout)
 * [CSV](https://github.com/NLog/NLog/wiki/CSVLayout)
 
 Will Not Implement
@@ -195,6 +194,8 @@ Not Yet Implemented
 * [${environment}](https://github.com/NLog/NLog/wiki/environment-layout-renderer)
 * [${environment-user}](https://github.com/NLog/NLog/wiki/environment-user-layout-renderer)
 * [${assebly-version}](https://github.com/NLog/NLog/wiki/assebly-version-layout-renderer)
+* [${cached}](https://github.com/NLog/NLog/wiki/cached-layout-renderer)
+
 
 
 Undecided
@@ -216,7 +217,6 @@ Undecided
 
 WIll Not Implement
 --
-* [${cached}](https://github.com/NLog/NLog/wiki/cached-layout-renderer)
 * [${db-null}](https://github.com/NLog/NLog/wiki/db-null-layout-renderer)
 * [${object-path}](https://github.com/NLog/NLog/wiki/object-path-layout-renderer)
 * [${exceptiondata}](https://github.com/NLog/NLog/wiki/exceptiondata-layout-renderer)
