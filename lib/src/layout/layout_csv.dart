@@ -1,17 +1,11 @@
 // ignore_for_file: unnecessary_brace_in_string_interps
 
-import 'dart:ffi';
 
 import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/layout/layout.dart';
-import 'package:flog3/src/layout/layout_renderers/directory_separator_layout_renderer.dart';
-import 'package:flog3/src/layout/layout_renderers/layout_renderer.dart';
-import 'package:flog3/src/layout/layout_renderers/literal_layout_renderer.dart';
-import 'package:flog3/src/layout/layout_renderers/new_line_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_simple.dart';
 import 'package:flog3/src/layout/layout_with_header_and_footer.dart';
 import 'package:flog3/src/layout/options/csv_layout_options.dart';
-import 'package:flog3/src/layout/parser/layout_parser.dart';
 import 'package:flog3/src/log_event_info.dart';
 import 'package:flog3/src/string_builder.dart';
 

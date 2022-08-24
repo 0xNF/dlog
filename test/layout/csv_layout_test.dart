@@ -12,13 +12,52 @@ void main() {
     final d = csv.targets.firstWhere((e) => e is DebugTarget && e.spec.name == "debugWithCSVLayout") as DebugTarget;
     setUp(() {});
 
-    test("??", () {
+    test("Check basic three column tab-delim output", () {
       csv.info("inftest");
       final splits = d.logOutput.last.split('\t');
       expect(splits.length, 3);
       expect(DateTime.tryParse(splits.first) != null, true);
       expect(splits[1], "Info");
       expect(splits[2], "inftest");
+    });
+
+    test("Check Header", () {
+      assert(false);
+    });
+
+    test("Check Semicolon delim", () {
+      assert(false);
+    });
+    test("Check Comma delim", () {
+      assert(false);
+    });
+
+    test("Check Pipe delim", () {
+      assert(false);
+    });
+
+    test("Check Space delim", () {
+      assert(false);
+    });
+
+    test("Check Auto delim", () {
+      assert(false);
+    });
+
+    test("Check different Quote char", () {
+      assert(false);
+    });
+
+    test("Check Quote Enum All", () {
+      assert(false);
+    });
+
+    test("Check Quote Enum Auto", () {
+      assert(false);
+    });
+
+    test("Check Quote Enum None", () {
+      assert(false);
     });
   });
 }
