@@ -93,9 +93,7 @@ class CSVLayout extends LayoutWithHeaderAndFooter {
   @override
   String? getFormattedMessage(LogEventInfo logEvent) {
     StringBuffer sb = StringBuffer();
-    for (final kvp in columnRenderers.entries) {
-      sb.write(kvp.value.render(logEvent));
-    }
+    renderFormattedMessage(logEvent, sb);
     return sb.toString();
   }
 
@@ -116,11 +114,10 @@ class CSVLayout extends LayoutWithHeaderAndFooter {
       target.write(quoteChar);
     }
     final orgLength = target.length;
-    final r = columnLayout.render(logEvent);
-    target.write(r);
+    columnLayout.renderWithBuilder(logEvent, target);
     if ((orgLength != target.length) && _columnValueRequiresQuotes(quoteMode, target, orgLength)) {
-      // TODO(nf): truncate the stringbuilder -- otherwise this zone is just nonsense
-      final columnValue = target.toString().substring(orgLength, (orgLength + target.length));
+      final columnValue = target.substring(orgLength, target.length);
+      target.truncate(orgLength);
       if (quoteMode != QuoteEnum.all) {
         target.write(quoteChar);
       }
