@@ -4,6 +4,7 @@ import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/layout/layout_renderers/layout_renderer.dart';
 import 'package:flog3/src/layout/parser/layout_parser.dart';
 import 'package:flog3/src/layout/parser/tokenizer/parse_exception.dart';
+import 'package:flog3/src/log_event_info.dart';
 import 'package:collection/collection.dart';
 
 class EventPropertyLayoutRenderer extends LayoutRenderer {
@@ -21,6 +22,9 @@ class EventPropertyLayoutRenderer extends LayoutRenderer {
   /// property path if the value is an object. Nested properties are supported.
   /// Uses `jq` syntax
   final String? objectPath;
+
+  @override
+  bool get isInitialized => true;
 
   @override
   void append(StringBuffer builder, LogEventInfo logEvent) {

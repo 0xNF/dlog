@@ -1,7 +1,7 @@
 import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/target/specs/target_spec.dart';
-import 'package:flog3/src/target/target.dart';
-import 'package:meta/meta.dart';
+import 'package:flog3/src/target/target_with_layout_header_footer.dart';
+import 'package:flog3/src/log_event_info.dart';
 
 class DebugTarget extends TargetWithLayoutHeaderAndFooter {
   final List<String> logOutput = [];

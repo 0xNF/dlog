@@ -4,6 +4,7 @@ import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/layout/layout_renderers/layout_renderer.dart';
 import 'package:flog3/src/layout/parser/layout_parser.dart';
 import 'package:flog3/src/layout/parser/tokenizer/parse_exception.dart';
+import 'package:flog3/src/log_event_info.dart';
 
 class AllEventPropertiesLayoutRenderer extends LayoutRenderer {
   static const id = "all-event-properties";
@@ -29,6 +30,9 @@ class AllEventPropertiesLayoutRenderer extends LayoutRenderer {
 
   /// LogEvent property-key-names to exclude from output. List of keys can be passed as comma separated values,
   final List<String> exclude;
+
+  @override
+  bool get isInitialized => true;
 
   @override
   void append(StringBuffer builder, LogEventInfo logEvent) {
@@ -70,7 +74,7 @@ class AllEventPropertiesLayoutRenderer extends LayoutRenderer {
     return props.join(separator);
   }
 
-  const AllEventPropertiesLayoutRenderer({
+  AllEventPropertiesLayoutRenderer({
     this.format = "[key]=[value]",
     this.separator = ",",
     this.exclude = const [],

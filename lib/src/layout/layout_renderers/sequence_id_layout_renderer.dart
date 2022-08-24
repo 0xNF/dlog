@@ -2,12 +2,17 @@ import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/layout/layout_renderers/layout_renderer.dart';
 import 'package:flog3/src/layout/parser/layout_parser.dart';
 import 'package:flog3/src/layout/parser/tokenizer/parse_exception.dart';
+import 'package:flog3/src/log_event_info.dart';
+
 
 class SequenceIdRenderer extends LayoutRenderer {
   static const id = "sequenceid";
 
   @override
   String get name => id;
+
+  @override
+  bool get isInitialized => true;
 
   @override
   void append(StringBuffer builder, LogEventInfo logEvent) {

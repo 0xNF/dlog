@@ -5,15 +5,20 @@ import 'package:dart_ilogger/dart_ilogger.dart';
 import 'package:flog3/src/configuration/config_settings.dart';
 import 'package:flog3/src/configuration/configuration_spec.dart';
 import 'package:flog3/src/internal_logger/internal_logger.dart';
+import 'package:flog3/src/layout/layout.dart';
+import 'package:flog3/src/log_event_info.dart';
 import 'package:flog3/src/rule/rule.dart';
 import 'package:flog3/src/target/target.dart';
 import 'package:flog3/src/variable/variable.dart';
 
 class LogConfiguration {
+  late final Set<Layout> layouts;
   late final List<Target> targets;
   final List<Rule> rules;
   final List<Variable> variables;
   final ConfigSettings settings;
+
+  static late LogConfiguration defaultt;
 
   LogConfiguration({
     required this.rules,
@@ -28,7 +33,9 @@ class LogConfiguration {
       final s = f.readAsStringSync();
       final obj = const JsonDecoder().convert(s) as Map<String, dynamic>;
       final spec = ConfigurationSpec.fromJson(obj);
-      return LogConfiguration.loadFromSpec(spec);
+      final conf = LogConfiguration.loadFromSpec(spec);
+      defaultt = conf;
+      return conf;
     } on Exception catch (e) {
       internalLogger.error("Failed to load config from file", exception: e);
       rethrow;
@@ -38,100 +45,51 @@ class LogConfiguration {
   factory LogConfiguration.loadFromSpec(ConfigurationSpec spec) {
     internalLogger.info("Loading new config from spec");
     try {
-      final lc = LogConfiguration(
+      final conf = LogConfiguration(
         rules: spec.rules,
         variables: spec.variables.map((e) => Variable.fromSpec(e)).toList(),
         settings: spec.settings,
       );
-      lc.targets = spec.targets.map((e) => Target.fromSpec(e, lc)).toList();
-      return lc;
+      conf.targets = spec.targets.map((e) => Target.fromSpec(e, conf)).toList();
+
+      conf._initializeAll(firstInitializeAll: true);
+
+      defaultt = conf;
+      return conf;
     } on Exception catch (e) {
       internalLogger.error("Failed to load config from spec", exception: e);
       rethrow;
     }
   }
+
+  void _initializeAll({bool firstInitializeAll = false}) {
+    if (firstInitializeAll && settings.throwExceptions) {
+      internalLogger.info("LogManager.throwExceptions = true can crash your application. Use only for unit-testing and last resort troubleshooting");
+    }
+
+    _validateConfig();
+
+    if (firstInitializeAll && targets.isNotEmpty) {
+      _checkUnusedTargets();
+    }
+
+    for (final t in targets) {
+      internalLogger.debug("initializing target", eventProperties: {'target': t.spec.name});
+      t.initializeTarget();
+    }
+    for (final l in rules) {
+      // l.t
+    }
+    // for(final l in ) // TODO(nf): place layouts in central list, have all targets reference thsoe const layouts; init them here
+  }
+
+  void _validateConfig() {}
+
+  void _checkUnusedTargets() {}
 }
 
 abstract class MessageFormatter {
   static String formatDefault(LogEventInfo logEvent) {
     return "";
-  }
-}
-
-class LogEventInfo {
-  static int _globalSequenceId = 0;
-
-  static final DateTime zeroDate = DateTime.now();
-
-  int _sequenceId = 0;
-  int get sequenceId {
-    if (_sequenceId == 0) {
-      // TODO(nf): ensure threadlocked
-      _globalSequenceId += 1;
-      _sequenceId = _globalSequenceId;
-    }
-    return _sequenceId;
-  }
-
-  final LogLevel level;
-
-  final DateTime timeStamp;
-
-  final StackTrace? stackTrace;
-
-  final Exception? exception;
-
-  final String loggerName;
-
-  final Map<String, dynamic> eventProperties;
-
-  final MessageFormatter? messageFormatter;
-
-  final String message;
-
-  String? _formattedMessage;
-  String get formattedMessage {
-    if (_formattedMessage == null) {
-      _calcFormattedMessage();
-    }
-    return _formattedMessage!;
-  }
-
-  LogEventInfo({
-    required this.level,
-    required this.loggerName,
-    required this.timeStamp,
-    required this.stackTrace,
-    required this.exception,
-    required this.eventProperties,
-    required this.messageFormatter,
-    required this.message,
-  });
-
-  factory LogEventInfo.createNullEvent() {
-    return LogEventInfo(
-      loggerName: "",
-      eventProperties: {},
-      exception: null,
-      level: LogLevel.off,
-      stackTrace: null,
-      timeStamp: DateTime.utc(1970, 01, 01),
-      messageFormatter: null,
-      message: "",
-    );
-  }
-
-  void _calcFormattedMessage() {
-    try {
-      _formattedMessage = MessageFormatter.formatDefault(this);
-    } on Exception catch (e) {
-      // TODO(nf): internal logger
-      _formattedMessage = "";
-    }
-  }
-
-  @override
-  String toString() {
-    return "Log Event: Logger='$loggerName' Level=$level Message='$formattedMessage'";
   }
 }

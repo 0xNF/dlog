@@ -53,15 +53,18 @@ class LogFactory {
     return FLogger(name, rules, targets.toList());
   }
 
-  static void initialize() {}
+  static void initialize(LogConfiguration config) {
+    _logCache.clear();
+    _configuration = config;
+    throwExceptions = config.settings.throwExceptions;
+    internalLogger.info("Successfully initailized LogFactory");
+  }
 
   static void initializeWithFile(String filename) {
     internalLogger.info("Initializing LogFactory with filename", eventProperties: {'filename': filename});
     try {
       final config = LogConfiguration.loadFromFile(filename);
-      _configuration = config;
-      throwExceptions = config.settings.throwExceptions;
-      internalLogger.info("Successfully initailized LogFactory");
+      initialize(config);
     } on Exception catch (e) {
       internalLogger.error('Failed to initialize LogFactory', exception: e);
       if (mustRethrowExceptionImmediately(e)) {
@@ -70,10 +73,7 @@ class LogFactory {
     }
   }
 
-  static void reload() {
-    // TODO(nf): reload is NYI across whole package
-    _logCache.clear();
-  }
+  static void reload() {}
 
   static bool _matchRuleToTarget(String ruleName, String loggerName) {
     /* nlog filters use '*' for wildcard, so we escape periods and replace stars */

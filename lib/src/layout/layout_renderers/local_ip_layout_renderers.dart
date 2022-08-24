@@ -5,6 +5,7 @@ import 'package:flog3/src/layout/layout_renderers/layout_renderer.dart';
 import 'package:flog3/src/layout/parser/layout_parser.dart';
 import 'package:flog3/src/layout/parser/tokenizer/parse_exception.dart';
 import 'package:collection/collection.dart';
+import 'package:flog3/src/log_event_info.dart';
 
 ///The local IP address whether IPv4 or IPv6 from NetworkInterface.List
 class LocalIPLayoutRenderer extends LayoutRenderer {
@@ -12,6 +13,9 @@ class LocalIPLayoutRenderer extends LayoutRenderer {
 
   @override
   String get name => id;
+
+  @override
+  bool get isInitialized => true;
 
   /// Explicitly prioritize IP addresses from a certain AddressFamily (Ex. IPv4 / IPv6)
   final InternetAddressType addressFamily;

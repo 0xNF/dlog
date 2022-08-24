@@ -1,4 +1,5 @@
 import 'package:dart_ilogger/dart_ilogger.dart';
+import 'package:flog3/src/layout/layout.dart';
 import 'package:flog3/src/layout/layout_renderers/all_event_properties_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/level_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/literal_layout_renderer.dart';
@@ -10,6 +11,7 @@ import 'package:flog3/src/logger/logger.dart';
 import 'package:flog3/src/target/debug_target.dart';
 import 'package:flog3/src/target/specs/target_type.dart';
 import 'package:flog3/src/target/target.dart';
+import 'package:flog3/src/target/target_with_layout_header_footer.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -42,16 +44,17 @@ void main() {
 
     test("Check target renderers", () {
       final t = basic.targets.first as TargetWithLayoutHeaderAndFooter;
-      expect(t.layout.renderers.length, 9);
-      expect(t.layout.renderers[0].name, LongDateLayoutRenderer.id);
-      expect(t.layout.renderers[1].name, LiteralLayoutRenderer.id);
-      expect(t.layout.renderers[2].name, LevelLayoutRenderer.id);
-      expect(t.layout.renderers[3].name, LiteralLayoutRenderer.id);
-      expect(t.layout.renderers[4].name, LoggerNameLayoutRenderer.id);
-      expect(t.layout.renderers[5].name, LiteralLayoutRenderer.id);
-      expect(t.layout.renderers[6].name, MessageLayoutRenderer.id);
-      expect(t.layout.renderers[7].name, LiteralLayoutRenderer.id);
-      expect(t.layout.renderers[8].name, AllEventPropertiesLayoutRenderer.id);
+      final tlayout = t.layout as SimpleLayout;
+      expect(tlayout.renderers.length, 9);
+      expect(tlayout.renderers[0].name, LongDateLayoutRenderer.id);
+      expect(tlayout.renderers[1].name, LiteralLayoutRenderer.id);
+      expect(tlayout.renderers[2].name, LevelLayoutRenderer.id);
+      expect(tlayout.renderers[3].name, LiteralLayoutRenderer.id);
+      expect(tlayout.renderers[4].name, LoggerNameLayoutRenderer.id);
+      expect(tlayout.renderers[5].name, LiteralLayoutRenderer.id);
+      expect(tlayout.renderers[6].name, MessageLayoutRenderer.id);
+      expect(tlayout.renderers[7].name, LiteralLayoutRenderer.id);
+      expect(tlayout.renderers[8].name, AllEventPropertiesLayoutRenderer.id);
     });
 
     test("Check log levels", () {

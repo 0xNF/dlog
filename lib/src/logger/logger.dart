@@ -4,6 +4,7 @@ import 'package:flog3/src/exception/flog_exception.dart';
 import 'package:flog3/src/internal_logger/internal_logger.dart';
 import 'package:flog3/src/rule/rule.dart';
 import 'package:collection/collection.dart';
+import 'package:flog3/src/log_event_info.dart';
 import 'package:flog3/src/target/target.dart';
 
 class FLogger implements ILogger {
@@ -370,7 +371,6 @@ class FLogger implements ILogger {
     throw UnimplementedError();
   }
 
-  
   @override
   void log(LogLevel level, message, {Exception? exception, Map<String, dynamic>? eventProperties}) {
     if (isEnabled(level)) {
@@ -410,5 +410,4 @@ class FLogger implements ILogger {
       }
     }
   }
-
 }

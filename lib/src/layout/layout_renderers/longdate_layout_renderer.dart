@@ -1,6 +1,8 @@
 import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/layout/layout_renderers/layout_renderer.dart';
 import 'package:flog3/src/layout/parser/layout_parser.dart';
+import 'package:flog3/src/log_event_info.dart';
+
 import 'package:flog3/src/layout/parser/tokenizer/parse_exception.dart';
 
 ///The date and time in a long, sortable format yyyy-MM-dd HH:mm:ss.ffff.
@@ -9,6 +11,9 @@ class LongDateLayoutRenderer extends LayoutRenderer {
 
   @override
   String get name => id;
+
+  @override
+  bool get isInitialized => true;
 
   final bool universalTime;
 

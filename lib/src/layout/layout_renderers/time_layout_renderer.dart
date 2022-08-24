@@ -1,6 +1,7 @@
 import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/layout/layout_renderers/layout_renderer.dart';
 import 'package:flog3/src/layout/parser/layout_parser.dart';
+import 'package:flog3/src/log_event_info.dart';
 import 'package:flog3/src/layout/parser/tokenizer/parse_exception.dart';
 import 'package:collection/collection.dart';
 import 'package:uuid/uuid.dart';
@@ -11,6 +12,9 @@ class TimeLayoutRenderer extends LayoutRenderer {
 
   @override
   String get name => id;
+
+  @override
+  bool get isInitialized => true;
 
   final bool universalTime;
 

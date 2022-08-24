@@ -1,6 +1,5 @@
 import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/internal_logger/internal_logger.dart';
-import 'package:flog3/src/layout/layout.dart';
 import 'package:flog3/src/target/console_target.dart';
 import 'package:flog3/src/target/debug_target.dart';
 import 'package:flog3/src/target/file_target.dart';
@@ -10,6 +9,7 @@ import 'package:flog3/src/target/specs/debug_target_spec.dart';
 import 'package:flog3/src/target/specs/file_target_spec.dart';
 import 'package:flog3/src/target/specs/null_target_spec.dart';
 import 'package:flog3/src/target/specs/target_spec.dart';
+import 'package:flog3/src/log_event_info.dart';
 import 'package:meta/meta.dart';
 
 abstract class Target {
@@ -23,7 +23,6 @@ abstract class Target {
   @mustCallSuper
   void initializeTarget() {
     _isInitialized = true;
-    internalLogger.debug("initialized target", eventProperties: {'target': this});
   }
 
   @mustCallSuper
@@ -44,19 +43,4 @@ abstract class Target {
         return NullTarget.fromSpec(spec, config);
     }
   }
-}
-
-abstract class TargetWithLayout extends Target {
-  final Layout layout;
-
-  TargetWithLayout({required super.spec, required super.config}) : layout = Layout.parseLayout(spec.layout, config);
-}
-
-abstract class TargetWithLayoutHeaderAndFooter extends TargetWithLayout {
-  final Layout header;
-  final Layout footer;
-
-  TargetWithLayoutHeaderAndFooter({required super.spec, required super.config})
-      : header = Layout.parseLayout(spec.header, config),
-        footer = Layout.parseLayout(spec.footer, config);
 }

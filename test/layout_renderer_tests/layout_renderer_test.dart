@@ -19,6 +19,7 @@ import 'package:flog3/src/layout/layout_renderers/sequence_id_layout_renderer.da
 import 'package:flog3/src/layout/layout_renderers/shortdate_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/time_layout_renderer.dart';
 import 'package:flog3/src/logger/log_factory.dart';
+import 'package:flog3/src/log_event_info.dart';
 import 'package:flog3/src/logger/logger.dart';
 import 'package:test/test.dart';
 import 'package:uuid/uuid.dart';

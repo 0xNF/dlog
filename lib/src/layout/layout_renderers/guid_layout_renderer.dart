@@ -3,6 +3,7 @@ import 'package:flog3/src/layout/layout_renderers/layout_renderer.dart';
 import 'package:flog3/src/layout/parser/layout_parser.dart';
 import 'package:flog3/src/layout/parser/tokenizer/parse_exception.dart';
 import 'package:collection/collection.dart';
+import 'package:flog3/src/log_event_info.dart';
 import 'package:uuid/uuid.dart';
 
 class GuidLayoutRenderer extends LayoutRenderer {
@@ -10,6 +11,9 @@ class GuidLayoutRenderer extends LayoutRenderer {
 
   @override
   String get name => id;
+
+  @override
+  bool get isInitialized => true;
 
   /// v1, v4 or v5 uuid formats
   final GuidFormat format;

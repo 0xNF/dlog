@@ -1,8 +1,12 @@
 import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/exception/flog_exception.dart';
 import 'package:flog3/src/internal_logger/internal_logger.dart';
+import 'package:meta/meta.dart';
+import 'package:flog3/src/log_event_info.dart';
 
 abstract class LayoutRenderer {
+  bool get isInitialized;
+
   const LayoutRenderer();
 
   String get name;
@@ -26,4 +30,7 @@ abstract class LayoutRenderer {
   }
 
   void append(StringBuffer builder, LogEventInfo logEvent);
+
+  @mustCallSuper
+  void initialize() {}
 }
