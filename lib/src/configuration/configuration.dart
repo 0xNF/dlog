@@ -85,7 +85,20 @@ class LogConfiguration {
 
   void _validateConfig() {}
 
-  void _checkUnusedTargets() {}
+  void _checkUnusedTargets() {
+    final removeMe = <String>{};
+    outer:
+    for (final t in targets) {
+      for (final r in rules) {
+        if (r.writeTo == t.spec.name) {
+          continue outer;
+        }
+      }
+      internalLogger.warn("The target ${t.spec.name} is unusued, and will be removed from the runtime configuration, if this target is meant to be written to, add a rule with `writeTo: \"${t.spec.name}\"");
+      removeMe.add(t.spec.name);
+    }
+    targets.removeWhere((element) => removeMe.contains(element.spec.name));
+  }
 }
 
 abstract class MessageFormatter {

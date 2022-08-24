@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dart_ilogger/dart_ilogger.dart';
 import 'package:flog3/src/layout/layout.dart';
 import 'package:flog3/src/layout/layout_renderers/all_event_properties_layout_renderer.dart';
@@ -10,7 +12,6 @@ import 'package:flog3/src/logger/log_factory.dart';
 import 'package:flog3/src/logger/logger.dart';
 import 'package:flog3/src/target/debug_target.dart';
 import 'package:flog3/src/target/specs/target_type.dart';
-import 'package:flog3/src/target/target.dart';
 import 'package:flog3/src/target/target_with_layout_header_footer.dart';
 import 'package:test/test.dart';
 
@@ -35,7 +36,7 @@ void main() {
     });
 
     test("Check matching targets", () {
-      expect(basic.targets.length, 3);
+      expect(basic.targets.length, 4);
       final targetLogFiile = basic.targets.firstWhere((e) => e.spec.name == "logfile");
       final targetConsole = basic.targets.firstWhere((e) => e.spec.name == "logconsole");
       expect(targetLogFiile.spec.type, TargetType.file);
@@ -64,6 +65,14 @@ void main() {
       expect(basic.isWarnEnabled, true);
       expect(basic.isErrorEnabled, true);
       expect(basic.isFatalEnabled, true);
+    });
+
+    test("Check all-literalables become actually all literals", () {
+      final t = basic.targets.where((element) => element.spec.type == TargetType.debug).elementAt(1) as DebugTarget;
+      basic.info("blahblahblah");
+      final newLine = Platform.isWindows ? "\r\n" : "\n";
+      final dirSep = Platform.pathSeparator;
+      expect(t.logOutput.last, "literal$newLine$dirSep");
     });
   });
 

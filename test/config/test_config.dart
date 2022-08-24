@@ -7,9 +7,9 @@ void main() {
       LogFactory.initializeWithFile("test/data/config_a.json");
     });
 
-    test('Deserialize Rule', () {
-      final _logger = LogFactory.getLogger("RandomConsoleLogger");
-      _logger.info('testing output to console');
+    test('Test that unusued target gets removed from runtime config', () {
+      // TODO(nf): fixme
+      expect(true, false);
     });
   });
 }

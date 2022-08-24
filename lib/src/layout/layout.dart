@@ -113,7 +113,7 @@ class SimpleLayout extends Layout {
         }
       }
       if (allGood) {
-        return l2.join('');
+        return l2.map((e) => e.render(LogEventInfo.nullEvent)).join('');
       }
     }
     return null;

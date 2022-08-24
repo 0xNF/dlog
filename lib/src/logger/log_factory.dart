@@ -12,9 +12,7 @@ class LogFactory {
   static LogConfiguration? _configuration;
   static late final bool throwExceptions;
 
-  static ILogger getLogger(
-    String name,
-  ) {
+  static ILogger getLogger(String name) {
     ILogger? l = _logCache[name];
     if (l == null) {
       internalLogger.debug("Logger didn't exist, creating one now", eventProperties: {'loggerName': name});
