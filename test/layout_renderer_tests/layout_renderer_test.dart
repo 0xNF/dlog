@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dart_ilogger/dart_ilogger.dart';
-import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/layout/layout_renderers/all_event_properties_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/directory_separator_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/event_property_layout_renderer.dart';
@@ -191,7 +190,6 @@ void main() {
   });
 
   group(r'Test ${liteal} Renderer', () {
-    final String hostName = Platform.localHostname;
     setUp(() {});
 
     test('check regular text', () {

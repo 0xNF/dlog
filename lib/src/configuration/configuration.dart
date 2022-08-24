@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dart_ilogger/dart_ilogger.dart';
 import 'package:flog3/src/configuration/config_settings.dart';
 import 'package:flog3/src/configuration/configuration_spec.dart';
 import 'package:flog3/src/internal_logger/internal_logger.dart';

@@ -1,5 +1,7 @@
 import 'package:dart_ilogger/dart_ilogger.dart';
 import 'package:flog3/src/configuration/configuration.dart';
+import 'package:flog3/src/exception/flog_exception.dart';
+import 'package:flog3/src/internal_logger/internal_logger.dart';
 
 class LogEventInfo {
   static int _globalSequenceId = 0;
@@ -70,7 +72,10 @@ class LogEventInfo {
     try {
       _formattedMessage = MessageFormatter.formatDefault(this);
     } on Exception catch (e) {
-      // TODO(nf): internal logger
+      internalLogger.error('Failed to calculate formatetd message', exception: e);
+      if (mustRethrowExceptionImmediately(e)) {
+        rethrow;
+      }
       _formattedMessage = "";
     }
   }

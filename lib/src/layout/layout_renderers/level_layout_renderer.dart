@@ -1,5 +1,4 @@
 import 'package:dart_ilogger/dart_ilogger.dart';
-import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/layout/layout_renderers/layout_renderer.dart';
 import 'package:flog3/src/layout/parser/layout_parser.dart';
 import 'package:collection/collection.dart';

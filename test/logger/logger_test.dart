@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:dart_ilogger/dart_ilogger.dart';
-import 'package:flog3/src/layout/layout.dart';
 import 'package:flog3/src/layout/layout_renderers/all_event_properties_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/level_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/literal_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/logger_name_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/longdate_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/message_layout_renderer.dart';
+import 'package:flog3/src/layout/layout_simple.dart';
 import 'package:flog3/src/logger/log_factory.dart';
 import 'package:flog3/src/logger/logger.dart';
 import 'package:flog3/src/target/debug_target.dart';

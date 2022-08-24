@@ -13,12 +13,16 @@ NullTargetSpec _$NullTargetSpecFromJson(Map<String, dynamic> json) {
   );
   return NullTargetSpec(
     name: json['name'] as String,
-    layout: json['layout'] == null ? null : LayoutSpec.fromJson(json['layout'] as Map<String, dynamic>),
-    type: $enumDecodeNullable(_$TargetTypeEnumMap, json['type']) ?? TargetType.nil,
+    layout: json['layout'] == null
+        ? null
+        : LayoutSpec.fromJson(json['layout'] as Map<String, dynamic>),
+    type: $enumDecodeNullable(_$TargetTypeEnumMap, json['type']) ??
+        TargetType.nil,
   );
 }
 
-Map<String, dynamic> _$NullTargetSpecToJson(NullTargetSpec instance) => <String, dynamic>{
+Map<String, dynamic> _$NullTargetSpecToJson(NullTargetSpec instance) =>
+    <String, dynamic>{
       'name': instance.name,
       'type': _$TargetTypeEnumMap[instance.type]!,
       'layout': instance.layout,

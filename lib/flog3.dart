@@ -3,6 +3,6 @@
 /// More dartdocs go here.
 library flog3;
 
-export 'src/flog3_base.dart';
-
-// TODO: Export any libraries intended for clients of this package.
+export 'package:flog3/src/rule/rule.dart';
+export 'package:flog3/src/target/target.dart';
+export 'package:flog3/src/layout/layout.dart';

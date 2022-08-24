@@ -37,22 +37,17 @@ class _InternalLogger implements ILogger {
   }
 
   @override
-  // TODO: implement isErrorEnabled
   bool get isErrorEnabled => true;
   @override
-  // TODO: implement isFatalEnabled
   bool get isFatalEnabled => true;
 
   @override
-  // TODO: implement isInfoEnabled
   bool get isInfoEnabled => true;
 
   @override
-  // TODO: implement isTraceEnabled
   bool get isTraceEnabled => true;
 
   @override
-  // TODO: implement isWarnEnabled
   bool get isWarnEnabled => true;
 
   @override
@@ -69,7 +64,6 @@ class _InternalLogger implements ILogger {
   }
 
   @override
-  // TODO: implement name
   String get name => _name;
 
   @override

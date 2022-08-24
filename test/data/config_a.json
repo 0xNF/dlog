@@ -19,6 +19,17 @@
             "layout": {
                 "layout": "${literal:text='literal'}${newline}${dir-separator}"
             }
+        },
+        {
+            "name": "debugWithCSVLayout",
+            "type": "Debug",
+            "layout": {
+                "type": "CSV",
+                "layout": "${literal:text='literal'}${newline}${dir-separator}",
+                "options": {
+                    "withHeader": false
+                }
+            }
         }
     ],
     "rules": [
