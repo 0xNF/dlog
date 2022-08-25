@@ -8,8 +8,9 @@ void main() {
   LogFactory.initializeWithFile("test/data/config_a.json");
   final csv = LogFactory.getLogger('CSVLogger') as FLogger;
 
+  final d = csv.targets.firstWhere((e) => e is DebugTarget && e.spec.name == "debugWithCSVLayout") as DebugTarget;
+
   group('CSV Layout Tests', () {
-    final d = csv.targets.firstWhere((e) => e is DebugTarget && e.spec.name == "debugWithCSVLayout") as DebugTarget;
     setUp(() {});
 
     test("Check basic three column tab-delim output", () {
@@ -24,7 +25,9 @@ void main() {
     test("Check Header", () {
       assert(false);
     });
+  });
 
+  group('csv delimeter tests', () {
     test("Check Semicolon delim", () {
       assert(false);
     });
@@ -43,7 +46,9 @@ void main() {
     test("Check Auto delim", () {
       assert(false);
     });
+  });
 
+  group('csv quote tests', () {
     test("Check different Quote char", () {
       assert(false);
     });

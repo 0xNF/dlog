@@ -68,7 +68,7 @@ void main() {
     });
 
     test("Check all-literalables become actually all literals", () {
-      final t = basic.targets.where((element) => element.spec.type == TargetType.debug).elementAt(1) as DebugTarget;
+      final t = basic.targets.firstWhere((element) => element.spec.name == "debugWithThingsThatWillAllTurnIntoFixedText") as DebugTarget;
       basic.info("blahblahblah");
       final newLine = Platform.isWindows ? "\r\n" : "\n";
       final dirSep = Platform.pathSeparator;
@@ -80,7 +80,7 @@ void main() {
     setUp(() {});
 
     test("Check basic output", () {
-      final t = basic.targets.firstWhere((element) => element.spec.type == TargetType.debug) as DebugTarget;
+      final t = basic.targets.firstWhere((element) => element.spec.name == "logdebug") as DebugTarget;
       basic.info("A basic message");
       final matches = basicMatcher.allMatches(t.logOutput.last).first;
       expect(matches.groupCount, 6);
@@ -92,35 +92,35 @@ void main() {
     });
 
     test("Check Debug Level output", () {
-      final t = basic.targets.firstWhere((element) => element.spec.type == TargetType.debug) as DebugTarget;
+      final t = basic.targets.firstWhere((element) => element.spec.name == "logdebug") as DebugTarget;
       basic.debug("A basic message");
       final matches = basicMatcher.allMatches(t.logOutput.last).first;
       expect(LogLevel.fromString(matches.namedGroup('Level')!), LogLevel.debug);
     });
 
     test("Check Info Level output", () {
-      final t = basic.targets.firstWhere((element) => element.spec.type == TargetType.debug) as DebugTarget;
+      final t = basic.targets.firstWhere((element) => element.spec.name == "logdebug") as DebugTarget;
       basic.info("A basic message");
       final matches = basicMatcher.allMatches(t.logOutput.last).first;
       expect(LogLevel.fromString(matches.namedGroup('Level')!), LogLevel.info);
     });
 
     test("Check Warn Level output", () {
-      final t = basic.targets.firstWhere((element) => element.spec.type == TargetType.debug) as DebugTarget;
+      final t = basic.targets.firstWhere((element) => element.spec.name == "logdebug") as DebugTarget;
       basic.warn("A basic message");
       final matches = basicMatcher.allMatches(t.logOutput.last).first;
       expect(LogLevel.fromString(matches.namedGroup('Level')!), LogLevel.warn);
     });
 
     test("Check Error Level output", () {
-      final t = basic.targets.firstWhere((element) => element.spec.type == TargetType.debug) as DebugTarget;
+      final t = basic.targets.firstWhere((element) => element.spec.name == "logdebug") as DebugTarget;
       basic.error("A basic message");
       final matches = basicMatcher.allMatches(t.logOutput.last).first;
       expect(LogLevel.fromString(matches.namedGroup('Level')!), LogLevel.error);
     });
 
     test("Check Fatal Level output", () {
-      final t = basic.targets.firstWhere((element) => element.spec.type == TargetType.debug) as DebugTarget;
+      final t = basic.targets.firstWhere((element) => element.spec.name == "logdebug") as DebugTarget;
       basic.fatal("A basic message");
       final matches = basicMatcher.allMatches(t.logOutput.last).first;
       expect(LogLevel.fromString(matches.namedGroup('Level')!), LogLevel.fatal);

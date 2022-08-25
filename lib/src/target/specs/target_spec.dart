@@ -13,10 +13,10 @@ abstract class TargetSpec {
   final LayoutSpec layout;
 
   @JsonKey(name: "footer")
-  final LayoutSpec footer;
+  final LayoutSpec? footer;
 
   @JsonKey(name: "header")
-  final LayoutSpec header;
+  final LayoutSpec? header;
 
   TargetSpec({
     required this.name,

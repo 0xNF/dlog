@@ -22,4 +22,8 @@ extension StringBuilder on StringBuffer {
   String substring(int start, int length) {
     return toString().substring(start, start + length);
   }
+
+  void writeSubstring(String message, int start, int length) {
+    return write(message.substring(start, length));
+  }
 }

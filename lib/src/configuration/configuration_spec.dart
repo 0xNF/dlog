@@ -1,5 +1,6 @@
 import 'package:flog3/src/configuration/config_settings.dart';
 import 'package:flog3/src/rule/rule.dart';
+import 'package:flog3/src/target/specs/colored_console_target_spec.dart';
 import 'package:flog3/src/target/specs/console_target_spec.dart';
 import 'package:flog3/src/target/specs/debug_target_spec.dart';
 import 'package:flog3/src/target/specs/file_target_spec.dart';
@@ -52,6 +53,9 @@ class ConfigurationSpec {
             break;
           case ConsoleTargetSpec.kind:
             lst.add(ConsoleTargetSpec.fromJson(d));
+            break;
+          case ColoredConsoleTargetSpec.kind:
+            lst.add(ColoredConsoleTargetSpec.fromJson(d));
             break;
           case DebugTargetSpec.kind:
             lst.add(DebugTargetSpec.fromJson(d));

@@ -40,6 +40,9 @@ ColoredConsoleTargetSpec _$ColoredConsoleTargetSpecFromJson(
             ?.map((e) => HighlightWord.fromJson(e as Map<String, dynamic>))
             .toList() ??
         const [],
+    detectOutputRedirected: json['detectOutputRedirected'] as bool? ?? true,
+    enableANSIOutput: json['enableANSIOutput'] as bool? ?? false,
+    autoFlush: json['autoFlush'] as bool? ?? false,
   );
 }
 
@@ -57,10 +60,14 @@ Map<String, dynamic> _$ColoredConsoleTargetSpecToJson(
       'rowHighlightingRules': instance.rowHighlightingRules,
       'useDefaultRowHighlightingRules': instance.useDefaultRowHighlightingRules,
       'wordHighlightingRules': instance.wordHighlightingRules,
+      'detectOutputRedirected': instance.detectOutputRedirected,
+      'enableANSIOutput': instance.enableANSIOutput,
+      'autoFlush': instance.autoFlush,
     };
 
 const _$TargetTypeEnumMap = {
   TargetType.console: 'Console',
+  TargetType.coloredConsole: 'ColoredConsole',
   TargetType.file: 'File',
   TargetType.network: 'Network',
   TargetType.debug: 'Debug',
@@ -70,70 +77,66 @@ const _$TargetTypeEnumMap = {
 HiighlightRow _$HiighlightRowFromJson(Map<String, dynamic> json) =>
     HiighlightRow(
       backgroundColor:
-          $enumDecodeNullable(_$ColorEnumEnumMap, json['backgroundColor']) ??
-              ColorEnum.noChange,
+          $enumDecodeNullable(_$ConsoleColorEnumMap, json['backgroundColor']) ??
+              ConsoleColor.noChange,
       foregroundColor:
-          $enumDecodeNullable(_$ColorEnumEnumMap, json['foregroundColor']) ??
-              ColorEnum.noChange,
-      condition: Condition.fromJson(json['condition'] as Map<String, dynamic>),
+          $enumDecodeNullable(_$ConsoleColorEnumMap, json['foregroundColor']) ??
+              ConsoleColor.noChange,
+      condition: json['condition'] as String,
     );
 
 Map<String, dynamic> _$HiighlightRowToJson(HiighlightRow instance) =>
     <String, dynamic>{
-      'backgroundColor': _$ColorEnumEnumMap[instance.backgroundColor]!,
-      'foregroundColor': _$ColorEnumEnumMap[instance.foregroundColor]!,
+      'backgroundColor': _$ConsoleColorEnumMap[instance.backgroundColor]!,
+      'foregroundColor': _$ConsoleColorEnumMap[instance.foregroundColor]!,
       'condition': instance.condition,
     };
 
-const _$ColorEnumEnumMap = {
-  ColorEnum.noChange: 'NoChange',
-  ColorEnum.black: 'Black',
-  ColorEnum.blue: 'Blue',
-  ColorEnum.cyan: 'Cyan',
-  ColorEnum.darkBlue: 'DarkBlue',
-  ColorEnum.darkCyan: 'DarkCyan',
-  ColorEnum.darkGrey: 'DarkGrey',
-  ColorEnum.darkGreen: 'DarkGreen',
-  ColorEnum.darkMagenta: 'DarkMagenta',
-  ColorEnum.darkRed: 'DarkRed',
-  ColorEnum.darkYellow: 'DarkYellow',
-  ColorEnum.grey: 'Grey',
-  ColorEnum.green: 'Green',
-  ColorEnum.magenta: 'Magenta',
-  ColorEnum.red: 'Red',
-  ColorEnum.white: 'White',
-  ColorEnum.yellow: 'Yellow',
+const _$ConsoleColorEnumMap = {
+  ConsoleColor.noChange: 'NoChange',
+  ConsoleColor.black: 'Black',
+  ConsoleColor.blue: 'Blue',
+  ConsoleColor.cyan: 'Cyan',
+  ConsoleColor.darkBlue: 'DarkBlue',
+  ConsoleColor.darkCyan: 'DarkCyan',
+  ConsoleColor.darkGrey: 'DarkGrey',
+  ConsoleColor.darkGreen: 'DarkGreen',
+  ConsoleColor.darkMagenta: 'DarkMagenta',
+  ConsoleColor.darkRed: 'DarkRed',
+  ConsoleColor.darkYellow: 'DarkYellow',
+  ConsoleColor.grey: 'Grey',
+  ConsoleColor.green: 'Green',
+  ConsoleColor.magenta: 'Magenta',
+  ConsoleColor.red: 'Red',
+  ConsoleColor.white: 'White',
+  ConsoleColor.yellow: 'Yellow',
 };
 
 HighlightWord _$HighlightWordFromJson(Map<String, dynamic> json) =>
     HighlightWord(
       backgroundColor:
-          $enumDecodeNullable(_$ColorEnumEnumMap, json['backgroundColor']) ??
-              ColorEnum.noChange,
+          $enumDecodeNullable(_$ConsoleColorEnumMap, json['backgroundColor']) ??
+              ConsoleColor.noChange,
       foregroundColor:
-          $enumDecodeNullable(_$ColorEnumEnumMap, json['foregroundColor']) ??
-              ColorEnum.noChange,
+          $enumDecodeNullable(_$ConsoleColorEnumMap, json['foregroundColor']) ??
+              ConsoleColor.noChange,
       text: json['text'] as String?,
       regex: json['regex'] as String?,
       ignoreCase: json['ignoreCase'] as bool? ?? false,
       wholeWords: json['wholeWords'] as bool? ?? false,
       condition: json['condition'] == null
           ? null
-          : Condition.fromJson(json['condition'] as Map<String, dynamic>),
+          : ConditionExpression.fromJson(
+              json['condition'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$HighlightWordToJson(HighlightWord instance) =>
     <String, dynamic>{
-      'backgroundColor': _$ColorEnumEnumMap[instance.backgroundColor]!,
-      'foregroundColor': _$ColorEnumEnumMap[instance.foregroundColor]!,
+      'backgroundColor': _$ConsoleColorEnumMap[instance.backgroundColor]!,
+      'foregroundColor': _$ConsoleColorEnumMap[instance.foregroundColor]!,
       'condition': instance.condition,
       'text': instance.text,
       'regex': instance.regex,
       'ignoreCase': instance.ignoreCase,
       'wholeWords': instance.wholeWords,
     };
-
-Condition _$ConditionFromJson(Map<String, dynamic> json) => Condition();
-
-Map<String, dynamic> _$ConditionToJson(Condition instance) =>
-    <String, dynamic>{};

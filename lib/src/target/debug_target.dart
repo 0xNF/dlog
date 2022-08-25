@@ -15,13 +15,17 @@ class DebugTarget extends TargetWithLayoutHeaderAndFooter {
   @override
   void initializeTarget() {
     logOutput.clear();
-    _writeToOutput(header.render(LogEventInfo.createNullEvent()));
+    if (header != null) {
+      _writeToOutput(header!.render(LogEventInfo.createNullEvent()));
+    }
     super.initializeTarget();
   }
 
   @override
   void closeTarget() {
-    _writeToOutput(footer.render(LogEventInfo.createNullEvent()));
+    if (footer != null) {
+      _writeToOutput(footer!.render(LogEventInfo.createNullEvent()));
+    }
     super.closeTarget();
   }
 

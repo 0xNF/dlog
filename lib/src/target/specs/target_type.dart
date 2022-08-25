@@ -3,6 +3,8 @@ import 'package:json_annotation/json_annotation.dart';
 enum TargetType {
   @JsonValue("Console")
   console,
+  @JsonValue("ColoredConsole")
+  coloredConsole,
   @JsonValue("File")
   file,
   @JsonValue("Network")
@@ -15,5 +17,5 @@ enum TargetType {
 
 TargetType targetTypefromString(String s) {
   s = s.trim().toLowerCase();
-  return TargetType.values.firstWhere((element) => element.name == s, orElse: () => TargetType.nil);
+  return TargetType.values.firstWhere((element) => element.name.toLowerCase() == s, orElse: () => TargetType.nil);
 }

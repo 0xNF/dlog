@@ -3,7 +3,6 @@ import 'package:flog3/src/target/specs/target_spec.dart';
 import 'package:flog3/src/target/target_with_layout_header_footer.dart';
 import 'package:flog3/src/log_event_info.dart';
 
-
 class FileTarget extends TargetWithLayoutHeaderAndFooter {
   FileTarget({required super.spec, required super.config});
 
@@ -20,13 +19,17 @@ class FileTarget extends TargetWithLayoutHeaderAndFooter {
     // } else {
     //   _sink = useStdErr ? stderr : stdout;
     // }
-    _writeToOutput(header.render(LogEventInfo.createNullEvent()));
+    if (header != null) {
+      _writeToOutput(header!.render(LogEventInfo.createNullEvent()));
+    }
     super.initializeTarget();
   }
 
   @override
   void closeTarget() {
-    _writeToOutput(footer.render(LogEventInfo.createNullEvent()));
+    if (footer != null) {
+      _writeToOutput(footer!.render(LogEventInfo.createNullEvent()));
+    }
     super.closeTarget();
   }
 

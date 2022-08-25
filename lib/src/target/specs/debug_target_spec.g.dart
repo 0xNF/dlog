@@ -38,6 +38,7 @@ Map<String, dynamic> _$DebugTargetSpecToJson(DebugTargetSpec instance) =>
 
 const _$TargetTypeEnumMap = {
   TargetType.console: 'Console',
+  TargetType.coloredConsole: 'ColoredConsole',
   TargetType.file: 'File',
   TargetType.network: 'Network',
   TargetType.debug: 'Debug',

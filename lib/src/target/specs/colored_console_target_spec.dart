@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:flog3/src/condition/condition_expression.dart';
 import 'package:flog3/src/layout/layout_spec.dart';
+import 'package:flog3/src/log_event_info.dart';
 import 'package:flog3/src/target/specs/color.dart';
 import 'package:flog3/src/target/specs/target_spec.dart';
 import 'package:flog3/src/target/specs/target_type.dart';
@@ -9,7 +11,7 @@ part 'colored_console_target_spec.g.dart';
 
 @JsonSerializable()
 class ColoredConsoleTargetSpec extends TargetSpec {
-  static const kind = TargetType.console;
+  static const kind = TargetType.coloredConsole;
 
   /// File encoding name like "utf-8", "ascii" or "utf-16"
   @JsonKey(name: "encoding", fromJson: encodingFromJson, toJson: encodingToJson)
@@ -45,6 +47,18 @@ class ColoredConsoleTargetSpec extends TargetSpec {
   @JsonKey(name: "wordHighlightingRules")
   final List<HighlightWord> wordHighlightingRules;
 
+  /// Indicated whether to auto-check if the console has been redirected to file
+  /// disables colored output if detected
+  @JsonKey(name: "detectOutputRedirected")
+  final bool detectOutputRedirected;
+
+  /// Enables output using ANSI Color Codes
+  @JsonKey(name: "enableANSIOutput")
+  final bool enableANSIOutput;
+
+  @JsonKey(name: "autoFlush")
+  final bool autoFlush;
+
   ColoredConsoleTargetSpec({
     required super.name,
     super.layout,
@@ -57,6 +71,9 @@ class ColoredConsoleTargetSpec extends TargetSpec {
     this.useDefaultRowHighlightingRules = true,
     this.rowHighlightingRules = const [],
     this.wordHighlightingRules = const [],
+    this.detectOutputRedirected = true,
+    this.enableANSIOutput = false,
+    this.autoFlush = false,
   });
 
   Map<String, dynamic> toJson() => _$ColoredConsoleTargetSpecToJson(this);
@@ -74,15 +91,15 @@ Encoding encodingFromJson(String json) {
 @JsonSerializable()
 class HiighlightRow {
   @JsonKey(name: "backgroundColor")
-  final ColorEnum backgroundColor;
+  final ConsoleColor backgroundColor;
   @JsonKey(name: "foregroundColor")
-  final ColorEnum foregroundColor;
+  final ConsoleColor foregroundColor;
   @JsonKey(name: "condition")
-  final Condition condition;
+  final String condition;
 
-  HiighlightRow({
-    this.backgroundColor = ColorEnum.noChange,
-    this.foregroundColor = ColorEnum.noChange,
+  const HiighlightRow({
+    this.backgroundColor = ConsoleColor.noChange,
+    this.foregroundColor = ConsoleColor.noChange,
     required this.condition,
   });
 
@@ -92,17 +109,20 @@ class HiighlightRow {
 
 @JsonSerializable()
 class HighlightWord {
+  @JsonKey(ignore: true)
+  late final RegExp _regexp;
+
   ///  Background color. Color Enum Default: NoChange
   @JsonKey(name: "backgroundColor")
-  final ColorEnum backgroundColor;
+  final ConsoleColor backgroundColor;
 
   ///  Foreground color. Color Enum Default: NoChange
   @JsonKey(name: "foregroundColor")
-  final ColorEnum foregroundColor;
+  final ConsoleColor foregroundColor;
 
   /// Condition that must be met before scanning for words to highlight.
   @JsonKey(name: "condition")
-  final Condition? condition;
+  final ConditionExpression? condition;
 
   /// Text to be matched. You must specify either text or regex.
   @JsonKey(name: "text")
@@ -121,8 +141,8 @@ class HighlightWord {
   final bool wholeWords;
 
   HighlightWord({
-    this.backgroundColor = ColorEnum.noChange,
-    this.foregroundColor = ColorEnum.noChange,
+    this.backgroundColor = ConsoleColor.noChange,
+    this.foregroundColor = ConsoleColor.noChange,
     this.text,
     this.regex,
     this.ignoreCase = false,
@@ -132,15 +152,17 @@ class HighlightWord {
     if ((text != null) ^ (regex != null)) {
       throw Exception('Text or Regex must be specified. Not both, and not neither');
     }
+    _regexp = RegExp(text ?? regex ?? '', caseSensitive: !ignoreCase);
+  }
+
+  Iterable<Match>? matches(LogEventInfo logEvent, String message) {
+    if (condition != null || (condition?.evaluate(logEvent) == false)) {
+      return null;
+    } else {
+      return _regexp.allMatches(message);
+    }
   }
 
   Map<String, dynamic> toJson() => _$HighlightWordToJson(this);
   factory HighlightWord.fromJson(Map<String, dynamic> json) => _$HighlightWordFromJson(json);
-}
-
-@JsonSerializable()
-class Condition {
-  const Condition();
-  Map<String, dynamic> toJson() => _$ConditionToJson(this);
-  factory Condition.fromJson(Map<String, dynamic> json) => _$ConditionFromJson(json);
 }
