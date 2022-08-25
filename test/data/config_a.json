@@ -44,6 +44,11 @@
                     ]
                 }
             }
+        },
+        {
+            "name": "coloredConsole",
+            "type": "ColoredConsole",
+            "enableANSIOutput": true
         }
     ],
     "rules": [
@@ -71,6 +76,11 @@
             "name": "CSVLogger",
             "minlevel": "Debug",
             "writeTo": "debugWithCSVLayout"
+        },
+        {
+            "name": "*",
+            "minlevel": "Debug",
+            "writeTo": "coloredConsole"
         }
     ],
     "variables": []

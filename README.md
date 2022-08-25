@@ -1,4 +1,13 @@
 # TODO
+
+* Colored Console  
+	- Parse conditions
+	- evaluate conditions
+	- figure out discrepency between HIghlightRowRUles and _highlightRowRles
+	- system logger
+
+- header/footer can be null but are assigned by default anyway. Make them null instead.
+
 ## Mandatory goals
 - [ ] implement FileTarget's archival and rotation semantics
 - [ ] implement JsonTarget
