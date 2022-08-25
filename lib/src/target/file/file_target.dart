@@ -1,10 +1,47 @@
 import 'package:flog3/src/configuration/configuration.dart';
+import 'package:flog3/src/target/file/icreate_file_parameters.dart';
 import 'package:flog3/src/target/specs/target_spec.dart';
 import 'package:flog3/src/target/target_with_layout_header_footer.dart';
 import 'package:flog3/src/log_event_info.dart';
 
-class FileTarget extends TargetWithLayoutHeaderAndFooter {
+class FileTarget extends TargetWithLayoutHeaderAndFooter implements ICreateFileParameters {
   FileTarget({required super.spec, required super.config});
+
+  @override
+  // TODO: implement bufferSize
+  int get bufferSize => throw UnimplementedError();
+
+  @override
+  // TODO: implement concurrentWrites
+  bool get concurrentWrites => throw UnimplementedError();
+
+  @override
+  // TODO: implement createDirs
+  bool get createDirs => throw UnimplementedError();
+
+  @override
+  // TODO: implement enableFileDelete
+  bool get enableFileDelete => throw UnimplementedError();
+
+  @override
+  // TODO: implement enableFileDeleteSimpleMonitor
+  bool get enableFileDeleteSimpleMonitor => throw UnimplementedError();
+
+  @override
+  // TODO: implement fileOpenRetryCount
+  Duration get fileOpenRetryCount => throw UnimplementedError();
+
+  @override
+  // TODO: implement fileOpenRetryDelay
+  int get fileOpenRetryDelay => throw UnimplementedError();
+
+  @override
+  // TODO: implement forceManaged
+  bool get forceManaged => throw UnimplementedError();
+
+  @override
+  // TODO: implement isArchivingEnabled
+  bool get isArchivingEnabled => throw UnimplementedError();
 
   factory FileTarget.fromSpec(TargetSpec spec, LogConfiguration config) {
     return FileTarget(spec: spec, config: config);
