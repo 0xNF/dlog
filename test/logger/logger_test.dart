@@ -7,7 +7,7 @@ import 'package:flog3/src/layout/layout_renderers/literal_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/logger_name_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/longdate_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/message_layout_renderer.dart';
-import 'package:flog3/src/layout/layout_simple.dart';
+import 'package:flog3/src/layout/simple/layout_simple.dart';
 import 'package:flog3/src/logger/log_factory.dart';
 import 'package:flog3/src/logger/logger.dart';
 import 'package:flog3/src/target/debug/debug_target.dart';

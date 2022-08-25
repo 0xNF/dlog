@@ -1,11 +1,12 @@
+import 'package:flog3/src/layout/null_layout/null_options.dart';
 import 'package:flog3/src/layout/options/layout_spec_options.dart';
-import 'package:flog3/src/layout/options/csv_layout_options.dart';
-import 'package:flog3/src/layout/options/json_layout_options.dart';
-import 'package:flog3/src/layout/options/null_options.dart';
-import 'package:flog3/src/layout/options/simple_layout_options.dart';
+import 'package:flog3/src/layout/csv/csv_layout_options.dart';
 import 'package:flog3/src/layout/parser/tokenizer/parse_exception.dart';
+import 'package:flog3/src/layout/simple/simple_layout_options.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:collection/collection.dart';
+
+import 'json/json_layout_options.dart';
 
 class LayoutSpec {
   static const String deafultSimpleLayout = r"${longdate}|${level:uppercase=true}|${loggerName}|${message:withexception=true}|${all-event-properties}";

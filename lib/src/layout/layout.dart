@@ -1,8 +1,8 @@
 import 'package:flog3/src/configuration/configuration.dart';
-import 'package:flog3/src/layout/layout_csv.dart';
-import 'package:flog3/src/layout/layout_simple.dart';
+import 'package:flog3/src/layout/csv/layout_csv.dart';
+import 'package:flog3/src/layout/simple/layout_simple.dart';
 import 'package:flog3/src/layout/layout_spec.dart';
-import 'package:flog3/src/layout/options/csv_layout_options.dart';
+import 'package:flog3/src/layout/csv/csv_layout_options.dart';
 import 'package:flog3/src/log_event_info.dart';
 import 'package:meta/meta.dart';
 
