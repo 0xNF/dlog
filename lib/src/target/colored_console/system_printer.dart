@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dart_console/dart_console.dart' as c;
 import 'package:flog3/src/target/colored_console/console_row_highlighting_rule.dart';
 import 'package:flog3/src/target/colored_console/icolored_console_printer.dart';
-import 'package:flog3/src/target/specs/color.dart';
+import 'package:flog3/src/target/colored_console/color.dart';
 
 class ColoredConsoleSystemPrinter implements IColoredConsolePrinter {
   final console = c.Console();

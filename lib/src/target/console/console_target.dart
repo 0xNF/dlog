@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/internal_logger/internal_logger.dart';
-import 'package:flog3/src/target/specs/console_target_spec.dart';
+import 'package:flog3/src/target/console/console_target_spec.dart';
 import 'package:flog3/src/target/specs/target_spec.dart';
 import 'package:flog3/src/target/target_with_layout_header_footer.dart';
 import 'package:flog3/src/log_event_info.dart';

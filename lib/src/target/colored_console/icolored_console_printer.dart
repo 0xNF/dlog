@@ -1,5 +1,5 @@
 import 'package:flog3/src/target/colored_console/console_row_highlighting_rule.dart';
-import 'package:flog3/src/target/specs/color.dart';
+import 'package:flog3/src/target/colored_console/color.dart';
 
 abstract class IColoredConsolePrinter {
   /// Creates a TextWriter for the console to start building a colored text message

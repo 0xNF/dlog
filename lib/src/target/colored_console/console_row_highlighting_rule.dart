@@ -1,6 +1,6 @@
 import 'package:flog3/src/condition/condition_expression.dart';
 import 'package:flog3/src/log_event_info.dart';
-import 'package:flog3/src/target/specs/color.dart';
+import 'package:flog3/src/target/colored_console/color.dart';
 
 class ConsoleRowHighlightingRule {
   static final ConsoleRowHighlightingRule defaultt = ConsoleRowHighlightingRule(conditionExpression: null, foregroundColor: ConsoleColor.noChange, backgroundColor: ConsoleColor.noChange);

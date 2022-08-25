@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flog3/src/target/colored_console/console_row_highlighting_rule.dart';
 import 'package:flog3/src/target/colored_console/icolored_console_printer.dart';
-import 'package:flog3/src/target/specs/color.dart';
+import 'package:flog3/src/target/colored_console/color.dart';
 
 class AnsiPrinter extends IColoredConsolePrinter {
   static const String _terminalDefaultColorEscapeCode = "\x1B[0m";

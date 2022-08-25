@@ -10,7 +10,7 @@ import 'package:flog3/src/layout/layout_renderers/message_layout_renderer.dart';
 import 'package:flog3/src/layout/layout_simple.dart';
 import 'package:flog3/src/logger/log_factory.dart';
 import 'package:flog3/src/logger/logger.dart';
-import 'package:flog3/src/target/debug_target.dart';
+import 'package:flog3/src/target/debug/debug_target.dart';
 import 'package:flog3/src/target/specs/target_type.dart';
 import 'package:flog3/src/target/target_with_layout_header_footer.dart';
 import 'package:test/test.dart';

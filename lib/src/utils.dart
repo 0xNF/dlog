@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Stack<T> {
   final List<T> _items = [];
 
@@ -23,4 +25,12 @@ class Stack<T> {
 
   bool get isEmpty => _items.isEmpty;
   bool get isNotEmpty => _items.isNotEmpty;
+}
+
+String encodingToJson(Encoding json) {
+  return json.name;
+}
+
+Encoding encodingFromJson(String json) {
+  return Encoding.getByName(json) ?? const Utf8Codec();
 }

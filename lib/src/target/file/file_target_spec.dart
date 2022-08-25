@@ -1,7 +1,7 @@
 import 'package:flog3/src/layout/layout_spec.dart';
-import 'package:flog3/src/target/specs/console_target_spec.dart';
 import 'package:flog3/src/target/specs/target_spec.dart';
 import 'package:flog3/src/target/specs/target_type.dart';
+import 'package:flog3/src/utils.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
 

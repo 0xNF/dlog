@@ -1,6 +1,6 @@
 import 'package:flog3/src/logger/log_factory.dart';
 import 'package:flog3/src/logger/logger.dart';
-import 'package:flog3/src/target/debug_target.dart';
+import 'package:flog3/src/target/debug/debug_target.dart';
 import 'package:test/test.dart';
 
 void main() {

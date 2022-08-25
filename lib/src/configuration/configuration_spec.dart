@@ -1,9 +1,9 @@
 import 'package:flog3/src/configuration/config_settings.dart';
 import 'package:flog3/src/rule/rule.dart';
-import 'package:flog3/src/target/specs/colored_console_target_spec.dart';
-import 'package:flog3/src/target/specs/console_target_spec.dart';
-import 'package:flog3/src/target/specs/debug_target_spec.dart';
-import 'package:flog3/src/target/specs/file_target_spec.dart';
+import 'package:flog3/src/target/colored_console/colored_console_target_spec.dart';
+import 'package:flog3/src/target/console/console_target_spec.dart';
+import 'package:flog3/src/target/debug/debug_target_spec.dart';
+import 'package:flog3/src/target/file/file_target_spec.dart';
 import 'package:flog3/src/target/specs/target_spec.dart';
 import 'package:flog3/src/target/specs/target_type.dart';
 import 'package:flog3/src/variable/variable_spec.dart';

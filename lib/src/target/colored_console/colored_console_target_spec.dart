@@ -2,7 +2,8 @@ import 'dart:convert';
 import 'package:flog3/src/condition/condition_expression.dart';
 import 'package:flog3/src/layout/layout_spec.dart';
 import 'package:flog3/src/log_event_info.dart';
-import 'package:flog3/src/target/specs/color.dart';
+import 'package:flog3/src/target/console/console_target_spec.dart';
+import 'package:flog3/src/target/colored_console/color.dart';
 import 'package:flog3/src/target/specs/target_spec.dart';
 import 'package:flog3/src/target/specs/target_type.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -78,14 +79,6 @@ class ColoredConsoleTargetSpec extends TargetSpec {
 
   Map<String, dynamic> toJson() => _$ColoredConsoleTargetSpecToJson(this);
   factory ColoredConsoleTargetSpec.fromJson(Map<String, dynamic> json) => _$ColoredConsoleTargetSpecFromJson(json);
-}
-
-String encodingToJson(Encoding json) {
-  return json.name;
-}
-
-Encoding encodingFromJson(String json) {
-  return Encoding.getByName(json) ?? const Utf8Codec();
 }
 
 @JsonSerializable()
