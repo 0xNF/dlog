@@ -1,6 +1,3 @@
-// ignore_for_file: unnecessary_brace_in_string_interps
-
-
 import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/layout/layout.dart';
 import 'package:flog3/src/layout/simple/layout_simple.dart';
@@ -77,7 +74,7 @@ class CSVLayout extends LayoutWithHeaderAndFooter {
       }
 
       _quotableCharacters.clear();
-      _quotableCharacters.addAll(("${quoteChar}\r\n${_actualColumnDelimeter}").split(''));
+      _quotableCharacters.addAll(("$quoteChar\r\n$_actualColumnDelimeter").split(''));
 
       _doubleQuoteChar = quoteChar + quoteChar;
     }
@@ -185,38 +182,6 @@ class CSVLayout extends LayoutWithHeaderAndFooter {
       layout: SimpleLayout(fixedText: '', configuration: configuration, renderers: [], source: ''),
     );
   }
-
-  // static LiteralLayoutRenderer? _transformToLiteral(LayoutRenderer lr) {
-  //   if (lr is LiteralLayoutRenderer) {
-  //     return lr;
-  //   } else if (lr is NewLineLayoutRenderer || lr is DirectorySeparatorLayoutRenderer) {
-  //     return LiteralLayoutRenderer(text: lr.render(LogEventInfo.nullEvent));
-  //   }
-  //   return null;
-  // }
-
-  // static String? _getFixedTextIfPossible(List<LayoutRenderer> lst) {
-  //   final l2 = lst.toList();
-  //   if (l2.isEmpty) {
-  //     return "";
-  //   } else {
-  //     bool allGood = true;
-  //     for (int i = 0; i < l2.length; i++) {
-  //       final lr = l2[i];
-  //       final lit = _transformToLiteral(lr);
-  //       if (lit == null) {
-  //         allGood = false;
-  //         break;
-  //       } else {
-  //         l2[i] = lit;
-  //       }
-  //     }
-  //     if (allGood) {
-  //       return l2.map((e) => e.render(LogEventInfo.nullEvent)).join('');
-  //     }
-  //   }
-  //   return null;
-  // }
 }
 
 class _CSVHeaderLayout extends Layout {

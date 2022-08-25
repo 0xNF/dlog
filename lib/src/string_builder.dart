@@ -20,7 +20,7 @@ extension StringBuilder on StringBuffer {
   }
 
   String substring(int start, int length) {
-    return toString().substring(start, start + length);
+    return toString().substring(start, length);
   }
 
   void writeSubstring(String message, int start, int length) {

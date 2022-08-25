@@ -20,8 +20,8 @@ class SimpleLayout extends Layout {
   final List<LayoutRenderer> renderers;
 
   SimpleLayout({
-    required this.source,
     required super.configuration,
+    required this.source,
     required this.renderers,
     required String? fixedText,
   }) : _fixedText = fixedText;

@@ -7,9 +7,9 @@ import 'package:flog3/src/log_event_info.dart';
 import 'package:flog3/src/target/target.dart';
 
 class FLogger implements ILogger {
-  List<Rule> get rules => List.unmodifiable(_rules);
+  List<Rule> get rules => _rules; //List.unmodifiable(_rules);
   late final List<Rule> _rules;
-  List<Target> get targets => List.unmodifiable(_targets);
+  List<Target> get targets => _targets; // List.unmodifiable(_targets);
   late final List<Target> _targets;
   FLogger(String name, List<Rule> rules, List<Target> targets) {
     _name = name;
@@ -395,10 +395,10 @@ class FLogger implements ILogger {
             internalLogger.trace('target already written to for this log event, skipping', eventProperties: {'writeTo': t.spec.name});
             return;
           }
-          /* mark off this target so we don't double-write */
-          writtenTargets.add(t.spec.name);
           try {
             t.write(info);
+            /* mark off this target so we don't double-write */
+            writtenTargets.add(t.spec.name);
           } on Exception catch (e) {
             internalLogger.error('Failed to write to target', exception: e);
             if (mustRethrowExceptionImmediately(e)) {
