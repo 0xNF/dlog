@@ -33,7 +33,16 @@ void main() {
     });
 
     test("Check Header", () {
-      assert(false);
+      final opts = CSVLayoutOptions(
+        columns: cols,
+        withHeader: true,
+      );
+      final lspec = LayoutSpec(kind: LayoutKind.csv, layout: "", options: opts);
+      final d2 = DebugTarget.fromSpec(DebugTargetSpec(name: 'withHeader', layout: lspec), LogFactory.configuration!);
+      final l = FLogger('testLogger', [Rule(loggerName: 'testLogger', writeTo: 'withHeader')], [d2]);
+
+      l.info('withHeader');
+      expect(false, true);
     });
   });
 
@@ -132,7 +141,7 @@ void main() {
       // l.info('"hello"');
 
       // print(2);
-      expect(false, false);
+      expect(false, true);
     });
 
     test("Check Quote Enum All", () {
