@@ -39,10 +39,11 @@ void main() {
       );
       final lspec = LayoutSpec(kind: LayoutKind.csv, layout: "", options: opts);
       final d2 = DebugTarget.fromSpec(DebugTargetSpec(name: 'withHeader', layout: lspec), LogFactory.configuration!);
-      final l = FLogger('testLogger', [Rule(loggerName: 'testLogger', writeTo: 'withHeader')], [d2]);
-
-      l.info('withHeader');
-      expect(false, true);
+      d2.initializeTarget();
+      final splits = d2.logOutput.first.split(',');
+      expect(splits[0], "time");
+      expect(splits[1], "level");
+      expect(splits[2], "message");
     });
   });
 

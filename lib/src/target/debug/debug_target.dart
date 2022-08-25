@@ -16,6 +16,7 @@ class DebugTarget extends TargetWithLayoutHeaderAndFooter {
   void initializeTarget() {
     logOutput.clear();
     if (header != null) {
+      layout.initialize(config);
       _writeToOutput(header!.render(LogEventInfo.createNullEvent()));
     }
     super.initializeTarget();

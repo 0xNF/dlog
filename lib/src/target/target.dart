@@ -18,7 +18,8 @@ abstract class Target {
   final TargetSpec spec;
   bool get isInitialized => _isInitialized;
   bool _isInitialized = false;
-  Target({required this.spec, required LogConfiguration config});
+  final LogConfiguration config;
+  Target({required this.spec, required this.config});
 
   void write(LogEventInfo logEvent);
 

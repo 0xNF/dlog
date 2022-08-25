@@ -35,49 +35,50 @@ class CSVLayout extends LayoutWithHeaderAndFooter {
     required this.quoteMode,
     required this.columns,
   }) {
-    header = _CSVHeaderLayout(parent: this, configuration: configuration);
-    footer = null;
-    layout = this;
+    super.header = _CSVHeaderLayout(parent: this, configuration: configuration);
+    super.footer = null;
+    super.layout = this;
   }
 
   @override
   void initialize(LogConfiguration configuration) {
-    for (final layout in columnRenderers.values) {
-      if (!withHeader) {
-        header = null;
-      }
-
-      layout.initialize(configuration);
-
-      switch (delimeter) {
-        case DelimeterEnum.custom:
-          _actualColumnDelimeter = customDelimeter;
-          break;
-        case DelimeterEnum.pipe:
-          _actualColumnDelimeter = "|";
-          break;
-        case DelimeterEnum.semicolon:
-          _actualColumnDelimeter = ";";
-          break;
-        case DelimeterEnum.space:
-          _actualColumnDelimeter = " ";
-          break;
-        case DelimeterEnum.tab:
-          _actualColumnDelimeter = "\t";
-          break;
-        case DelimeterEnum.auto:
-        // TODO(nf): get current culture text separtaor via `intl`
-        case DelimeterEnum.comma:
-        default:
-          _actualColumnDelimeter = ',';
-          break;
-      }
-
-      _quotableCharacters.clear();
-      _quotableCharacters.addAll(("$quoteChar\r\n$_actualColumnDelimeter").split(''));
-
-      _doubleQuoteChar = quoteChar + quoteChar;
+    if (!withHeader) {
+      header = null;
     }
+
+    switch (delimeter) {
+      case DelimeterEnum.custom:
+        _actualColumnDelimeter = customDelimeter;
+        break;
+      case DelimeterEnum.pipe:
+        _actualColumnDelimeter = "|";
+        break;
+      case DelimeterEnum.semicolon:
+        _actualColumnDelimeter = ";";
+        break;
+      case DelimeterEnum.space:
+        _actualColumnDelimeter = " ";
+        break;
+      case DelimeterEnum.tab:
+        _actualColumnDelimeter = "\t";
+        break;
+      case DelimeterEnum.auto:
+      // TODO(nf): get current culture text separtaor via `intl`
+      case DelimeterEnum.comma:
+      default:
+        _actualColumnDelimeter = ',';
+        break;
+    }
+
+    _quotableCharacters.clear();
+    _quotableCharacters.addAll(("$quoteChar\r\n$_actualColumnDelimeter").split(''));
+
+    _doubleQuoteChar = quoteChar + quoteChar;
+
+    for (final layout in columnRenderers.values) {
+      layout.initialize(configuration);
+    }
+
     super.initialize(configuration);
   }
 
