@@ -40,7 +40,7 @@ class ConsoleTarget extends TargetWithLayoutHeaderAndFooter {
   void initializeTarget() {
     if (detectConsoleAvailable) {
       if ((useStdErr && !stderr.hasTerminal) || (!useStdErr && !stdout.hasTerminal)) {
-        internalLogger.info("${this}: Console has been detected as turned off. Disable DetectConsoleAvailable to skip detection. Reason: {1}");
+        internalLogger.info("${this}: Console has been detected as turned off. Disable [DetectConsoleAvailable] to skip detection.");
         _pauseLogging = true;
       }
     } else {

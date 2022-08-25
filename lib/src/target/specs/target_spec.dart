@@ -21,10 +21,8 @@ abstract class TargetSpec {
   TargetSpec({
     required this.name,
     required this.type,
-    LayoutSpec? footer,
-    LayoutSpec? header,
+    this.footer,
+    this.header,
     LayoutSpec? layout,
-  })  : footer = footer ?? LayoutSpec(layout: ''),
-        header = header ?? LayoutSpec(layout: ''),
-        layout = layout ?? LayoutSpec();
+  }) : layout = layout ?? LayoutSpec();
 }

@@ -1,6 +1,6 @@
 import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/internal_logger/internal_logger.dart';
-import 'package:flog3/src/target/colored_console_target.dart';
+import 'package:flog3/src/target/colored_console/colored_console_target.dart';
 import 'package:flog3/src/target/console_target.dart';
 import 'package:flog3/src/target/debug_target.dart';
 import 'package:flog3/src/target/file_target.dart';

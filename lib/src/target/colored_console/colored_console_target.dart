@@ -5,12 +5,15 @@ import 'package:flog3/src/condition/condition_expression.dart';
 import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/internal_logger/internal_logger.dart';
 import 'package:flog3/src/string_builder.dart';
+import 'package:flog3/src/target/colored_console/ansi_orinter.dart';
+import 'package:flog3/src/target/colored_console/console_row_highlighting_rule.dart';
+import 'package:flog3/src/target/colored_console/icolored_console_printer.dart';
 import 'package:flog3/src/target/specs/color.dart';
 import 'package:flog3/src/target/specs/colored_console_target_spec.dart';
 import 'package:flog3/src/target/specs/target_spec.dart';
 import 'package:flog3/src/target/target_with_layout_header_footer.dart';
 import 'package:flog3/src/log_event_info.dart';
-import 'package:meta/meta.dart';
+import 'package:flog3/src/utils.dart';
 
 class ColoredConsoleTarget extends TargetWithLayoutHeaderAndFooter {
   /// string for character code 0x0007, aka (\a) aka the Alert Control character
@@ -28,7 +31,7 @@ class ColoredConsoleTarget extends TargetWithLayoutHeaderAndFooter {
   bool _pauseLogging = false;
   Stdout _consoleStream;
   bool _disableColors = false;
-  _IColoredConsolePrinter _consolePrinter;
+  IColoredConsolePrinter _consolePrinter;
 
   ColoredConsoleTarget({
     required super.spec,
@@ -64,12 +67,12 @@ class ColoredConsoleTarget extends TargetWithLayoutHeaderAndFooter {
     );
   }
 
-  static _IColoredConsolePrinter _createConsolePrinter(bool enableAnsiOutput, IOSink sink) {
+  static IColoredConsolePrinter _createConsolePrinter(bool enableAnsiOutput, IOSink sink) {
     if (!enableAnsiOutput) {
       // TODO(nf): create non-ansi System Printer
-      return _AnsiPrinter(sink: sink);
+      return AnsiPrinter(sink: sink);
     } else {
-      return _AnsiPrinter(sink: sink);
+      return AnsiPrinter(sink: sink);
     }
   }
 
@@ -178,16 +181,16 @@ class ColoredConsoleTarget extends TargetWithLayoutHeaderAndFooter {
     }
   }
 
-  _ConsoleRowHighlightingRule? _getMatchingRowHighlightRule(LogEventInfo logEvent) {
+  ConsoleRowHighlightingRule? _getMatchingRowHighlightRule(LogEventInfo logEvent) {
     // TODO(nf) where to get initial rules from;
-    _ConsoleRowHighlightingRule? matchingRule = _getMatchingRowHighlightRuleFromRules([], logEvent);
+    ConsoleRowHighlightingRule? matchingRule = _getMatchingRowHighlightRuleFromRules([], logEvent);
     if (matchingRule == null && useDefaultRowHighlightingRules) {
       matchingRule = _getMatchingRowHighlightRuleFromRules(_consolePrinter.defaultConsoleRowHighlightingRules, logEvent);
     }
-    return matchingRule ?? _ConsoleRowHighlightingRule.defaultt;
+    return matchingRule ?? ConsoleRowHighlightingRule.defaultt;
   }
 
-  _ConsoleRowHighlightingRule? _getMatchingRowHighlightRuleFromRules(List<_ConsoleRowHighlightingRule> rules, LogEventInfo logEvent) {
+  ConsoleRowHighlightingRule? _getMatchingRowHighlightRuleFromRules(List<ConsoleRowHighlightingRule> rules, LogEventInfo logEvent) {
     for (int i = 0; i < rules.length; ++i) {
       var rule = rules[i];
       if (rule.checkCondition(logEvent)) {
@@ -247,7 +250,7 @@ class ColoredConsoleTarget extends TargetWithLayoutHeaderAndFooter {
   }
 
   void _colorizeEscapeSequences(
-    _IColoredConsolePrinter consolePrinter,
+    IColoredConsolePrinter consolePrinter,
     StringBuffer consoleWriter,
     String message,
     ConsoleColor? defaultForegroundColor,
@@ -256,7 +259,7 @@ class ColoredConsoleTarget extends TargetWithLayoutHeaderAndFooter {
     ConsoleColor? rowBackgroundColor,
   ) {
     // TODO(nf)
-    final colorStack = _Stack<MapEntry<ConsoleColor?, ConsoleColor?>>();
+    final colorStack = Stack<MapEntry<ConsoleColor?, ConsoleColor?>>();
 
     colorStack.push(MapEntry<ConsoleColor?, ConsoleColor?>(rowForegroundColor, rowBackgroundColor));
 
@@ -350,168 +353,5 @@ class ColoredConsoleTarget extends TargetWithLayoutHeaderAndFooter {
     if (p0 < message.length) {
       consolePrinter.writeSubString(consoleWriter, message, p0, message.length);
     }
-  }
-}
-
-class _Stack<T> {
-  final List<T> _items = [];
-
-  void push(T item) {
-    _items.add(item);
-  }
-
-  T? pop() {
-    if (_items.isEmpty) {
-      return null;
-    } else {
-      return _items.removeLast();
-    }
-  }
-
-  T? peek() {
-    if (_items.isEmpty) {
-      return null;
-    } else {
-      return _items.last;
-    }
-  }
-
-  bool get isEmpty => _items.isEmpty;
-  bool get isNotEmpty => _items.isNotEmpty;
-}
-
-abstract class _IColoredConsolePrinter {
-  /// Creates a TextWriter for the console to start building a colored text message
-  StringBuffer acquireStringBuffer();
-
-  /// Releases the TextWriter for the console after having built a colored text message (Restores console colors)
-  void releaseStringBuffer(StringBuffer buffer, ConsoleColor? oldForegroundColor, ConsoleColor? oldBackgroundColor, {bool flush = false});
-
-  /// Changes foreground color for the Colored TextWriter
-  ///
-  /// Returns the previous foreground color for the console
-  ConsoleColor? changeForegroundColor(StringBuffer buffer, ConsoleColor? foregroundColor, ConsoleColor? oldForegroundcolor);
-
-  /// Changes background color for the Colored TextWriter
-  ///
-  /// Returns the previous background color for the console
-  ConsoleColor? changeBackgroundColor(StringBuffer buffer, ConsoleColor? backgroundColor, ConsoleColor? oldBackgroundColor);
-
-  /// Restores console colors back to their original state
-  void resetDefaultColors(StringBuffer buffer, ConsoleColor? foregroundColor, ConsoleColor? backgroundColor);
-
-  /// Writes multiple characters to the buffer
-  void writeSubString(StringBuffer buffer, String text, int index, int endIndex);
-
-  /// Writes a single character to the buffer
-  void writeChar(StringBuffer buffer, int charCode);
-
-  /// Writes whole string and completes with newline
-  void writeLine(StringBuffer buffer, String text);
-
-  List<_ConsoleRowHighlightingRule> get defaultConsoleRowHighlightingRules;
-
-  const _IColoredConsolePrinter();
-}
-
-class _AnsiPrinter extends _IColoredConsolePrinter {
-  static const String _terminalDefaultColorEscapeCode = "\x1B[0m";
-
-  final IOSink sink;
-
-  const _AnsiPrinter({required this.sink});
-
-  @override
-  List<_ConsoleRowHighlightingRule> get defaultConsoleRowHighlightingRules => [
-        _ConsoleRowHighlightingRule(conditionExpression: "level == LogLevel.Fatal", foregroundColor: ConsoleColor.darkRed, backgroundColor: ConsoleColor.noChange),
-        _ConsoleRowHighlightingRule(conditionExpression: "level == LogLevel.Error", foregroundColor: ConsoleColor.darkYellow, backgroundColor: ConsoleColor.noChange),
-        _ConsoleRowHighlightingRule(conditionExpression: "level == LogLevel.Warn", foregroundColor: ConsoleColor.darkMagenta, backgroundColor: ConsoleColor.noChange),
-        _ConsoleRowHighlightingRule(conditionExpression: "level == LogLevel.Info", foregroundColor: ConsoleColor.noChange, backgroundColor: ConsoleColor.noChange),
-        _ConsoleRowHighlightingRule(conditionExpression: "level == LogLevel.Debug", foregroundColor: ConsoleColor.noChange, backgroundColor: ConsoleColor.noChange),
-        _ConsoleRowHighlightingRule(conditionExpression: "level == LogLevel.Trace", foregroundColor: ConsoleColor.noChange, backgroundColor: ConsoleColor.noChange),
-      ];
-
-  @override
-  StringBuffer acquireStringBuffer() {
-    return StringBuffer();
-  }
-
-  @override
-  void releaseStringBuffer(StringBuffer buffer, ConsoleColor? oldForegroundColor, ConsoleColor? oldBackgroundColor, {bool flush = false}) {
-    buffer.write(_terminalDefaultColorEscapeCode);
-    final s = buffer.toString();
-    sink.write(s);
-    if (flush) {
-      buffer.clear();
-    }
-  }
-
-  @override
-  ConsoleColor? changeForegroundColor(StringBuffer buffer, ConsoleColor? foregroundColor, ConsoleColor? oldForegroundcolor) {
-    if (foregroundColor != null) {
-      buffer.write(_getForegroundColorEscapeCode(foregroundColor));
-    }
-    /* there is no 'old' console color */
-    return null;
-  }
-
-  @override
-  ConsoleColor? changeBackgroundColor(StringBuffer buffer, ConsoleColor? backgroundColor, ConsoleColor? oldBackgroundColor) {
-    if (backgroundColor != null) {
-      buffer.write(_getBackgroundColorEscapeCode(backgroundColor));
-    }
-    /* there is no 'old' console color */
-    return null;
-  }
-
-  @override
-  void resetDefaultColors(StringBuffer buffer, ConsoleColor? foregroundColor, ConsoleColor? backgroundColor) {
-    buffer.write(consoleColorMap[ConsoleColor.noChange]!.ansiForeground);
-  }
-
-  @override
-  void writeChar(StringBuffer buffer, int charCode) {
-    buffer.writeCharCode(charCode);
-  }
-
-  @override
-  void writeLine(StringBuffer buffer, String text) {
-    buffer.writeln(text);
-  }
-
-  @override
-  void writeSubString(StringBuffer buffer, String text, int index, int endIndex) {
-    for (int i = index; i < endIndex; i++) {
-      int charCode = text.codeUnitAt(i);
-      writeChar(buffer, charCode);
-    }
-  }
-
-  static String _getForegroundColorEscapeCode(ConsoleColor? color) {
-    final c = color ?? ConsoleColor.noChange;
-    return consoleColorMap[c]!.ansiForeground;
-  }
-
-  static String _getBackgroundColorEscapeCode(ConsoleColor? color) {
-    final c = color ?? ConsoleColor.noChange;
-    return consoleColorMap[c]!.ansiBackground;
-  }
-}
-
-class _ConsoleRowHighlightingRule {
-  static final _ConsoleRowHighlightingRule defaultt = _ConsoleRowHighlightingRule(conditionExpression: null, foregroundColor: ConsoleColor.noChange, backgroundColor: ConsoleColor.noChange);
-
-  final ConditionExpression? condition;
-  final ConsoleColor foregroundColor;
-  final ConsoleColor backgroundColor;
-
-  _ConsoleRowHighlightingRule({
-    String? conditionExpression,
-    required this.foregroundColor,
-    required this.backgroundColor,
-  }) : condition = conditionExpression == null ? null : ConditionExpression(expression: conditionExpression);
-
-  bool checkCondition(LogEventInfo logEvent) {
-    return condition?.evaluate(logEvent) ?? true;
   }
 }
