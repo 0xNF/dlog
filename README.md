@@ -8,6 +8,10 @@
 
 - header/footer can be null but are assigned by default anyway. Make them null instead.
 
+* impl Json layout
+* impl File target
+* fix bug in layout parser that ignores whitespace in text literals
+
 ## Mandatory goals
 - [ ] implement FileTarget's archival and rotation semantics
 - [ ] implement JsonTarget
