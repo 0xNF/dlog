@@ -5,9 +5,10 @@ import 'package:flog3/src/condition/condition_expression.dart';
 import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/internal_logger/internal_logger.dart';
 import 'package:flog3/src/string_builder.dart';
-import 'package:flog3/src/target/colored_console/ansi_orinter.dart';
+import 'package:flog3/src/target/colored_console/ansi_printer.dart';
 import 'package:flog3/src/target/colored_console/console_row_highlighting_rule.dart';
 import 'package:flog3/src/target/colored_console/icolored_console_printer.dart';
+import 'package:flog3/src/target/colored_console/system_printer.dart';
 import 'package:flog3/src/target/specs/color.dart';
 import 'package:flog3/src/target/specs/colored_console_target_spec.dart';
 import 'package:flog3/src/target/specs/target_spec.dart';
@@ -69,8 +70,7 @@ class ColoredConsoleTarget extends TargetWithLayoutHeaderAndFooter {
 
   static IColoredConsolePrinter _createConsolePrinter(bool enableAnsiOutput, IOSink sink) {
     if (!enableAnsiOutput) {
-      // TODO(nf): create non-ansi System Printer
-      return AnsiPrinter(sink: sink);
+      return ColoredConsoleSystemPrinter(sink: sink);
     } else {
       return AnsiPrinter(sink: sink);
     }
