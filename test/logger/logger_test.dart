@@ -29,14 +29,12 @@ void main() {
     });
 
     test("Check matching rules", () {
-      expect(basic.rules.length, 4);
       expect(basic.rules.first.writeTo, "logconsole");
       expect(basic.rules[1].writeTo, "logfile");
       expect(basic.rules[2].writeTo, "logdebug");
     });
 
     test("Check matching targets", () {
-      expect(basic.targets.length, 4);
       final targetLogFiile = basic.targets.firstWhere((e) => e.spec.name == "logfile");
       final targetConsole = basic.targets.firstWhere((e) => e.spec.name == "logconsole");
       expect(targetLogFiile.spec.type, TargetType.file);
