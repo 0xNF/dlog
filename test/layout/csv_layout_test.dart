@@ -131,18 +131,16 @@ void main() {
 
   group('csv quote tests', () {
     test("Check different Quote char", () {
-      // final String targetName = "Y quote";
-      // final opts = CSVLayoutOptions(
-      //   columns: cols,
-      // );
-      // final lspec = LayoutSpec(kind: LayoutKind.csv, layout: "", options: opts);
-      // final d2 = DebugTarget.fromSpec(DebugTargetSpec(name: targetName, layout: lspec), LogFactory.configuration!);
-      // final l = FLogger('testLogger', [Rule(loggerName: 'testLogger', writeTo: targetName)], [d2]);
+      final String targetName = "Different Quote";
+      final opts = CSVLayoutOptions(columns: cols, quoteChar: '%', quoting: QuoteEnum.all);
+      final lspec = LayoutSpec(kind: LayoutKind.csv, layout: "", options: opts);
+      final d2 = DebugTarget.fromSpec(DebugTargetSpec(name: targetName, layout: lspec), LogFactory.configuration!);
+      final l = FLogger('testLogger', [Rule(loggerName: 'testLogger', writeTo: targetName)], [d2]);
 
-      // l.info('"hello"');
+      l.info('hello');
 
-      // print(2);
-      expect(false, true);
+      final splots = d2.logOutput.last.split(',');
+      expect(splots[1], '%Info%'); /* quotes */
     });
 
     test("Check Quote Enum All", () {

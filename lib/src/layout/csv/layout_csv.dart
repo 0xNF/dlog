@@ -177,7 +177,7 @@ class CSVLayout extends LayoutWithHeaderAndFooter {
       columnRenderers: cr,
       columns: options.columns,
       delimeter: options.delimeter,
-      quoteChar: '"', // TODO(nf): place this on teh Options
+      quoteChar: options.quoteChar,
       withHeader: options.withHeader,
       customDelimeter: options.customColumnDelimiter,
       layout: SimpleLayout(fixedText: '', configuration: configuration, renderers: [], source: ''),

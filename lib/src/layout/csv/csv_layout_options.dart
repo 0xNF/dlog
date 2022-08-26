@@ -19,12 +19,16 @@ class CSVLayoutOptions implements LayoutSpecOptions {
 
   final List<CSVColumn> columns;
 
+  /// Quote Character. Default: "
+  final String quoteChar;
+
   const CSVLayoutOptions({
     this.quoting = QuoteEnum.auto,
     this.withHeader = true,
     this.customColumnDelimiter = ",",
     this.delimeter = DelimeterEnum.auto,
     this.columns = const [],
+    this.quoteChar = '"',
   });
 
   Map<String, dynamic> toJson() => _$CSVLayoutOptionsToJson(this);
