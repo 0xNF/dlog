@@ -73,7 +73,7 @@ class LogConfiguration {
     }
 
     for (final t in targets) {
-      internalLogger.debug("initializing target", eventProperties: {'target': t.spec.name});
+      internalLogger.debug("initializing target {target}", eventProperties: {'target': t.spec.name});
       t.initializeTarget();
     }
     for (final l in rules) {

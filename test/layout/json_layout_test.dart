@@ -2,8 +2,6 @@ import 'dart:convert';
 
 import 'package:dart_ilogger/dart_ilogger.dart';
 import 'package:flog3/flog3.dart';
-import 'package:flog3/src/configuration/config_settings.dart';
-import 'package:flog3/src/layout/csv/csv_layout_options.dart';
 import 'package:flog3/src/layout/json/json_layout_options.dart';
 import 'package:flog3/src/layout/layout_spec.dart';
 import 'package:flog3/src/logger/log_factory.dart';
@@ -32,6 +30,25 @@ void main() {
       expect(LogLevel.fromString(json["Level"] as String), LogLevel.info);
       expect(json["Logger"] as String, "jsonLogger");
       expect(json["Message"] as String, "basic text");
+    });
+
+    test('Test with basic event property subsitution', () {
+      final opts = JSONLayoutOptions();
+      final lspec = LayoutSpec(kind: LayoutKind.json, options: opts, layout: '');
+      final d2 = DebugTarget.fromSpec(DebugTargetSpec(name: 'default', layout: lspec), LogFactory.configuration!);
+      d2.initializeTarget();
+      final _logger = FLogger('jsonLogger', [Rule(loggerName: 'jsonLogger', writeTo: d2.spec.name)], [d2]);
+
+      _logger.info("propval should be {propval}", eventProperties: {'propval': 'hello'});
+
+      String jstr = d2.logOutput.last;
+      Map<String, dynamic> json = const JsonDecoder().convert(jstr) as Map<String, dynamic>;
+      expect(json["Message"] as String, 'propval should be hello');
+
+      _logger.info("Some digit should be {digit}", eventProperties: {'digit': 2});
+      jstr = d2.logOutput.last;
+      json = const JsonDecoder().convert(jstr) as Map<String, dynamic>;
+      expect(json["Message"], "Some digit should be 2");
     });
 
     test('Test with event props, also formatted as json', () {

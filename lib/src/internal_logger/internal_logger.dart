@@ -60,7 +60,13 @@ class _InternalLogger implements ILogger {
     if (eventProperties != null) {
       eprops = "| ${JsonEncoder().convert(eventProperties)}";
     }
-    print("[${DateTime.now()}] [$name] [${level.name}] $message$err$eprops");
+    String m = message;
+    if (eventProperties != null) {
+      for (final kvp in eventProperties.entries) {
+        m = m.replaceAll('{${kvp.key}}', kvp.value.toString());
+      }
+    }
+    print("[${DateTime.now()}] [$name] [${level.name}] $m$err$eprops");
   }
 
   @override

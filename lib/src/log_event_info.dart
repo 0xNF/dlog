@@ -1,7 +1,12 @@
+import 'dart:convert';
+import 'dart:ffi';
+import 'dart:math';
+
 import 'package:dart_ilogger/dart_ilogger.dart';
 import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/exception/flog_exception.dart';
 import 'package:flog3/src/internal_logger/internal_logger.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 class LogEventInfo {
   static int _globalSequenceId = 0;
@@ -70,7 +75,7 @@ class LogEventInfo {
 
   void _calcFormattedMessage() {
     try {
-      _formattedMessage = MessageFormatter.formatDefault(this);
+      _formattedMessage = _formatMessage();
     } on Exception catch (e) {
       internalLogger.error('Failed to calculate formatetd message', exception: e);
       if (mustRethrowExceptionImmediately(e)) {
@@ -78,6 +83,30 @@ class LogEventInfo {
       }
       _formattedMessage = "";
     }
+  }
+
+  String _formatMessage() {
+    if (eventProperties.isEmpty) {
+      return message;
+    }
+
+    String m = message;
+
+    for (final kvp in eventProperties.entries) {
+      String vl;
+      if (kvp.value is String) {
+        vl = kvp.value as String;
+      } else {
+        vl = const JsonEncoder().convert(kvp.value);
+      }
+
+      m = m.replaceAll('{${kvp.key}}', vl);
+    }
+    return m;
+  }
+
+  void appendFormattedMessage(StringBuffer target) {
+    target.write(formattedMessage);
   }
 
   @override

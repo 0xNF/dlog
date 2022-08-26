@@ -14,7 +14,7 @@ class _JSONAttribute extends Layout {
 
   @override
   void renderFormattedMessage(LogEventInfo logEvent, StringBuffer target) {
-    layout.renderAppendBuilder(logEvent, target, cacheLayoutResult: false);
+    layout.renderFormattedMessage(logEvent, target);
   }
 
   @override

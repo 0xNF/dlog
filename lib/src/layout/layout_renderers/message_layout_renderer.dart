@@ -4,7 +4,6 @@ import 'package:flog3/src/layout/parser/layout_parser.dart';
 import 'package:flog3/src/layout/parser/tokenizer/parse_exception.dart';
 import 'package:flog3/src/log_event_info.dart';
 
-
 class MessageLayoutRenderer extends LayoutRenderer {
   static const String id = "message";
 
@@ -29,7 +28,12 @@ class MessageLayoutRenderer extends LayoutRenderer {
   }
 
   String _getValue(LogEventInfo logEvent) {
-    StringBuffer sb = StringBuffer(logEvent.message);
+    final sb = StringBuffer();
+    if (raw) {
+      sb.write(logEvent.message);
+    } else {
+      logEvent.appendFormattedMessage(sb);
+    }
     if (withException && logEvent.exception != null) {
       sb.write(exceptionSeparator);
       sb.write(logEvent.exception);
