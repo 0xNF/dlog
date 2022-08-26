@@ -17,7 +17,7 @@ class DebugTarget extends TargetWithLayoutHeaderAndFooter {
     logOutput.clear();
     if (header != null) {
       layout.initialize(config);
-      _writeToOutput(header!.render(LogEventInfo.createNullEvent()));
+      _writeToOutput(header!.render(LogEventInfo.nullEvent));
     }
     super.initializeTarget();
   }
@@ -25,7 +25,7 @@ class DebugTarget extends TargetWithLayoutHeaderAndFooter {
   @override
   void closeTarget() {
     if (footer != null) {
-      _writeToOutput(footer!.render(LogEventInfo.createNullEvent()));
+      _writeToOutput(footer!.render(LogEventInfo.nullEvent));
     }
     super.closeTarget();
   }

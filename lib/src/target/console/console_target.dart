@@ -48,7 +48,7 @@ class ConsoleTarget extends TargetWithLayoutHeaderAndFooter {
       _sink.encoding = encoding;
     }
     if (header != null) {
-      _writeToOutput(header!.render(LogEventInfo.createNullEvent()));
+      _writeToOutput(header!.render(LogEventInfo.nullEvent));
     }
     super.initializeTarget();
   }
@@ -56,7 +56,7 @@ class ConsoleTarget extends TargetWithLayoutHeaderAndFooter {
   @override
   void closeTarget() {
     if (footer != null) {
-      _writeToOutput(footer!.render(LogEventInfo.createNullEvent()));
+      _writeToOutput(footer!.render(LogEventInfo.nullEvent));
     }
     super.closeTarget();
   }

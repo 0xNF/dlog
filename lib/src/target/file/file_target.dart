@@ -57,7 +57,7 @@ class FileTarget extends TargetWithLayoutHeaderAndFooter implements ICreateFileP
     //   _sink = useStdErr ? stderr : stdout;
     // }
     if (header != null) {
-      _writeToOutput(header!.render(LogEventInfo.createNullEvent()));
+      _writeToOutput(header!.render(LogEventInfo.nullEvent));
     }
     super.initializeTarget();
   }
@@ -65,7 +65,7 @@ class FileTarget extends TargetWithLayoutHeaderAndFooter implements ICreateFileP
   @override
   void closeTarget() {
     if (footer != null) {
-      _writeToOutput(footer!.render(LogEventInfo.createNullEvent()));
+      _writeToOutput(footer!.render(LogEventInfo.nullEvent));
     }
     super.closeTarget();
   }

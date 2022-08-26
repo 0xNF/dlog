@@ -1,12 +1,9 @@
 import 'dart:convert';
-import 'dart:ffi';
-import 'dart:math';
 
 import 'package:dart_ilogger/dart_ilogger.dart';
 import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/exception/flog_exception.dart';
 import 'package:flog3/src/internal_logger/internal_logger.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 class LogEventInfo {
   static int _globalSequenceId = 0;
