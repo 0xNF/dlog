@@ -297,7 +297,7 @@ class ColoredConsoleTarget extends TargetWithLayoutHeaderAndFooter {
           p0 = p1 + 1;
         }
         consolePrinter.changeForegroundColor(consoleWriter, currentColorConfig!.key, defaultForegroundColor);
-        consolePrinter.changeBackgroundColor(consoleWriter, currentColorConfig!.value, defaultBackgroundColor);
+        consolePrinter.changeBackgroundColor(consoleWriter, currentColorConfig.value, defaultBackgroundColor);
         continue;
       }
 

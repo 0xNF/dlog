@@ -1,5 +1,7 @@
 import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/layout/csv/layout_csv.dart';
+import 'package:flog3/src/layout/json/json_layout_options.dart';
+import 'package:flog3/src/layout/json/layout_json.dart';
 import 'package:flog3/src/layout/simple/layout_simple.dart';
 import 'package:flog3/src/layout/layout_spec.dart';
 import 'package:flog3/src/layout/csv/csv_layout_options.dart';
@@ -14,19 +16,22 @@ abstract class Layout {
 
   Layout({required this.configuration});
 
+  // TODO(nf): replace body here with more layout-agnostic logic than just SimpleLayout
   factory Layout.fromText(String text, {LogConfiguration? configuration}) {
     return SimpleLayout.parseLayout(text, configuration ?? LogConfiguration.defaultt);
   }
 
   factory Layout.fromSpec(LayoutSpec spec, {LogConfiguration? configuration}) {
+    final config = configuration ?? LogConfiguration.defaultt;
     switch (spec.kind) {
       case LayoutKind.csv:
-        return CSVLayout.parseLayout(spec.options as CSVLayoutOptions, configuration ?? LogConfiguration.defaultt);
+        return CSVLayout.parseLayout(spec.options as CSVLayoutOptions, config);
       case LayoutKind.json:
+        return JsonLayout.parseLayout(spec.options as JSONLayoutOptions, config);
       case LayoutKind.simple:
-        return SimpleLayout.parseLayout(spec.layout, configuration ?? LogConfiguration.defaultt);
+        return SimpleLayout.parseLayout(spec.layout, config);
       default:
-        return Layout.fromText(spec.layout, configuration: configuration);
+        return Layout.fromText(spec.layout, configuration: config);
     }
   }
 

@@ -11,6 +11,10 @@
 * impl Json layout
 * impl File target
 * fix bug in layout parser that ignores whitespace in text literals
+* change renderFormattedMessage across layouts to read EventProperties and replace {propname} as appropriate
+
+## Better Defaulst?
+	* The CSV/JSON/etc layouts should contain their own version of the SimpleLayout default incl Time,Level,Logger,Message,EventProps
 
 ## Mandatory goals
 - [ ] implement FileTarget's archival and rotation semantics

@@ -1,0 +1,55 @@
+import 'dart:convert';
+
+import 'package:dart_ilogger/dart_ilogger.dart';
+import 'package:flog3/flog3.dart';
+import 'package:flog3/src/configuration/config_settings.dart';
+import 'package:flog3/src/layout/csv/csv_layout_options.dart';
+import 'package:flog3/src/layout/json/json_layout_options.dart';
+import 'package:flog3/src/layout/layout_spec.dart';
+import 'package:flog3/src/logger/log_factory.dart';
+import 'package:flog3/src/logger/logger.dart';
+import 'package:flog3/src/target/debug/debug_target.dart';
+import 'package:flog3/src/target/debug/debug_target_spec.dart';
+import 'package:test/test.dart';
+
+void main() {
+  // Additional setup goes here.
+  LogFactory.initializeWithFile("test/data/config_a.json");
+
+  group("Json Layout Tests", () {
+    test('Test basic layout rendering', () {
+      final opts = JSONLayoutOptions();
+      final lspec = LayoutSpec(kind: LayoutKind.json, options: opts, layout: '');
+      final d2 = DebugTarget.fromSpec(DebugTargetSpec(name: 'default', layout: lspec), LogFactory.configuration!);
+      d2.initializeTarget();
+      final _logger = FLogger('jsonLogger', [Rule(loggerName: 'jsonLogger', writeTo: d2.spec.name)], [d2]);
+
+      _logger.info("basic text");
+
+      final jstr = d2.logOutput.last;
+      final json = const JsonDecoder().convert(jstr) as Map<String, dynamic>;
+      assert(DateTime.tryParse(json["Time"] as String) != null);
+      expect(LogLevel.fromString(json["Level"] as String), LogLevel.info);
+      expect(json["Logger"] as String, "jsonLogger");
+      expect(json["Message"] as String, "basic text");
+    });
+
+    test('Test with event props, also formatted as json', () {
+      final opts = JSONLayoutOptions();
+      final lspec = LayoutSpec(kind: LayoutKind.json, options: opts, layout: '');
+      final d2 = DebugTarget.fromSpec(DebugTargetSpec(name: 'default', layout: lspec), LogFactory.configuration!);
+      d2.initializeTarget();
+      final _logger = FLogger('jsonLogger', [Rule(loggerName: 'jsonLogger', writeTo: d2.spec.name)], [d2]);
+
+      _logger.info("basic text", eventProperties: {'prop1': 'val1', 'prop2': 2});
+
+      final jstr = d2.logOutput.last;
+      print(jstr);
+      final json = const JsonDecoder().convert(jstr) as Map<String, dynamic>;
+      assert(DateTime.tryParse(json["Time"] as String) != null);
+      expect(LogLevel.fromString(json["Level"] as String), LogLevel.info);
+      expect(json["Logger"] as String, "jsonLogger");
+      expect(json["Message"] as String, "basic text");
+    });
+  });
+}
