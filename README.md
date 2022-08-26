@@ -6,12 +6,9 @@
 	- figure out discrepency between HIghlightRowRUles and _highlightRowRles
 	- system logger
 
-- header/footer can be null but are assigned by default anyway. Make them null instead.
-
-* impl Json layout
 * impl File target
 * fix bug in layout parser that ignores whitespace in text literals
-* change renderFormattedMessage across layouts to read EventProperties and replace {propname} as appropriate
+* make Layout defintions recursive
 
 ## Better Defaulst?
 	* The CSV/JSON/etc layouts should contain their own version of the SimpleLayout default incl Time,Level,Logger,Message,EventProps
@@ -155,11 +152,13 @@ Non-Standard May Implement
 Implemented
 --
 * [Simple](https://github.com/NLog/NLog/wiki/SimpleLayout)
+* [JSON](https://github.com/NLog/NLog/wiki/JsonLayout)
+* [CSV](https://github.com/NLog/NLog/wiki/CSVLayout)
 
 Not Yet Implememted
 --
-* [JSON](https://github.com/NLog/NLog/wiki/JsonLayout)
-* [CSV](https://github.com/NLog/NLog/wiki/CSVLayout)
+* n/a
+
 
 Will Not Implement
 --
