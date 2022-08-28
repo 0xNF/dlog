@@ -1,4 +1,5 @@
 import 'package:flog3/src/abstractions/irenderable.dart';
+import 'package:flog3/src/abstractions/isupports_initialize.dart';
 import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/layout/csv/layout_csv.dart';
 import 'package:flog3/src/layout/json/json_layout_options.dart';
@@ -9,13 +10,14 @@ import 'package:flog3/src/layout/csv/csv_layout_options.dart';
 import 'package:flog3/src/log_event_info.dart';
 import 'package:meta/meta.dart';
 
-abstract class Layout implements IRenderable {
+abstract class Layout implements IRenderable, ISupportsInitialize {
   bool get isInitialized => _isInitialized;
   bool _isInitialized = false;
 
-  final LogConfiguration configuration;
+  LogConfiguration? get configuration => _configuration;
+  LogConfiguration? _configuration = null;
 
-  Layout({required this.configuration});
+  Layout({required LogConfiguration configuration}) : _configuration = configuration;
 
   // TODO(nf): replace body here with more layout-agnostic logic than just SimpleLayout
   factory Layout.fromText(String text, {LogConfiguration? configuration}) {
@@ -40,7 +42,7 @@ abstract class Layout implements IRenderable {
   @nonVirtual
   String render(LogEventInfo logEvent) {
     if (!isInitialized) {
-      initialize(configuration);
+      initialize(configuration!);
     }
     final layoutValue = getFormattedMessage(logEvent) ?? "";
     return layoutValue;
@@ -53,7 +55,7 @@ abstract class Layout implements IRenderable {
 
   void renderAppendBuilder(LogEventInfo logEvent, StringBuffer target, {required bool cacheLayoutResult}) {
     if (!isInitialized) {
-      initialize(configuration);
+      initialize(configuration!);
     }
     // TODO(nf): do stuff related to caching log output
     renderFormattedMessage(logEvent, target);
@@ -65,8 +67,20 @@ abstract class Layout implements IRenderable {
 
   String? getFormattedMessage(LogEventInfo logEvent);
 
+  @override
   @mustCallSuper
   void initialize(LogConfiguration configuration) {
     _isInitialized = true;
   }
+
+  @override
+  void close() {
+    if (isInitialized) {
+      _configuration = null;
+      _isInitialized = false;
+      closeLayout();
+    }
+  }
+
+  void closeLayout() {}
 }

@@ -35,7 +35,7 @@ class CSVLayout extends LayoutWithHeaderAndFooter {
     required this.quoteMode,
     required this.columns,
   }) {
-    super.header = _CSVHeaderLayout(parent: this, configuration: configuration);
+    super.header = _CSVHeaderLayout(parent: this, configuration: configuration!);
     super.footer = null;
     super.layout = this;
   }
@@ -93,7 +93,7 @@ class CSVLayout extends LayoutWithHeaderAndFooter {
   void renderFormattedMessage(LogEventInfo logEvent, StringBuffer target) {
     for (int i = 0; i < columns.length; i++) {
       final colLayout = columns[i].layout;
-      final cl = SimpleLayout.parseLayout(colLayout, configuration);
+      final cl = SimpleLayout.parseLayout(colLayout, configuration!);
       _renderColumnLayout(logEvent, cl, columns[i].quoting ?? quoteMode, target, i);
     }
   }
@@ -126,8 +126,8 @@ class CSVLayout extends LayoutWithHeaderAndFooter {
     final logEvent = LogEventInfo.nullEvent;
     for (int i = 0; i < columns.length; i++) {
       final col = columns[i];
-      final colLayout = SimpleLayout(configuration: configuration, fixedText: col.name, renderers: [], source: col.name);
-      colLayout.initialize(configuration);
+      final colLayout = SimpleLayout(configuration: configuration!, fixedText: col.name, renderers: [], source: col.name);
+      colLayout.initialize(configuration!);
       _renderColumnLayout(logEvent, colLayout, col.quoting ?? quoteMode, sb, i);
     }
   }

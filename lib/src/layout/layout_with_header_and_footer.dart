@@ -22,4 +22,5 @@ class LayoutWithHeaderAndFooter extends Layout {
   void renderFormattedMessage(LogEventInfo logEvent, StringBuffer target) {
     layout.renderFormattedMessage(logEvent, target);
   }
+
 }

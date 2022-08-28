@@ -205,7 +205,7 @@ class LayoutParser {
 
   LayoutVariable _parseValue() {
     final t = _currentToken!;
-    Object val = 0;
+    Object val = "";
     LayoutType ltype = LayoutType.string;
     if (t.tokenType == LayoutTokenType.keyword) {
       final s = t.value.toLowerCase();
@@ -234,7 +234,7 @@ class LayoutParser {
         throw LayoutParserException("Expected a number but got ${t.value}", t);
       }
     } else if (t.tokenType == LayoutTokenType.string) {
-      val = t.value;
+      val = t.value.toString();
       ltype = LayoutType.string;
     }
     return LayoutVariable(r"$boundvariable", ltype, val);

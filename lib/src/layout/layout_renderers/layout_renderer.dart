@@ -1,5 +1,4 @@
 import 'package:flog3/src/abstractions/irenderable.dart';
-import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/exception/flog_exception.dart';
 import 'package:flog3/src/internal_logger/internal_logger.dart';
 import 'package:meta/meta.dart';
