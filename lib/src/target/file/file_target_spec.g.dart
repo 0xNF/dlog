@@ -41,11 +41,11 @@ FileTargetSpec _$FileTargetSpecFromJson(Map<String, dynamic> json) {
     maxArchiveDays: json['maxArchiveDays'] as int? ?? 0,
     archiveFileName: json['archiveFileName'] as String?,
     archiveNumbering: $enumDecodeNullable(
-            _$ArchiveNumberingEnumMap, json['archiveNumbering']) ??
-        ArchiveNumbering.sequence,
+            _$ArchiveNumberingModeEnumMap, json['archiveNumbering']) ??
+        ArchiveNumberingMode.sequence,
     archiveEvery:
-        $enumDecodeNullable(_$ArchiveEveryEnumMap, json['archiveEvery']) ??
-            ArchiveEvery.none,
+        $enumDecodeNullable(_$FileArchivePeriodEnumMap, json['archiveEvery']) ??
+            FileArchivePeriod.none,
     archiveOldFileOnStartup: json['archiveOldFileOnStartup'] as bool? ?? false,
     archiveOldFileOnStartupAboveSize:
         json['archiveOldFileOnStartupAboveSize'] as int? ?? 0,
@@ -73,8 +73,9 @@ Map<String, dynamic> _$FileTargetSpecToJson(FileTargetSpec instance) =>
       'maxArchiveFiles': instance.maxArchiveFiles,
       'maxArchiveDays': instance.maxArchiveDays,
       'archiveFileName': instance.archiveFileName,
-      'archiveNumbering': _$ArchiveNumberingEnumMap[instance.archiveNumbering]!,
-      'archiveEvery': _$ArchiveEveryEnumMap[instance.archiveEvery]!,
+      'archiveNumbering':
+          _$ArchiveNumberingModeEnumMap[instance.archiveNumbering]!,
+      'archiveEvery': _$FileArchivePeriodEnumMap[instance.archiveEvery]!,
       'archiveOldFileOnStartup': instance.archiveOldFileOnStartup,
       'archiveOldFileOnStartupAboveSize':
           instance.archiveOldFileOnStartupAboveSize,
@@ -98,25 +99,25 @@ const _$LineEndingEnumMap = {
   LineEnding.none: 'None',
 };
 
-const _$ArchiveNumberingEnumMap = {
-  ArchiveNumbering.rolling: 'Rolling',
-  ArchiveNumbering.sequence: 'Sequence',
-  ArchiveNumbering.date: 'Date',
-  ArchiveNumbering.dateAndSequence: 'DateAndSequence',
+const _$ArchiveNumberingModeEnumMap = {
+  ArchiveNumberingMode.rolling: 'Rolling',
+  ArchiveNumberingMode.sequence: 'Sequence',
+  ArchiveNumberingMode.date: 'Date',
+  ArchiveNumberingMode.dateAndSequence: 'DateAndSequence',
 };
 
-const _$ArchiveEveryEnumMap = {
-  ArchiveEvery.day: 'Day',
-  ArchiveEvery.hour: 'hour',
-  ArchiveEvery.minute: 'Day',
-  ArchiveEvery.month: 'Month',
-  ArchiveEvery.year: 'Year',
-  ArchiveEvery.sunday: 'Sunday',
-  ArchiveEvery.monday: 'Monday',
-  ArchiveEvery.tuesday: 'Tuesday',
-  ArchiveEvery.wednesday: 'Wednesday',
-  ArchiveEvery.thursday: 'Thursday',
-  ArchiveEvery.friday: 'Friday',
-  ArchiveEvery.saturday: 'Saturday',
-  ArchiveEvery.none: 'None',
+const _$FileArchivePeriodEnumMap = {
+  FileArchivePeriod.none: 'None',
+  FileArchivePeriod.year: 'Year',
+  FileArchivePeriod.month: 'Month',
+  FileArchivePeriod.day: 'Day',
+  FileArchivePeriod.hour: 'Hour',
+  FileArchivePeriod.minute: 'Minute',
+  FileArchivePeriod.sunday: 'Sunday',
+  FileArchivePeriod.monday: 'Monday',
+  FileArchivePeriod.tuesday: 'Tuesday',
+  FileArchivePeriod.wednesday: 'Wednesday',
+  FileArchivePeriod.thursday: 'Thursday',
+  FileArchivePeriod.friday: 'Friday',
+  FileArchivePeriod.saturday: 'Saturday',
 };

@@ -1,4 +1,7 @@
 import 'package:flog3/src/layout/layout_spec.dart';
+import 'package:flog3/src/target/file/file_archive_numbering_mode.dart';
+import 'package:flog3/src/target/file/file_archive_period.dart';
+import 'package:flog3/src/target/file/line_ending.dart';
 import 'package:flog3/src/target/specs/target_spec.dart';
 import 'package:flog3/src/target/specs/target_type.dart';
 import 'package:flog3/src/utils.dart';
@@ -47,38 +50,75 @@ class FileTargetSpec extends TargetSpec {
   final bool replaceFileContentsOnEachWrite;
 
   ///  Indicates whether to delete old log file on startup. Boolean Default: False. This option works only when the "FileName" parameter denotes a single file.
+  @JsonKey(name: "deleteOldFileOnStartup")
   final bool deleteOldFileOnStartup;
 
   /// Size in bytes above which log files will be automatically archived
+  @JsonKey(name: "archiveAboveSize")
   final int? archiveAboveSize;
 
   /// Maximum number of archive files that should be kept. If maxArchiveFiles is less or equal to 0, old files aren't deleted Integer Default: 0
+  @JsonKey(name: "maxArchiveFiles")
   final int maxArchiveFiles;
 
   /// Maximum age of archive files that should be kept. Has no effect when archiveNumbering is Rolling. If maxArchiveDays is less or equal to 0, old files aren't deleted Integer Default: 0
+  @JsonKey(name: "maxArchiveDays")
   final int maxArchiveDays;
 
   /// Name of the file to be used for an archive.
   /// It may contain a special placeholder {###} that will be replaced with a sequence of numbers depending on the archiving strategy.
   ///
   /// The number of hash characters used determines the number of numerical digits to be used for numbering files.
+  @JsonKey(name: "archiveFileName")
   final String? archiveFileName;
 
   /// Way file archives are numbered.
-  final ArchiveNumbering archiveNumbering;
+  @JsonKey(name: "archiveNumbering")
+  final ArchiveNumberingMode archiveNumbering;
 
   /// ndicates whether to automatically archive log files every time the specified time passes.
-  final ArchiveEvery archiveEvery;
+  @JsonKey(name: "archiveEvery")
+  final FileArchivePeriod archiveEvery;
 
   ///  Archive old log file on startup
+  @JsonKey(name: "archiveOldFileOnStartup")
   final bool archiveOldFileOnStartup;
 
   ///  File size threshold to archive old log file on startup.
   ///  Default value is 0 which means that the file is archived as soon as archiveOldFileOnStartup is enabled.
+  @JsonKey(name: "archiveOldFileOnStartupAboveSize")
   final int archiveOldFileOnStartupAboveSize;
 
   /// Indicates whether to compress the archive files into the zip files.
+  @JsonKey(name: "enableArchiveFileCompression")
   final bool enableArchiveFileCompression;
+
+  @JsonKey(name: "keepFileOpen")
+  final bool keepFileOpen;
+
+  @JsonKey(name: "autoFlush")
+  final bool autoFlush;
+
+  @JsonKey(name: "openFileCacheSize")
+  final int openFileCacheSize;
+
+  @JsonKey(name: "openFileCacheTimeout")
+  final int openFileCacheTimeout;
+
+  @JsonKey(name: "openFileFlushTimeout")
+  final int openFileFlushTimeout;
+
+  @JsonKey(name: "bufferSize")
+  final int bufferSize;
+
+  @JsonKey(name: "discardAll")
+  final bool discardAll;
+
+  @JsonKey(name: "writeFooterOnArchivingOnly")
+  final bool writeFooterOnArchivingOnly;
+
+  @JsonKey(name: "forceManaged")
+  final bool forceManaged;
 
   FileTargetSpec({
     required super.name,
@@ -98,101 +138,22 @@ class FileTargetSpec extends TargetSpec {
     this.maxArchiveFiles = 0,
     this.maxArchiveDays = 0,
     this.archiveFileName,
-    this.archiveNumbering = ArchiveNumbering.sequence,
-    this.archiveEvery = ArchiveEvery.none,
+    this.archiveNumbering = ArchiveNumberingMode.sequence,
+    this.archiveEvery = FileArchivePeriod.none,
     this.archiveOldFileOnStartup = false,
     this.archiveOldFileOnStartupAboveSize = 0,
     this.enableArchiveFileCompression = false,
+    this.keepFileOpen = true,
+    this.autoFlush = true,
+    this.openFileCacheSize = 5,
+    this.openFileCacheTimeout = 10,
+    this.openFileFlushTimeout = 10,
+    this.bufferSize = 32768,
+    this.discardAll = false,
+    this.writeFooterOnArchivingOnly = false,
+    this.forceManaged = true,
   });
 
   Map<String, dynamic> toJson() => _$FileTargetSpecToJson(this);
   factory FileTargetSpec.fromJson(Map<String, dynamic> json) => _$FileTargetSpecFromJson(json);
-}
-
-enum ArchiveNumbering {
-  /// Rolling style numbering (the most recent is always #0 then #1, ..., #N).
-  @JsonValue("Rolling")
-  rolling,
-
-  /// Sequence style numbering. The most recent archive has the highest number.
-  @JsonValue("Sequence")
-  sequence,
-
-  /// Date style numbering. The date is formatted according to the value of archiveDateFormat.
-  @JsonValue("Date")
-  date,
-
-  /// ombination of Date and Sequence.
-  /// Archives will be stamped with the prior period (Year, Month, Day) datetime.
-  /// The most recent archive has the highest number (in combination with the date).
-  /// The date is formatted according to the value of archiveDateFormat.
-  @JsonValue("DateAndSequence")
-  dateAndSequence,
-}
-
-enum ArchiveEvery {
-  /// Archive daily.
-  @JsonValue("Day")
-  day,
-
-  /// Archive hourly.
-  @JsonValue("hour")
-  hour,
-
-  /// Archive every minute.
-  @JsonValue("Day")
-  minute,
-
-  /// Archive every month.
-  @JsonValue("Month")
-  month,
-
-  /// Archive yearly.
-  @JsonValue("Year")
-  year,
-
-  /// Archive every Sunday.
-  @JsonValue("Sunday")
-  sunday,
-
-  /// Archive every Monday.
-  @JsonValue("Monday")
-  monday,
-
-  /// Archive every Tuesday.
-  @JsonValue("Tuesday")
-  tuesday,
-
-  /// Archive every Wednesday.
-  @JsonValue("Wednesday")
-  wednesday,
-
-  /// Archive every Thursday.
-  @JsonValue("Thursday")
-  thursday,
-
-  /// Archive every Friday.
-  @JsonValue("Friday")
-  friday,
-
-  /// Archive every Saturday.
-  @JsonValue("Saturday")
-  saturday,
-
-  /// Never archive
-  @JsonValue("None")
-  none,
-}
-
-enum LineEnding {
-  @JsonValue("CR")
-  cr,
-  @JsonValue("CRLF")
-  crLf,
-  @JsonValue("LF")
-  lf,
-  @JsonValue("Default")
-  platform,
-  @JsonValue("None")
-  none,
 }

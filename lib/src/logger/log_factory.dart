@@ -14,6 +14,10 @@ class LogFactory {
   static LogConfiguration? _configuration;
   static late final bool throwExceptions;
 
+  /// Gets an [ILogger] for use in your application.
+  ///
+  /// If you do not supply a name, a name will be given by attempting to determine
+  /// the file name of the function the logger was created in.
   static ILogger getLogger([String? name]) {
     final n = name ?? _getAnonymousLoggerName();
     ILogger? l = _logCache[name];

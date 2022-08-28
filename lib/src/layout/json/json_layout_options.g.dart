@@ -8,9 +8,10 @@ part of 'json_layout_options.dart';
 
 JSONLayoutOptions _$JSONLayoutOptionsFromJson(Map<String, dynamic> json) =>
     JSONLayoutOptions(
-      attributes: (json['attributes'] as List<dynamic>)
-          .map((e) => JSONAttribute.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      attributes: (json['attributes'] as List<dynamic>?)
+              ?.map((e) => JSONAttribute.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          _defaultAttributes,
       suppressSpaces: json['suppressSpaces'] as bool? ?? false,
       renderEmptyObject: json['renderEmptyObject'] as bool? ?? true,
       includeEventProperties: json['includeEventProperties'] as bool? ?? false,

@@ -18,7 +18,13 @@ CSVLayoutOptions _$CSVLayoutOptionsFromJson(Map<String, dynamic> json) =>
       columns: (json['columns'] as List<dynamic>?)
               ?.map((e) => CSVColumn.fromJson(e as Map<String, dynamic>))
               .toList() ??
-          const [],
+          const [
+            CSVColumn(name: "Time", layout: r'${longdate}'),
+            CSVColumn(name: "Level", layout: r'${level}'),
+            CSVColumn(name: "Logger", layout: r'${loggername}'),
+            CSVColumn(name: "Message", layout: r'${message}')
+          ],
+      quoteChar: json['quoteChar'] as String? ?? '"',
     );
 
 Map<String, dynamic> _$CSVLayoutOptionsToJson(CSVLayoutOptions instance) =>
@@ -28,6 +34,7 @@ Map<String, dynamic> _$CSVLayoutOptionsToJson(CSVLayoutOptions instance) =>
       'customColumnDelimiter': instance.customColumnDelimiter,
       'delimeter': _$DelimeterEnumEnumMap[instance.delimeter]!,
       'columns': instance.columns,
+      'quoteChar': instance.quoteChar,
     };
 
 const _$QuoteEnumEnumMap = {
