@@ -7,7 +7,10 @@ import 'package:flog3/src/target/file/file_archive_numbering_mode.dart';
 import 'package:flog3/src/target/file/file_archive_period.dart';
 import 'package:flog3/src/target/file/file_path_kind.dart';
 import 'package:flog3/src/target/file/file_target_spec.dart';
+import 'package:flog3/src/target/file/fuke_archive_mode_factory.dart';
 import 'package:flog3/src/target/file/icreate_file_parameters.dart';
+import 'package:flog3/src/target/file/ifile_appender_cache.dart';
+import 'package:flog3/src/target/file/ifile_archive_mode.dart';
 import 'package:flog3/src/target/file/line_ending.dart';
 import 'package:flog3/src/target/specs/target_spec.dart';
 import 'package:flog3/src/target/target_with_layout_header_footer.dart';
@@ -28,6 +31,22 @@ class FileTarget extends TargetWithLayoutHeaderAndFooter implements ICreateFileP
 
   /// The number of initialized files at any one time.
   int _initializedFilesCounter = 0;
+
+  IFileArchiveMode _getFileArchiveHelper(String archiveFilePattern) {
+    if (_fileArchiveHelper != null) {
+      return _fileArchiveHelper!;
+    } else {
+      final dateFormatting = getArchiveDateFormatString(archiveDateFormat);
+      final isCustomFormat = archiveFileName != null;
+      final isCleanupEnabled = maxArchiveFiles > 0 || maxArchiveDays > 0;
+      final fa = FileArchiveModeFactory.createArchiveStyle(archiveFilePattern, archiveNumbering, dateFormatting, isCustomFormat, isCleanupEnabled);
+      _fileArchiveHelper = fa;
+    }
+    return _fileArchiveHelper!;
+  }
+
+  IFileArchiveMode? _fileArchiveHelper;
+  IFileAppenderCache? _fileAppenderCache;
 
   /// The maximum number of archive files that should be kept.
   int get maxArchiveFiles => _maxArchiveFiles;
@@ -88,7 +107,7 @@ class FileTarget extends TargetWithLayoutHeaderAndFooter implements ICreateFileP
   set cleanupFileNames(bool value) {
     if (_cleanupFileName != value) {
       _cleanupFileName = value;
-      _fullFileName = _createFileNameLayout(filename);
+      _fullFileName = _createFileNameLayout(fileName);
       _fullArchiveFileName = _createFileNameLayout(archiveFileName);
       _resetFileAppenders("CleanupFileName changed");
     }
@@ -177,10 +196,6 @@ class FileTarget extends TargetWithLayoutHeaderAndFooter implements ICreateFileP
   // TODO: implement bufferSize
   int get bufferSize => _bufferSize;
   int _bufferSize = 32768;
-
-  @override
-  // TODO: implement concurrentWrites
-  bool get concurrentWrites => throw UnimplementedError();
 
   /// Gets or sets a value indicating whether to create directories if they do not exist.
   /// Setting this to false may improve performance a bit, but you'll receive an error
@@ -407,6 +422,14 @@ class FileTarget extends TargetWithLayoutHeaderAndFooter implements ICreateFileP
     print(s);
   }
 
+  void _resetFileAppenders(String reason) {
+    _fileArchiveHelper = null;
+    if (isInitialized) {
+      _fileAppenderCache?.closeAppenders(reason);
+      _initializedFiles.clear();
+    }
+  }
+
   static bool _initialBOMValue(Encoding encoding) {
     const int utf16 = 1200;
     const int utf16Be = 1201;
@@ -416,5 +439,35 @@ class FileTarget extends TargetWithLayoutHeaderAndFooter implements ICreateFileP
     return false;
     // var codePage = encoding?. ?? 0;
     // return codePage == utf16 || codePage == utf16Be || codePage == utf32 || codePage == urf32Be;
+  }
+
+  /// <summary>
+  /// Gets the correct formatting <see langword="String"/> to be used based on the value of <see
+  /// cref="ArchiveEvery"/> for converting <see langword="DateTime"/> values which will be inserting into file
+  /// names during archiving.
+  ///
+  /// This value will be computed only when a empty value or <see langword="null"/> is passed into <paramref name="defaultFormat"/>
+  /// </summary>
+  /// <param name="defaultFormat">Date format to used irrespectively of <see cref="ArchiveEvery"/> value.</param>
+  /// <returns>Formatting <see langword="String"/> for dates.</returns>
+  String getArchiveDateFormatString(String defaultFormat) {
+    // If archiveDateFormat is not set in the config file, use a default
+    // date format string based on the archive period.
+    if (defaultFormat.isNotEmpty) {
+      return defaultFormat;
+    }
+
+    switch (archiveEvery) {
+      case FileArchivePeriod.year:
+        return "yyyy";
+      case FileArchivePeriod.month:
+        return "yyyyMM";
+      case FileArchivePeriod.hour:
+        return "yyyyMMddHH";
+      case FileArchivePeriod.minute:
+        return "yyyyMMddHHmm";
+      default:
+        return "yyyyMMdd"; // Also for Weekdays
+    }
   }
 }
