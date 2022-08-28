@@ -27,7 +27,12 @@ class CSVLayoutOptions implements LayoutSpecOptions {
     this.withHeader = true,
     this.customColumnDelimiter = ",",
     this.delimeter = DelimeterEnum.auto,
-    this.columns = const [],
+    this.columns = const [
+      CSVColumn(name: "Time", layout: r'${longdate}'),
+      CSVColumn(name: "Level", layout: r'${level}'),
+      CSVColumn(name: "Logger", layout: r'${loggername}'),
+      CSVColumn(name: "Message", layout: r'${message}'),
+    ],
     this.quoteChar = '"',
   });
 
@@ -46,7 +51,7 @@ class CSVColumn {
   /// Column specific override of the default column quoting (Ex. for column with multiline exception-output)
   final QuoteEnum? quoting;
 
-  CSVColumn({
+  const CSVColumn({
     required this.name,
     required this.layout,
     this.quoting,

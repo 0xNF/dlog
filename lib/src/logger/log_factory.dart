@@ -5,6 +5,8 @@ import 'package:flog3/src/internal_logger/internal_logger.dart';
 import 'package:flog3/src/logger/logger.dart';
 import 'package:flog3/src/rule/rule.dart';
 import 'package:flog3/src/target/target.dart';
+import 'package:flog3/src/utils.dart';
+import 'package:collection/collection.dart';
 
 class LogFactory {
   static final Map<String, ILogger> _logCache = <String, ILogger>{};
@@ -12,14 +14,24 @@ class LogFactory {
   static LogConfiguration? _configuration;
   static late final bool throwExceptions;
 
-  static ILogger getLogger(String name) {
+  static ILogger getLogger([String? name]) {
+    final n = name ?? _getAnonymousLoggerName();
     ILogger? l = _logCache[name];
     if (l == null) {
-      internalLogger.debug("Logger didn't exist, creating one now", eventProperties: {'loggerName': name});
-      l = _makeLogger(name);
-      _logCache[name] = l;
+      internalLogger.debug("Logger didn't exist, creating one now", eventProperties: {'loggerName': n});
+      l = _makeLogger(n);
+      _logCache[n] = l;
     }
     return l;
+  }
+
+  static String _getAnonymousLoggerName() {
+    final st = StackTrace.current;
+    final s = st.relevantTraceLines(1).firstOrNull;
+    if (s == null || s.isEmpty) {
+      return "<anonymous logger>";
+    }
+    return st.getFileName(s);
   }
 
   static ILogger _makeLogger(String name) {

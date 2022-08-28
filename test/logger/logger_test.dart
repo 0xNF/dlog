@@ -26,6 +26,7 @@ void main() {
 
     test('Check logger name', () {
       expect(basic.name, "SomeLogger");
+      expect((LogFactory.getLogger() as FLogger).name, "logger_test");
     });
 
     test("Check matching rules", () {
