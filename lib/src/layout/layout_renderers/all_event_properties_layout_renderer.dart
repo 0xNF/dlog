@@ -1,11 +1,12 @@
 import 'dart:convert';
 
+import 'package:flog3/src/abstractions/istring_value_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/layout_renderer.dart';
 import 'package:flog3/src/layout/parser/layout_parser.dart';
 import 'package:flog3/src/layout/parser/tokenizer/parse_exception.dart';
 import 'package:flog3/src/log_event_info.dart';
 
-class AllEventPropertiesLayoutRenderer extends LayoutRenderer {
+class AllEventPropertiesLayoutRenderer extends LayoutRenderer implements IStringValueRenderer {
   static const id = "all-event-properties";
 
   @override
@@ -111,4 +112,7 @@ class AllEventPropertiesLayoutRenderer extends LayoutRenderer {
       format: format,
     );
   }
+
+  @override
+  String? getFormattedString(LogEventInfo logEvent) => _getValue(logEvent);
 }

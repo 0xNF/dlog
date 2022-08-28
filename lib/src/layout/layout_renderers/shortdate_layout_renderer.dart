@@ -1,11 +1,12 @@
+import 'package:flog3/src/abstractions/iraw_value_renderer.dart';
+import 'package:flog3/src/abstractions/istring_value_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/layout_renderer.dart';
 import 'package:flog3/src/layout/parser/layout_parser.dart';
 import 'package:flog3/src/layout/parser/tokenizer/parse_exception.dart';
 import 'package:flog3/src/log_event_info.dart';
 
-
 /// The short date in a sortable format yyyy-MM-dd.
-class ShortDateLayoutRenderer extends LayoutRenderer {
+class ShortDateLayoutRenderer extends LayoutRenderer implements IStringValueRenderer, IRawValue {
   static const id = "shortdate";
 
   @override
@@ -22,11 +23,19 @@ class ShortDateLayoutRenderer extends LayoutRenderer {
 
   @override
   void append(StringBuffer builder, LogEventInfo logEvent) {
-    builder.write(getValue(logEvent));
+    builder.write(getStringValue(logEvent));
   }
 
-  String getValue(LogEventInfo logEvent) {
-    final ts = universalTime ? logEvent.timeStamp.toUtc() : logEvent.timeStamp.toLocal();
+  DateTime _getValue(LogEventInfo logEvent) {
+    final timestamp = logEvent.timeStamp;
+    if (universalTime) {
+      return timestamp.toUtc();
+    }
+    return timestamp;
+  }
+
+  String getStringValue(LogEventInfo logEvent) {
+    final ts = _getValue(logEvent);
 
     int year = ts.year;
     int month = ts.month;
@@ -37,6 +46,15 @@ class ShortDateLayoutRenderer extends LayoutRenderer {
     String d = day.toString().padLeft(2, '0');
 
     return "$y-$m-$d";
+  }
+
+  @override
+  String? getFormattedString(LogEventInfo logEvent) => getStringValue(logEvent);
+
+  @override
+  Object? tryGetRawValue(LogEventInfo logEvent) {
+    final dt = _getValue(logEvent);
+    return DateTime(dt.year, dt.month, dt.day); // only the date part
   }
 
   factory ShortDateLayoutRenderer.fromToken(LayoutVariable variable) {

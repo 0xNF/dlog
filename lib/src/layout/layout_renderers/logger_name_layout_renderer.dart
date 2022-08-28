@@ -1,9 +1,10 @@
+import 'package:flog3/src/abstractions/istring_value_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/layout_renderer.dart';
 import 'package:flog3/src/layout/parser/layout_parser.dart';
 import 'package:flog3/src/layout/parser/tokenizer/parse_exception.dart';
 import 'package:flog3/src/log_event_info.dart';
 
-class LoggerNameLayoutRenderer extends LayoutRenderer {
+class LoggerNameLayoutRenderer extends LayoutRenderer implements IStringValueRenderer {
   static const id = "loggername";
 
   @override
@@ -24,6 +25,12 @@ class LoggerNameLayoutRenderer extends LayoutRenderer {
   }
 
   String getValue(LogEventInfo logEvent) {
+    return logEvent.loggerName;
+  }
+
+  @override
+  String? getFormattedString(LogEventInfo logEvent) {
+    if (shortName) {}
     return logEvent.loggerName;
   }
 

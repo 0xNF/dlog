@@ -1,10 +1,11 @@
+import 'package:flog3/src/abstractions/istring_value_renderer.dart';
 import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/layout/layout_renderers/layout_renderer.dart';
 import 'package:flog3/src/layout/parser/layout_parser.dart';
 import 'package:flog3/src/layout/parser/tokenizer/parse_exception.dart';
 import 'package:flog3/src/log_event_info.dart';
 
-class MessageLayoutRenderer extends LayoutRenderer {
+class MessageLayoutRenderer extends LayoutRenderer implements IStringValueRenderer {
   static const String id = "message";
 
   @override
@@ -41,6 +42,17 @@ class MessageLayoutRenderer extends LayoutRenderer {
 
     // TODO(nf): raw is currently ignored
     return sb.toString();
+  }
+
+  @override
+  String? getFormattedString(LogEventInfo logEvent) {
+    if (withException) {
+      return null;
+    } else if (raw) {
+      return logEvent.message;
+    } else {
+      return logEvent.formattedMessage;
+    }
   }
 
   const MessageLayoutRenderer({

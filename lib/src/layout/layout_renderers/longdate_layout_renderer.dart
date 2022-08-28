@@ -1,3 +1,4 @@
+import 'package:flog3/src/abstractions/iraw_value_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/layout_renderer.dart';
 import 'package:flog3/src/layout/parser/layout_parser.dart';
 import 'package:flog3/src/log_event_info.dart';
@@ -5,7 +6,7 @@ import 'package:flog3/src/log_event_info.dart';
 import 'package:flog3/src/layout/parser/tokenizer/parse_exception.dart';
 
 ///The date and time in a long, sortable format yyyy-MM-dd HH:mm:ss.ffff.
-class LongDateLayoutRenderer extends LayoutRenderer {
+class LongDateLayoutRenderer extends LayoutRenderer implements IRawValue {
   static const id = "longdate";
 
   @override
@@ -47,6 +48,9 @@ class LongDateLayoutRenderer extends LayoutRenderer {
 
     return "$y-$m-$d $h:$mi:$s.$ms";
   }
+
+  @override
+  Object? tryGetRawValue(LogEventInfo logEvent) => getValue(logEvent);
 
   factory LongDateLayoutRenderer.fromToken(LayoutVariable variable) {
     bool universalTime = false;

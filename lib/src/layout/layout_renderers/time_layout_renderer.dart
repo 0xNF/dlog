@@ -1,10 +1,11 @@
+import 'package:flog3/src/abstractions/iraw_value_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/layout_renderer.dart';
 import 'package:flog3/src/layout/parser/layout_parser.dart';
 import 'package:flog3/src/log_event_info.dart';
 import 'package:flog3/src/layout/parser/tokenizer/parse_exception.dart';
 
 /// The time in a 24-hour, sortable format HH:mm:ss.mmmm.
-class TimeLayoutRenderer extends LayoutRenderer {
+class TimeLayoutRenderer extends LayoutRenderer implements IRawValue {
   static const id = "time";
 
   @override
@@ -38,6 +39,9 @@ class TimeLayoutRenderer extends LayoutRenderer {
 
     return "$h:$m:$s.$ms";
   }
+
+  @override
+  Object? tryGetRawValue(LogEventInfo logEvent) => getValue(logEvent);
 
   factory TimeLayoutRenderer.fromToken(LayoutVariable variable) {
     bool universalTime = false;

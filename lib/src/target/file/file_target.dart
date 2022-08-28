@@ -8,7 +8,7 @@ import 'package:flog3/src/target/file/file_archive_numbering_mode.dart';
 import 'package:flog3/src/target/file/file_archive_period.dart';
 import 'package:flog3/src/target/file/file_path_kind.dart';
 import 'package:flog3/src/target/file/file_target_spec.dart';
-import 'package:flog3/src/target/file/fuke_archive_mode_factory.dart';
+import 'package:flog3/src/target/file/file_archive_mode_factory.dart';
 import 'package:flog3/src/target/file/icreate_file_parameters.dart';
 import 'package:flog3/src/target/file/ifile_appender_cache.dart';
 import 'package:flog3/src/target/file/ifile_archive_mode.dart';

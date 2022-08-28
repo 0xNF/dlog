@@ -1,3 +1,4 @@
+import 'package:flog3/src/abstractions/irenderable.dart';
 import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/layout/csv/layout_csv.dart';
 import 'package:flog3/src/layout/json/json_layout_options.dart';
@@ -8,7 +9,7 @@ import 'package:flog3/src/layout/csv/csv_layout_options.dart';
 import 'package:flog3/src/log_event_info.dart';
 import 'package:meta/meta.dart';
 
-abstract class Layout {
+abstract class Layout implements IRenderable {
   bool get isInitialized => _isInitialized;
   bool _isInitialized = false;
 
@@ -35,6 +36,7 @@ abstract class Layout {
     }
   }
 
+  @override
   @nonVirtual
   String render(LogEventInfo logEvent) {
     if (!isInitialized) {

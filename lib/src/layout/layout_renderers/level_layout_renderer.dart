@@ -1,12 +1,13 @@
 import 'package:dart_ilogger/dart_ilogger.dart';
+import 'package:flog3/src/abstractions/iraw_value_renderer.dart';
+import 'package:flog3/src/abstractions/istring_value_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/layout_renderer.dart';
 import 'package:flog3/src/layout/parser/layout_parser.dart';
 import 'package:collection/collection.dart';
 import 'package:flog3/src/layout/parser/tokenizer/parse_exception.dart';
 import 'package:flog3/src/log_event_info.dart';
 
-
-class LevelLayoutRenderer extends LayoutRenderer {
+class LevelLayoutRenderer extends LayoutRenderer implements IStringValueRenderer, IRawValue {
   static const id = "level";
 
   @override
@@ -47,6 +48,18 @@ class LevelLayoutRenderer extends LayoutRenderer {
         break;
     }
   }
+
+  @override
+  String? getFormattedString(LogEventInfo logEvent) {
+    if (format == LevelFormat.name) {
+      var level = getValue(logEvent);
+      return uppercase ? level.name.toUpperCase() : level.name;
+    }
+    return null;
+  }
+
+  @override
+  Object? tryGetRawValue(LogEventInfo logEvent) => getValue(logEvent);
 
   static LogLevel getValue(LogEventInfo logEvent) {
     return logEvent.level;
