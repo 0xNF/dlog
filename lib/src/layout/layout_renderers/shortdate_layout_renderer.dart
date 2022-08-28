@@ -23,7 +23,7 @@ class ShortDateLayoutRenderer extends LayoutRenderer implements IStringValueRend
 
   @override
   void append(StringBuffer builder, LogEventInfo logEvent) {
-    builder.write(getStringValue(logEvent));
+    builder.write(_getStringValue(logEvent));
   }
 
   DateTime _getValue(LogEventInfo logEvent) {
@@ -34,7 +34,7 @@ class ShortDateLayoutRenderer extends LayoutRenderer implements IStringValueRend
     return timestamp;
   }
 
-  String getStringValue(LogEventInfo logEvent) {
+  String _getStringValue(LogEventInfo logEvent) {
     final ts = _getValue(logEvent);
 
     int year = ts.year;
@@ -49,7 +49,7 @@ class ShortDateLayoutRenderer extends LayoutRenderer implements IStringValueRend
   }
 
   @override
-  String? getFormattedString(LogEventInfo logEvent) => getStringValue(logEvent);
+  String? getFormattedString(LogEventInfo logEvent) => _getStringValue(logEvent);
 
   @override
   Object? tryGetRawValue(LogEventInfo logEvent) {

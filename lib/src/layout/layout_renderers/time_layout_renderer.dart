@@ -22,10 +22,10 @@ class TimeLayoutRenderer extends LayoutRenderer implements IRawValue {
 
   @override
   void append(StringBuffer builder, LogEventInfo logEvent) {
-    builder.write(getValue(logEvent));
+    builder.write(_getValue(logEvent));
   }
 
-  String getValue(LogEventInfo logEvent) {
+  String _getValue(LogEventInfo logEvent) {
     final ts = universalTime ? logEvent.timeStamp.toUtc() : logEvent.timeStamp.toLocal();
     int hour = ts.hour;
     int minute = ts.minute;
@@ -41,7 +41,7 @@ class TimeLayoutRenderer extends LayoutRenderer implements IRawValue {
   }
 
   @override
-  Object? tryGetRawValue(LogEventInfo logEvent) => getValue(logEvent);
+  Object? tryGetRawValue(LogEventInfo logEvent) => _getValue(logEvent);
 
   factory TimeLayoutRenderer.fromToken(LayoutVariable variable) {
     bool universalTime = false;

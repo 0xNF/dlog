@@ -21,10 +21,10 @@ class LoggerNameLayoutRenderer extends LayoutRenderer implements IStringValueRen
 
   @override
   void append(StringBuffer builder, LogEventInfo logEvent) {
-    builder.write(getValue(logEvent));
+    builder.write(_getValue(logEvent));
   }
 
-  String getValue(LogEventInfo logEvent) {
+  String _getValue(LogEventInfo logEvent) {
     return logEvent.loggerName;
   }
 

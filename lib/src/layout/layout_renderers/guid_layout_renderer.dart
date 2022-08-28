@@ -34,10 +34,10 @@ class GuidLayoutRenderer extends LayoutRenderer implements IStringValueRenderer,
 
   @override
   void append(StringBuffer builder, LogEventInfo logEvent) {
-    builder.write(getValue(logEvent));
+    builder.write(_getValue(logEvent));
   }
 
-  String getValue(LogEventInfo logEvent) {
+  String _getValue(LogEventInfo logEvent) {
     // TODO(nf): fix generate from Log Event
     if (generateFromLogEvent) {
       int hashCode = logEvent.hashCode;
@@ -77,10 +77,10 @@ class GuidLayoutRenderer extends LayoutRenderer implements IStringValueRenderer,
   }
 
   @override
-  String? getFormattedString(LogEventInfo logEvent) => getValue(logEvent);
+  String? getFormattedString(LogEventInfo logEvent) => _getValue(logEvent);
 
   @override
-  Object? tryGetRawValue(LogEventInfo logEvent) => getValue(logEvent);
+  Object? tryGetRawValue(LogEventInfo logEvent) => _getValue(logEvent);
 
   factory GuidLayoutRenderer.fromToken(LayoutVariable variable) {
     GuidFormat format = GuidFormat.v4;

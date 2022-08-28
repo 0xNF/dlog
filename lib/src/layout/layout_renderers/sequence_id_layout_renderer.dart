@@ -1,9 +1,10 @@
+import 'package:flog3/src/abstractions/iraw_value_renderer.dart';
 import 'package:flog3/src/layout/layout_renderers/layout_renderer.dart';
 import 'package:flog3/src/layout/parser/layout_parser.dart';
 import 'package:flog3/src/layout/parser/tokenizer/parse_exception.dart';
 import 'package:flog3/src/log_event_info.dart';
 
-class SequenceIdRenderer extends LayoutRenderer {
+class SequenceIdRenderer extends LayoutRenderer implements IRawValue {
   static const id = "sequenceid";
 
   @override
@@ -14,12 +15,15 @@ class SequenceIdRenderer extends LayoutRenderer {
 
   @override
   void append(StringBuffer builder, LogEventInfo logEvent) {
-    builder.write(getValue(logEvent));
+    builder.write(_getValue(logEvent));
   }
 
-  String getValue(LogEventInfo logEvent) {
+  String _getValue(LogEventInfo logEvent) {
     return "${logEvent.sequenceId}";
   }
+
+  @override
+  Object? tryGetRawValue(LogEventInfo logEvent) => _getValue(logEvent);
 
   const SequenceIdRenderer();
 

@@ -26,7 +26,7 @@ class LevelLayoutRenderer extends LayoutRenderer implements IStringValueRenderer
 
   @override
   void append(StringBuffer builder, LogEventInfo logEvent) {
-    final level = getValue(logEvent);
+    final level = _getValue(logEvent);
     switch (format) {
       case LevelFormat.name:
         builder.write(uppercase ? level.name.toUpperCase() : level.name);
@@ -52,16 +52,16 @@ class LevelLayoutRenderer extends LayoutRenderer implements IStringValueRenderer
   @override
   String? getFormattedString(LogEventInfo logEvent) {
     if (format == LevelFormat.name) {
-      var level = getValue(logEvent);
+      var level = _getValue(logEvent);
       return uppercase ? level.name.toUpperCase() : level.name;
     }
     return null;
   }
 
   @override
-  Object? tryGetRawValue(LogEventInfo logEvent) => getValue(logEvent);
+  Object? tryGetRawValue(LogEventInfo logEvent) => _getValue(logEvent);
 
-  static LogLevel getValue(LogEventInfo logEvent) {
+  static LogLevel _getValue(LogEventInfo logEvent) {
     return logEvent.level;
   }
 

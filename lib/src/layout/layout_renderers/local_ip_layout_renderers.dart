@@ -26,10 +26,10 @@ class LocalIPLayoutRenderer extends LayoutRenderer {
   @override
   void append(StringBuffer builder, LogEventInfo logEvent) {
     // TODO(nf): what to do about async values
-    getValue(logEvent).then((value) => builder.write(value));
+    _getValue(logEvent).then((value) => builder.write(value));
   }
 
-  Future<String> getValue(LogEventInfo logEvent) async {
+  Future<String> _getValue(LogEventInfo logEvent) async {
     final lst = await NetworkInterface.list(type: addressFamily);
     return lst.firstOrNull?.addresses.firstOrNull?.address ?? "";
   }
