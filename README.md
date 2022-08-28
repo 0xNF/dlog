@@ -10,19 +10,16 @@
 * fix bug in layout parser that ignores whitespace in text literals
 * make Layout defintions recursive
 
-## Better Defaulst?
-	* The CSV/JSON/etc layouts should contain their own version of the SimpleLayout default incl Time,Level,Logger,Message,EventProps
-
 ## Mandatory goals
 - [ ] implement FileTarget's archival and rotation semantics
 - [ ] implement JsonTarget
-- [ ]more layout renderers
-- [ ]prove implementation of ILogger
-- [ ]setup TargetWithLayoutHeaderFooter
-- [ ]setup TargetWithLayout
-- [ ]change current targets to implement LHF
-- [ ]set LFH.closeTarget() to write footer
-- [ ]set LFH.initialize() to write header
+- [ ] more layout renderers
+- [ ] prove implementation of ILogger
+- [ ] setup TargetWithLayoutHeaderFooter
+- [ ] setup TargetWithLayout
+- [ ] change current targets to implement LHF
+- [ ] set LFH.closeTarget() to write footer
+- [ ] set LFH.initialize() to write header
 
 ## Stretch goals
 - [ ] implement programatic construction of loggers and log configurations
@@ -33,12 +30,12 @@ Implemented
 --
 * [Debug](https://github.com/NLog/NLog/wiki/Debug-target)
 * [Console](https://github.com/NLog/NLog/wiki/Console-target)
+* [Null](https://github.com/NLog/NLog/wiki/Null-target)
 
 Not Yet Implemented
 --
 * [ColoredConsole](https://github.com/NLog/NLog/wiki/ColoredConsole-target)
 * [File](https://github.com/NLog/NLog/wiki/File-target)
-* [Null](https://github.com/NLog/NLog/wiki/Null-target)
 
 Will Not Implememt
 --
