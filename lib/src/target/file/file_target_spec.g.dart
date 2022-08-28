@@ -51,6 +51,16 @@ FileTargetSpec _$FileTargetSpecFromJson(Map<String, dynamic> json) {
         json['archiveOldFileOnStartupAboveSize'] as int? ?? 0,
     enableArchiveFileCompression:
         json['enableArchiveFileCompression'] as bool? ?? false,
+    keepFileOpen: json['keepFileOpen'] as bool? ?? true,
+    autoFlush: json['autoFlush'] as bool? ?? true,
+    openFileCacheSize: json['openFileCacheSize'] as int? ?? 5,
+    openFileCacheTimeout: json['openFileCacheTimeout'] as int? ?? 10,
+    openFileFlushTimeout: json['openFileFlushTimeout'] as int? ?? 10,
+    bufferSize: json['bufferSize'] as int? ?? 32768,
+    discardAll: json['discardAll'] as bool? ?? false,
+    writeFooterOnArchivingOnly:
+        json['writeFooterOnArchivingOnly'] as bool? ?? false,
+    forceManaged: json['forceManaged'] as bool? ?? true,
   );
 }
 
@@ -80,6 +90,15 @@ Map<String, dynamic> _$FileTargetSpecToJson(FileTargetSpec instance) =>
       'archiveOldFileOnStartupAboveSize':
           instance.archiveOldFileOnStartupAboveSize,
       'enableArchiveFileCompression': instance.enableArchiveFileCompression,
+      'keepFileOpen': instance.keepFileOpen,
+      'autoFlush': instance.autoFlush,
+      'openFileCacheSize': instance.openFileCacheSize,
+      'openFileCacheTimeout': instance.openFileCacheTimeout,
+      'openFileFlushTimeout': instance.openFileFlushTimeout,
+      'bufferSize': instance.bufferSize,
+      'discardAll': instance.discardAll,
+      'writeFooterOnArchivingOnly': instance.writeFooterOnArchivingOnly,
+      'forceManaged': instance.forceManaged,
     };
 
 const _$TargetTypeEnumMap = {

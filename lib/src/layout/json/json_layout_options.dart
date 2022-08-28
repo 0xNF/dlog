@@ -3,16 +3,16 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'json_layout_options.g.dart';
 
+const List<JSONAttribute> _defaultAttributes = [
+  JSONAttribute(name: "Time", layout: r"${longdate}"),
+  JSONAttribute(name: "Level", layout: r"${level}"),
+  JSONAttribute(name: "Logger", layout: r"${loggername}"),
+  JSONAttribute(name: "Message", layout: r"${message}"),
+  JSONAttribute(name: "EventProperties", layout: "\${all-event-properties}"),
+];
+
 @JsonSerializable()
 class JSONLayoutOptions implements LayoutSpecOptions {
-  static const List<JSONAttribute> _defaultAttributes = [
-    JSONAttribute(name: "Time", layout: r"${longdate}"),
-    JSONAttribute(name: "Level", layout: r"${level}"),
-    JSONAttribute(name: "Logger", layout: r"${loggername}"),
-    JSONAttribute(name: "Message", layout: r"${message}"),
-    JSONAttribute(name: "EventProperties", layout: "\${all-event-properties}"),
-  ];
-
   @JsonKey(name: "attributes")
   final List<JSONAttribute> attributes;
 

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/layout/file/file_path_layout.dart';
 import 'package:flog3/src/layout/layout.dart';
+import 'package:flog3/src/layout/simple/layout_simple.dart';
 import 'package:flog3/src/target/file/file_archive_numbering_mode.dart';
 import 'package:flog3/src/target/file/file_archive_period.dart';
 import 'package:flog3/src/target/file/file_path_kind.dart';
@@ -169,7 +170,7 @@ class FileTarget extends TargetWithLayoutHeaderAndFooter implements ICreateFileP
   /// the application runs.
   /// <code>${basedir}/${level}.log</code>
   ///
-  /// All <c>Debug</c> messages will go to <c>Debug.log</c>, all <c>Info</c> messages will go to <c>Info.log</c> and so on.
+  /// All `Debug` messages will go to `Debug.log`, all `Info` messages will go to `Info.log` and so on.
   /// You can combine as many of the layout renderers as you want to produce an arbitrary log file name.
   Layout? get fileName => _fullFileName?.getLayout();
   set fileName(Layout? value) {
@@ -391,8 +392,8 @@ class FileTarget extends TargetWithLayoutHeaderAndFooter implements ICreateFileP
     t._forceManaged = tspec.forceManaged;
     t._enableArchiveFileCompression = tspec.enableArchiveFileCompression;
 
-    t.archiveFileName = tspec.archiveFileName;
-    t.fileName = tspec.fileName;
+    t.archiveFileName = tspec.archiveFileName == null ? null : SimpleLayout.parseLayout(tspec.archiveFileName!, config);
+    t.fileName = SimpleLayout.parseLayout(tspec.fileName, config);
     return t;
   }
 
@@ -469,5 +470,49 @@ class FileTarget extends TargetWithLayoutHeaderAndFooter implements ICreateFileP
       default:
         return "yyyyMMdd"; // Also for Weekdays
     }
+  }
+
+  DateTime? _calculateNextArchiveEventTime(DateTime timestamp) {
+    switch (archiveEvery) {
+      case FileArchivePeriod.year:
+        return DateTime(timestamp.year + 1, timestamp.month, timestamp.day, timestamp.hour, timestamp.minute, timestamp.second, timestamp.millisecond, timestamp.microsecond);
+      case FileArchivePeriod.month:
+        return DateTime(timestamp.year, timestamp.month + 1, timestamp.day, timestamp.hour, timestamp.minute, timestamp.second, timestamp.millisecond, timestamp.microsecond);
+      case FileArchivePeriod.day:
+        return timestamp.add(const Duration(days: 1));
+      case FileArchivePeriod.hour:
+        return timestamp.add(const Duration(hours: 1));
+      case FileArchivePeriod.minute:
+        return timestamp.add(const Duration(minutes: 1));
+      case FileArchivePeriod.sunday:
+        return _calculateNextWeekday(timestamp, 7);
+      case FileArchivePeriod.monday:
+        return _calculateNextWeekday(timestamp, 1);
+      case FileArchivePeriod.tuesday:
+        return _calculateNextWeekday(timestamp, 2);
+      case FileArchivePeriod.wednesday:
+        return _calculateNextWeekday(timestamp, 3);
+      case FileArchivePeriod.thursday:
+        return _calculateNextWeekday(timestamp, 4);
+      case FileArchivePeriod.friday:
+        return _calculateNextWeekday(timestamp, 5);
+      case FileArchivePeriod.saturday:
+        return _calculateNextWeekday(timestamp, 6);
+      default:
+        return null;
+    }
+  }
+
+  /// Calculate the DateTime of the requested day of the week.
+  ///
+  /// For example: if previousLogEventTimestamp is Thursday 2017-03-02 and dayOfWeek is Sunday, this will return
+  ///  Sunday 2017-03-05. If dayOfWeek is Thursday, this will return *next* Thursday 2017-03-09.
+  static DateTime _calculateNextWeekday(DateTime previousLogEventTimestamp, int dayOfWeek) {
+    int start = previousLogEventTimestamp.weekday;
+    int target = dayOfWeek;
+    if (target <= start) {
+      target += 7;
+    }
+    return previousLogEventTimestamp.add(Duration(days: target - start));
   }
 }

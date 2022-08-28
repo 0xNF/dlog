@@ -31,7 +31,7 @@ class FileTargetSpec extends TargetSpec {
   ///
   /// The following value makes NLog write logging events to files based on the log level in the directory where the application runs. `${basedir}/${level}.log`
   ///
-  /// ll Debug messages will go to `Debug.log`, all Info messages will go to `Info.log` and so on.
+  /// All Debug messages will go to `Debug.log`, all Info messages will go to `Info.log` and so on.
   @JsonKey(name: "fileName")
   final String fileName;
 
