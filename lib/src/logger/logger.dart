@@ -359,7 +359,7 @@ class FLogger implements ILogger {
   }
 
   @override
-  T? swallowResult<T>(T? Function() action, T? fallbackValue) {
+  T? swallowResult<T>(T? Function() action, [T? fallbackValue]) {
     // TODO: implement swallowResult
     throw UnimplementedError();
   }

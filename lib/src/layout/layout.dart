@@ -82,5 +82,6 @@ abstract class Layout implements IRenderable, ISupportsInitialize {
     }
   }
 
+  @mustCallSuper
   void closeLayout() {}
 }
