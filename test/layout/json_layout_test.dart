@@ -19,7 +19,7 @@ void main() {
       final opts = JSONLayoutOptions();
       final lspec = LayoutSpec(kind: LayoutKind.json, options: opts, layout: '');
       final d2 = DebugTarget.fromSpec(DebugTargetSpec(name: 'default', layout: lspec), LogFactory.configuration!);
-      d2.initializeTarget();
+      d2.initialize(LogFactory.configuration!);
       final _logger = FLogger('jsonLogger', [Rule(loggerName: 'jsonLogger', writeTo: d2.spec.name)], [d2]);
 
       _logger.info("basic text");
@@ -36,7 +36,7 @@ void main() {
       final opts = JSONLayoutOptions();
       final lspec = LayoutSpec(kind: LayoutKind.json, options: opts, layout: '');
       final d2 = DebugTarget.fromSpec(DebugTargetSpec(name: 'default', layout: lspec), LogFactory.configuration!);
-      d2.initializeTarget();
+      d2.initialize(LogFactory.configuration!);
       final _logger = FLogger('jsonLogger', [Rule(loggerName: 'jsonLogger', writeTo: d2.spec.name)], [d2]);
 
       _logger.info("propval should be {propval}", eventProperties: {'propval': 'hello'});
@@ -55,7 +55,7 @@ void main() {
       final opts = JSONLayoutOptions();
       final lspec = LayoutSpec(kind: LayoutKind.json, options: opts, layout: '');
       final d2 = DebugTarget.fromSpec(DebugTargetSpec(name: 'default', layout: lspec), LogFactory.configuration!);
-      d2.initializeTarget();
+      d2.initialize(LogFactory.configuration!);
       final _logger = FLogger('jsonLogger', [Rule(loggerName: 'jsonLogger', writeTo: d2.spec.name)], [d2]);
 
       _logger.info("basic text", eventProperties: {'prop1': 'val1', 'prop2': 2});

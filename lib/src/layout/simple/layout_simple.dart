@@ -29,7 +29,7 @@ class SimpleLayout extends Layout {
   @override
   void initialize(LogConfiguration configuration) {
     for (final lr in renderers) {
-      lr.initialize();
+      lr.initializeLayoutRenderer();
     }
     super.initialize(configuration);
   }

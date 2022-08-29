@@ -1,10 +1,12 @@
 import 'package:flog3/src/abstractions/irenderable.dart';
+import 'package:flog3/src/abstractions/isupports_initialize.dart';
+import 'package:flog3/src/configuration/configuration.dart';
 import 'package:flog3/src/exception/flog_exception.dart';
 import 'package:flog3/src/internal_logger/internal_logger.dart';
 import 'package:meta/meta.dart';
 import 'package:flog3/src/log_event_info.dart';
 
-abstract class LayoutRenderer implements IRenderable {
+abstract class LayoutRenderer implements IRenderable, ISupportsInitialize {
   bool get isInitialized;
 
   const LayoutRenderer();
@@ -32,6 +34,19 @@ abstract class LayoutRenderer implements IRenderable {
 
   void append(StringBuffer builder, LogEventInfo logEvent);
 
+  @override
+  void initialize(LogConfiguration configuration) => initializeLayoutRenderer();
+
+  @override
+  void close() {
+    if (isInitialized) {
+      closeLayoutRenderer;
+    }
+  }
+
   @mustCallSuper
-  void initialize() {}
+  void initializeLayoutRenderer() {}
+
+  @mustCallSuper
+  void closeLayoutRenderer() {}
 }
