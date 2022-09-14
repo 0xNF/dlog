@@ -10,6 +10,7 @@
 * fix bug in layout parser that ignores whitespace in text literals
 * make Layout defintions recursive
 
+
 ## Mandatory goals
 - [ ] implement FileTarget's archival and rotation semantics
 - [ ] implement JsonTarget
